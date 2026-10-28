@@ -1,0 +1,1616 @@
+<!DOCTYPE html>
+<html lang="es" id="html">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<meta name="theme-color" content="#6366F1" id="themeColor"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="Arthur"/>
+<link rel="manifest" href="manifest.json"/>
+<link rel="icon" type="image/png" href="icon-192.png"/>
+<link rel="apple-touch-icon" href="apple-touch-icon.png"/>
+<meta name="description" content="Sistema profesional de reservaciones · Professional reservation system"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<title>Arthur Reservaciones</title>
+<style>
+:root{
+  --brand:#6366F1;--brand-h:#4F46E5;--brand-glow:rgba(99,102,241,.4);--brand-soft:rgba(99,102,241,.10);--brand-bd:rgba(99,102,241,.25);
+  --bg0:#08080F;--bg1:#0C0C18;--bg2:#111120;--bg3:#181828;--bg4:#1E1E32;--bg5:#252540;
+  --bd1:rgba(255,255,255,.055);--bd2:rgba(255,255,255,.09);--bd3:rgba(255,255,255,.15);
+  --t1:#F5F4FF;--t2:#A8A7C4;--t3:#66658A;--t4:#3B3A58;
+  --green:#10B981;--green-s:rgba(16,185,129,.10);--green-bd:rgba(16,185,129,.25);
+  --red:#EF4444;--red-s:rgba(239,68,68,.10);--amber:#F59E0B;--amber-s:rgba(245,158,11,.10);
+  --font:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+  --r4:4px;--r6:6px;--r10:10px;--r14:14px;--r20:20px;--r28:28px;--rfull:9999px;
+  --ease:cubic-bezier(.4,0,.2,1);--ease-out:cubic-bezier(0,0,.2,1);
+  --spring:cubic-bezier(.34,1.56,.64,1);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;background:var(--bg0);color:var(--t1);font-family:var(--font);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+button{cursor:pointer;font-family:var(--font)}
+input,select,textarea{font-family:var(--font)}
+::selection{background:var(--brand-soft);color:var(--brand)}
+::-webkit-scrollbar{width:3px;height:3px}
+::-webkit-scrollbar-thumb{background:var(--bg5);border-radius:3px}
+
+/* mesh */
+.mesh{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse 100% 80% at 90% -20%,rgba(99,102,241,.13) 0%,transparent 60%),
+  radial-gradient(ellipse 60% 60% at -10% 80%,rgba(16,185,129,.06) 0%,transparent 50%)}
+.noise{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.022;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  font-family:var(--font);font-weight:600;font-size:14px;
+  border:none;border-radius:var(--r10);cursor:pointer;padding:10px 18px;line-height:1;
+  transition:all 140ms var(--ease);position:relative;overflow:hidden;white-space:nowrap;
+  user-select:none;-webkit-user-select:none}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:var(--brand);color:#fff;box-shadow:0 0 0 1px var(--brand) inset}
+.btn-primary:hover{background:var(--brand-h);box-shadow:0 0 24px var(--brand-glow),0 0 0 1px var(--brand-h) inset;transform:translateY(-1px)}
+.btn-primary::after{content:'';position:absolute;top:0;left:-100%;width:50%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.18),transparent);
+  transform:skewX(-15deg);transition:left .8s}
+.btn-primary:hover::after{left:150%}
+.btn-secondary{background:var(--bg4);color:var(--t2);border:1px solid var(--bd2)}
+.btn-secondary:hover{background:var(--bg5);color:var(--t1);border-color:var(--bd3)}
+.btn-ghost{background:transparent;color:var(--t2);border:1px solid transparent}
+.btn-ghost:hover{background:var(--bg3);color:var(--t1)}
+.btn-danger{background:var(--red-s);color:var(--red);border:1px solid rgba(239,68,68,.2)}
+.btn-danger:hover{background:var(--red);color:#fff}
+.btn-pro{background:linear-gradient(135deg,#F59E0B,#EF4444);color:#000;font-weight:700}
+.btn-pro:hover{opacity:.9;transform:translateY(-1px);box-shadow:0 8px 28px rgba(245,158,11,.4)}
+.btn-sm{padding:7px 12px;font-size:12px;border-radius:var(--r6)}
+.btn-xs{padding:4px 8px;font-size:11px;border-radius:var(--r4)}
+.btn-icon{width:36px;height:36px;padding:0;border-radius:var(--r10);
+  background:var(--bg3);color:var(--t2);border:1px solid var(--bd1);font-size:15px}
+.btn-icon:hover{background:var(--bg4);color:var(--t1);border-color:var(--bd2)}
+.btn-full{width:100%;border-radius:var(--r14);font-size:16px;font-weight:800;padding:18px 24px;letter-spacing:-.01em}
+
+/* ══════════ INSTALL SCREEN ══════════ */
+#scr-install{position:fixed;inset:0;z-index:100;background:var(--bg0);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:24px;overflow-y:auto}
+.ins-wrap{width:100%;max-width:420px;display:flex;flex-direction:column;align-items:center}
+
+.ins-app-icon{width:108px;height:108px;border-radius:26px;
+  background:linear-gradient(135deg,var(--brand) 0%,#8B5CF6 100%);
+  display:flex;align-items:center;justify-content:center;font-size:56px;
+  box-shadow:0 0 0 0 var(--brand-glow),0 24px 48px rgba(99,102,241,.35);
+  animation:iconPulse 2.5s ease infinite;margin-bottom:24px;position:relative;overflow:hidden}
+.ins-app-icon::after{content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,.25) 0%,transparent 55%)}
+@keyframes iconPulse{
+  0%,100%{box-shadow:0 0 0 0 var(--brand-glow),0 24px 48px rgba(99,102,241,.3)}
+  50%{box-shadow:0 0 0 20px rgba(99,102,241,0),0 24px 48px rgba(99,102,241,.3)}}
+
+.ins-badge{display:inline-flex;align-items:center;gap:6px;
+  background:var(--green-s);border:1px solid var(--green-bd);color:var(--green);
+  border-radius:var(--rfull);font-size:11px;font-weight:600;letter-spacing:.04em;
+  padding:5px 13px;margin-bottom:14px}
+.ins-badge::before{content:'●';font-size:7px;animation:blink 1.2s ease infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+.ins-name{font-size:clamp(34px,9vw,46px);font-weight:900;letter-spacing:-.04em;
+  line-height:1;text-align:center;margin-bottom:8px}
+.ins-name em{font-style:normal;
+  background:linear-gradient(135deg,var(--brand),#A78BFA);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+.ins-tagline{font-size:15px;color:var(--t2);text-align:center;line-height:1.6;
+  margin-bottom:32px;max-width:300px;font-weight:400}
+
+.ins-feats{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:32px}
+.feat{display:inline-flex;align-items:center;gap:6px;
+  background:var(--bg2);border:1px solid var(--bd2);border-radius:var(--rfull);
+  padding:6px 14px;font-size:12px;font-weight:500;color:var(--t2)}
+
+.ins-main-btn{width:100%;margin-bottom:14px}
+.ins-or{font-size:12px;color:var(--t4);text-align:center;margin-bottom:14px}
+.ins-skip-btn{background:none;border:none;font-family:var(--font);font-size:13px;
+  color:var(--t3);cursor:pointer;text-decoration:underline;text-underline-offset:3px;
+  transition:color .15s;margin-bottom:32px}
+.ins-skip-btn:hover{color:var(--t2)}
+
+.ins-steps{background:var(--bg2);border:1px solid var(--bd2);
+  border-radius:var(--r14);padding:22px;width:100%;margin-bottom:24px}
+.ins-steps-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.15em;
+  color:var(--t3);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.ins-steps-lbl::after{content:'';flex:1;height:1px;background:var(--bd1)}
+.ins-step{display:flex;align-items:flex-start;gap:12px;margin-bottom:10px}
+.ins-step:last-child{margin-bottom:0}
+.step-n{width:22px;height:22px;border-radius:var(--rfull);
+  background:var(--brand-soft);border:1px solid var(--brand-bd);color:var(--brand);
+  font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.step-t{font-size:13px;color:var(--t2);line-height:1.5;padding-top:2px}
+.step-t strong{color:var(--t1)}
+
+.ins-social{display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:12px}
+.ins-social-item{text-align:center}
+.ins-social-val{font-size:18px;font-weight:900;letter-spacing:-.02em}
+.ins-social-lbl{font-size:10px;color:var(--t3);font-weight:600;letter-spacing:.1em;text-transform:uppercase}
+.ins-divider{width:1px;height:32px;background:var(--bd2)}
+.ins-footer{font-size:11px;color:var(--t4);text-align:center;line-height:1.7}
+.stars{color:#F59E0B;letter-spacing:1px}
+
+/* ══════════ SETUP WIZARD ══════════ */
+#scr-setup{position:fixed;inset:0;z-index:90;display:none;
+  flex-direction:column;align-items:center;padding:24px;overflow-y:auto;
+  background:var(--bg0);padding-top:56px}
+
+.wiz-wrap{width:100%;max-width:480px}
+
+.wiz-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:32px;gap:16px}
+.wiz-bar{flex:1;height:2px;background:var(--bg4);border-radius:2px;overflow:hidden}
+.wiz-fill{height:100%;border-radius:2px;
+  background:linear-gradient(90deg,var(--brand),#8B5CF6);
+  transition:width .4s var(--spring);box-shadow:0 0 8px var(--brand-glow)}
+.wiz-label{font-size:12px;color:var(--t3);font-weight:600;white-space:nowrap;font-variant-numeric:tabular-nums}
+
+.step-panel{background:var(--bg1);border:1px solid var(--bd2);
+  border-radius:var(--r28);padding:36px 32px;position:relative;overflow:hidden}
+.step-panel::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--brand-bd),transparent)}
+@media(max-width:480px){.step-panel{padding:28px 20px;border-radius:var(--r20)}}
+
+.step-ico{width:52px;height:52px;border-radius:var(--r14);
+  background:var(--brand-soft);border:1px solid var(--brand-bd);
+  display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:20px}
+.step-title{font-size:22px;font-weight:800;letter-spacing:-.025em;margin-bottom:6px}
+.step-desc{font-size:14px;color:var(--t2);line-height:1.6;margin-bottom:28px}
+
+.slide-in{animation:slideIn .3s var(--ease-out) forwards}
+@keyframes slideIn{from{opacity:0;transform:translateX(28px)}to{opacity:1;transform:translateX(0)}}
+
+/* Floating label fields */
+.fld{position:relative;margin-bottom:14px}
+.fld input,.fld select,.fld textarea{
+  width:100%;background:var(--bg3);border:1.5px solid var(--bd2);border-radius:var(--r10);
+  color:var(--t1);font-family:var(--font);font-size:14px;font-weight:500;
+  padding:22px 14px 8px;outline:none;
+  transition:border-color .14s var(--ease),box-shadow .14s var(--ease),background .14s;
+  appearance:none;-webkit-appearance:none}
+.fld select{cursor:pointer}
+.fld textarea{resize:vertical;min-height:88px}
+.fld label{position:absolute;left:14px;top:50%;transform:translateY(-50%);
+  font-size:14px;color:var(--t3);font-weight:500;pointer-events:none;
+  transition:all .14s var(--ease);white-space:nowrap}
+.fld textarea~label{top:20px;transform:none}
+.fld input:focus,.fld select:focus,.fld textarea:focus{
+  border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-soft);background:var(--bg2)}
+.fld input:focus~label,.fld select:focus~label,.fld textarea:focus~label,
+.fld input:not(:placeholder-shown)~label,.fld textarea:not(:placeholder-shown)~label{
+  top:9px;transform:none;font-size:10px;font-weight:700;
+  letter-spacing:.07em;text-transform:uppercase;color:var(--brand)}
+.fld select~label{top:9px;transform:none;font-size:10px;font-weight:700;
+  letter-spacing:.07em;text-transform:uppercase;color:var(--brand)}
+.fld input::placeholder{color:transparent}
+.fld select option{background:var(--bg3)}
+.fld.err input,.fld.err select{border-color:var(--red);box-shadow:0 0 0 3px var(--red-s)}
+
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:460px){.g2{grid-template-columns:1fr}}
+.gc2{grid-column:1/-1}
+
+/* Swatches */
+.swatches{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.swatch{width:34px;height:34px;border-radius:var(--rfull);cursor:pointer;
+  border:2.5px solid transparent;transition:all .2s var(--spring);position:relative}
+.swatch.on{border-color:rgba(255,255,255,.9);transform:scale(1.18)}
+.swatch.on::after{content:'✓';position:absolute;inset:0;display:flex;
+  align-items:center;justify-content:center;font-size:13px;font-weight:900;color:rgba(0,0,0,.8)}
+
+/* Plan cards */
+.plan-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px}
+@media(max-width:380px){.plan-grid{grid-template-columns:1fr}}
+.plan-card{border:2px solid var(--bd2);border-radius:var(--r14);
+  padding:22px 18px;cursor:pointer;transition:all .2s var(--ease);position:relative;overflow:hidden}
+.plan-card:hover{border-color:var(--bd3)}
+.plan-card.on{border-color:var(--brand);background:var(--brand-soft)}
+.plan-card.on.pro-card{border-color:var(--amber);background:var(--amber-s)}
+.plan-ribbon{position:absolute;top:-1px;right:-1px;font-size:9px;font-weight:800;
+  text-transform:uppercase;letter-spacing:.12em;padding:4px 12px;
+  border-radius:0 var(--r14) 0 var(--r10)}
+.ribbon-free{background:var(--green);color:#000}
+.ribbon-pro{background:var(--amber);color:#000}
+.plan-name{font-size:17px;font-weight:800;margin-bottom:4px}
+.plan-price{font-size:30px;font-weight:900;line-height:1;margin-bottom:3px}
+.plan-note{font-size:11px;color:var(--t3);margin-bottom:16px}
+.plan-list{list-style:none;display:flex;flex-direction:column;gap:7px}
+.plan-list li{font-size:12px;color:var(--t2);display:flex;align-items:flex-start;gap:7px;line-height:1.4}
+.plan-list li::before{content:'✓';color:var(--green);font-weight:800;font-size:10px;flex-shrink:0;margin-top:1px}
+.plan-list li.lock::before{content:'⊘';color:var(--t4)}
+.plan-list li.lock{opacity:.45}
+
+.step-actions{display:flex;gap:10px;margin-top:28px}
+
+/* ══════════ MAIN APP ══════════ */
+#scr-app{display:none;min-height:100vh;position:relative;z-index:5;padding-bottom:80px}
+
+.topbar{position:sticky;top:0;z-index:60;
+  background:rgba(8,8,15,.88);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--bd1)}
+.topbar-in{max-width:860px;margin:0 auto;padding:0 20px;
+  height:56px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.brand-mark{width:34px;height:34px;border-radius:9px;
+  background:linear-gradient(135deg,var(--brand),#8B5CF6);
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;flex-shrink:0;box-shadow:0 4px 14px var(--brand-glow)}
+.brand-name{font-size:15px;font-weight:800;letter-spacing:-.02em;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.1}
+.brand-sub{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--brand);font-weight:700}
+.topbar-r{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.chip{display:inline-flex;align-items:center;gap:4px;
+  font-size:9px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
+  padding:3px 9px;border-radius:var(--rfull);border:1px solid}
+.chip-free{background:var(--green-s);color:var(--green);border-color:var(--green-bd)}
+.chip-pro{background:var(--amber-s);color:var(--amber);border-color:rgba(245,158,11,.3)}
+.kbd{display:inline-flex;align-items:center;background:var(--bg4);
+  border:1px solid var(--bd2);border-radius:var(--r4);
+  padding:1px 6px;font-size:9px;font-weight:600;color:var(--t4);line-height:1.7}
+
+/* Nav */
+.nav{background:var(--bg1);border-bottom:1px solid var(--bd1);
+  position:sticky;top:56px;z-index:50}
+.nav-in{max-width:860px;margin:0 auto;display:flex}
+.tab-btn{flex:1;background:none;border:none;border-bottom:2px solid transparent;
+  color:var(--t3);font-family:var(--font);font-size:12px;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;padding:14px 6px 12px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  transition:all .14s var(--ease)}
+.tab-btn:hover{color:var(--t2)}
+.tab-btn.on{color:var(--brand);border-bottom-color:var(--brand)}
+.notif{background:var(--red);color:#fff;font-size:9px;font-weight:800;
+  min-width:16px;height:16px;border-radius:var(--rfull);padding:0 4px;
+  display:inline-flex;align-items:center;justify-content:center}
+
+main{max-width:860px;margin:0 auto;padding:28px 16px 100px;position:relative;z-index:5}
+
+/* Stats */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:28px}
+@media(max-width:500px){.stats-row{grid-template-columns:1fr 1fr}}
+.stat-card{background:var(--bg1);border:1px solid var(--bd1);border-radius:var(--r14);
+  padding:18px 16px;transition:border-color .15s;position:relative;overflow:hidden;cursor:default}
+.stat-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--brand),#8B5CF6);opacity:0;transition:opacity .2s}
+.stat-card:hover{border-color:var(--bd2)}
+.stat-card:hover::after{opacity:1}
+.stat-val{font-size:32px;font-weight:900;letter-spacing:-.035em;line-height:1;
+  margin-bottom:4px;font-variant-numeric:tabular-nums}
+.stat-lbl{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--t3)}
+
+/* Section label */
+.sec-lbl{font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--t3);display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.sec-lbl::after{content:'';flex:1;height:1px;background:var(--bd1)}
+
+/* Table cards */
+.table-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+  gap:12px;margin-bottom:36px}
+.tc{background:var(--bg1);border:1.5px solid var(--bd1);border-radius:var(--r20);
+  padding:22px 20px;cursor:pointer;transition:all .2s var(--ease);
+  position:relative;overflow:hidden;user-select:none}
+.tc::before{content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,var(--brand-soft),transparent);opacity:0;transition:opacity .2s}
+.tc:hover{border-color:var(--bd3);transform:translateY(-2px);box-shadow:0 14px 36px rgba(0,0,0,.4)}
+.tc.on{border-color:var(--brand)}
+.tc.on::before{opacity:1}
+.tc-check{position:absolute;top:12px;left:12px;width:20px;height:20px;
+  border-radius:var(--rfull);background:var(--brand);
+  display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;
+  opacity:0;transform:scale(.4);transition:all .2s var(--spring)}
+.tc.on .tc-check{opacity:1;transform:scale(1)}
+.tc-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;position:relative}
+.tc-icon{width:44px;height:44px;border-radius:12px;background:var(--brand-soft);
+  border:1px solid var(--brand-bd);display:flex;align-items:center;justify-content:center;font-size:20px}
+.tc-tag{font-size:9px;font-weight:800;letter-spacing:.1em;padding:4px 9px;
+  border-radius:var(--rfull);text-transform:uppercase;border:1px solid}
+.tag-a{color:var(--green);background:var(--green-s);border-color:var(--green-bd)}
+.tag-b{color:var(--amber);background:var(--amber-s);border-color:rgba(245,158,11,.3)}
+.tag-c{color:var(--brand);background:var(--brand-soft);border-color:var(--brand-bd)}
+.tc-name{font-size:17px;font-weight:800;letter-spacing:-.01em;margin-bottom:6px;position:relative}
+.tc-desc{font-size:12px;color:var(--t2);line-height:1.6;margin-bottom:16px;position:relative}
+.tc-price{font-size:26px;font-weight:900;color:var(--brand);line-height:1;position:relative}
+.tc-note{font-size:10px;color:var(--t3);margin-top:2px}
+.tc-cap{font-size:11px;color:var(--t3);margin-top:10px;display:flex;align-items:center;gap:5px;position:relative}
+
+/* Date strip */
+.date-strip{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:36px;
+  -ms-overflow-style:none;scrollbar-width:none}
+.date-strip::-webkit-scrollbar{display:none}
+.dp{flex-shrink:0;background:var(--bg1);border:1.5px solid var(--bd1);border-radius:var(--r14);
+  padding:12px 14px;cursor:pointer;transition:all .14s var(--ease);text-align:center;min-width:58px;user-select:none}
+.dp:hover{border-color:var(--bd2)}
+.dp.on{border-color:var(--brand);background:var(--brand-soft)}
+.dp-d{font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--t3);display:block;margin-bottom:4px}
+.dp-n{font-size:22px;font-weight:900;display:block;line-height:1;letter-spacing:-.02em}
+.dp-m{font-size:9px;color:var(--t3);display:block;margin-top:3px}
+.dp.on .dp-d,.dp.on .dp-m{color:var(--brand)}
+
+/* Res list */
+.res-list{display:flex;flex-direction:column;gap:8px}
+.rc{background:var(--bg1);border:1px solid var(--bd1);border-radius:var(--r14);
+  padding:18px 20px;display:flex;align-items:flex-start;gap:14px;
+  transition:border-color .14s;animation:fadeUp .25s var(--ease-out)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.rc:hover{border-color:var(--bd2)}
+.av{width:40px;height:40px;border-radius:var(--rfull);
+  background:linear-gradient(135deg,var(--brand),#8B5CF6);
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:800;color:#fff;flex-shrink:0;letter-spacing:-.02em}
+.rc-body{flex:1;min-width:0}
+.rc-name{font-weight:700;font-size:14px;margin-bottom:7px;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.status{display:inline-flex;align-items:center;padding:2px 8px;border-radius:var(--rfull);
+  font-size:9px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;border:1px solid}
+.s-c{color:var(--green);background:var(--green-s);border-color:var(--green-bd)}
+.s-p{color:var(--amber);background:var(--amber-s);border-color:rgba(245,158,11,.3)}
+.s-x{color:var(--red);background:var(--red-s);border-color:rgba(239,68,68,.25)}
+.rc-meta{display:flex;flex-wrap:wrap;gap:5px 14px}
+.mi{font-size:11px;color:var(--t2);display:flex;align-items:center;gap:4px}
+.rc-r{display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-shrink:0}
+.rc-acts{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end}
+@media(max-width:560px){.rc{flex-wrap:wrap}.rc-body{flex:1 1 calc(100% - 54px)}.rc-r{flex:1 1 100%;align-items:stretch;padding-left:54px}.rc-acts{justify-content:flex-start}}
+
+/* Clients */
+.cc{background:var(--bg1);border:1px solid var(--bd1);border-radius:var(--r14);
+  padding:18px 20px;display:flex;align-items:center;gap:14px;transition:border-color .14s}
+.cc:hover{border-color:var(--bd2)}
+.cc-body{flex:1;min-width:0}
+.cc-name{font-weight:700;font-size:14px;margin-bottom:5px}
+.cc-meta{display:flex;gap:14px;flex-wrap:wrap}
+.cc-meta span{font-size:11px;color:var(--t2)}
+.visits-tag{background:var(--brand-soft);border:1px solid var(--brand-bd);color:var(--brand);
+  border-radius:var(--rfull);font-size:10px;font-weight:700;padding:3px 10px;white-space:nowrap}
+
+/* Empty */
+.empty{text-align:center;padding:72px 24px}
+.empty-e{font-size:52px;margin-bottom:16px;opacity:.45;display:block}
+.empty-t{font-size:16px;font-weight:700;color:var(--t2);margin-bottom:8px}
+.empty-s{font-size:13px;color:var(--t3);line-height:1.6}
+
+/* Search */
+.srch{position:relative;margin-bottom:16px}
+.srch input{width:100%;background:var(--bg1);border:1.5px solid var(--bd2);
+  border-radius:var(--r10);color:var(--t1);font-family:var(--font);font-size:14px;
+  padding:11px 14px 11px 40px;outline:none;transition:border-color .14s}
+.srch input:focus{border-color:var(--brand)}
+.srch input::placeholder{color:var(--t3)}
+.srch-ico{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--t3);font-size:14px;pointer-events:none}
+
+.filter-row{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap}
+.fp{background:var(--bg2);border:1px solid var(--bd1);color:var(--t3);
+  border-radius:var(--rfull);padding:5px 14px;font-size:11px;font-weight:700;cursor:pointer;transition:all .14s}
+.fp:hover{border-color:var(--bd2);color:var(--t2)}
+.fp.on{background:var(--brand-soft);border-color:var(--brand-bd);color:var(--brand)}
+
+.toolbar{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+
+/* Banner */
+.banner{display:flex;align-items:center;gap:14px;background:var(--brand-soft);
+  border:1px solid var(--brand-bd);border-radius:var(--r14);padding:14px 18px;margin-bottom:28px}
+.banner-ico{font-size:22px;flex-shrink:0}
+.banner-t{font-size:13px;font-weight:700;color:var(--t1);margin-bottom:2px}
+.banner-d{font-size:12px;color:var(--t2);line-height:1.5}
+
+.upsell{display:flex;align-items:center;gap:14px;
+  background:linear-gradient(135deg,rgba(245,158,11,.08),rgba(239,68,68,.05));
+  border:1px solid rgba(245,158,11,.22);border-radius:var(--r14);padding:16px 18px;margin-bottom:24px}
+.upsell-ico{font-size:24px;flex-shrink:0}
+.upsell-t{font-size:13px;font-weight:700;color:var(--amber);margin-bottom:3px}
+.upsell-d{font-size:12px;color:var(--t2);line-height:1.5}
+
+/* Command palette */
+#cmd{position:fixed;inset:0;z-index:200;
+  background:rgba(0,0,0,.75);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  display:flex;align-items:flex-start;justify-content:center;padding-top:14vh;
+  opacity:0;pointer-events:none;transition:opacity .18s}
+#cmd.on{opacity:1;pointer-events:all}
+.cmd-box{background:var(--bg2);border:1px solid var(--bd3);border-radius:var(--r20);
+  width:100%;max-width:520px;overflow:hidden;margin:0 16px;
+  box-shadow:0 24px 64px rgba(0,0,0,.7);
+  transform:scale(.94) translateY(-8px);transition:transform .25s var(--spring)}
+#cmd.on .cmd-box{transform:scale(1) translateY(0)}
+.cmd-search{display:flex;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid var(--bd1)}
+.cmd-search input{flex:1;background:none;border:none;outline:none;
+  color:var(--t1);font-family:var(--font);font-size:16px;font-weight:500}
+.cmd-search input::placeholder{color:var(--t3)}
+.cmd-list{max-height:300px;overflow-y:auto}
+.cmd-item{display:flex;align-items:center;gap:12px;padding:12px 20px;cursor:pointer;transition:background .1s}
+.cmd-item:hover,.cmd-item.hi{background:var(--bg3)}
+.cmd-item-ico{font-size:16px;width:28px;text-align:center;flex-shrink:0}
+.cmd-item-lbl{font-size:14px;font-weight:500;color:var(--t1);flex:1}
+.cmd-item-kb{display:flex;gap:4px}
+.cmd-foot{padding:10px 20px;border-top:1px solid var(--bd1);display:flex;gap:16px;flex-wrap:wrap}
+.cmd-hint{font-size:10px;color:var(--t4);display:flex;align-items:center;gap:5px}
+
+/* Settings drawer */
+#drawer{position:fixed;inset:0;z-index:150;
+  background:rgba(0,0,0,.72);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  display:none;align-items:flex-end;justify-content:center}
+#drawer.on{display:flex}
+.drawer{background:var(--bg1);border:1px solid var(--bd2);border-radius:24px 24px 0 0;
+  padding:28px 24px 52px;width:100%;max-width:540px;max-height:90vh;overflow-y:auto;
+  animation:drawerUp .28s var(--ease-out)}
+@keyframes drawerUp{from{transform:translateY(40px);opacity:0}to{transform:translateY(0);opacity:1}}
+.d-handle{width:40px;height:4px;background:var(--bg5);border-radius:4px;margin:0 auto 24px}
+.d-title{font-size:20px;font-weight:800;letter-spacing:-.025em;margin-bottom:24px}
+.d-sec{margin-bottom:24px}
+.d-sec-lbl{font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--t3);margin-bottom:12px}
+.d-row{display:flex;justify-content:space-between;align-items:center;
+  padding:14px 0;border-bottom:1px solid var(--bd1)}
+.d-row:last-child{border-bottom:none}
+.d-row-lbl{font-size:14px;font-weight:600}
+.d-row-sub{font-size:11px;color:var(--t3);margin-top:2px}
+.d-inp{background:var(--bg3);border:1px solid var(--bd2);border-radius:var(--r10);
+  color:var(--t1);font-family:var(--font);font-size:13px;padding:8px 12px;
+  outline:none;max-width:190px;transition:border-color .14s}
+.d-inp:focus{border-color:var(--brand)}
+.d-sel{background:var(--bg3);border:1px solid var(--bd2);border-radius:var(--r10);
+  color:var(--t1);font-family:var(--font);font-size:13px;padding:8px 12px;outline:none}
+.d-acts{display:flex;flex-direction:column;gap:10px;margin-top:24px}
+.d-foot{text-align:center;margin-top:20px;font-size:10px;color:var(--t4);line-height:1.8}
+
+/* Success modal */
+#modal{position:fixed;inset:0;z-index:300;
+  background:rgba(0,0,0,.82);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  display:flex;align-items:center;justify-content:center;padding:24px;
+  opacity:0;pointer-events:none;transition:opacity .18s}
+#modal.on{opacity:1;pointer-events:all}
+.modal-box{background:var(--bg2);border:1px solid var(--bd3);border-radius:var(--r28);
+  padding:48px 36px;max-width:400px;width:100%;text-align:center;
+  transform:scale(.84);transition:transform .3s var(--spring)}
+#modal.on .modal-box{transform:scale(1)}
+.modal-e{font-size:68px;display:block;margin-bottom:20px;animation:emojiPop .5s var(--spring) .1s both}
+@keyframes emojiPop{from{transform:scale(0) rotate(-15deg)}to{transform:scale(1) rotate(0)}}
+.modal-t{font-size:26px;font-weight:900;letter-spacing:-.035em;margin-bottom:10px}
+.modal-d{font-size:14px;color:var(--t2);line-height:1.7;margin-bottom:28px}
+.modal-acts{display:flex;gap:10px;justify-content:center}
+
+/* Toast */
+#toasts{position:fixed;bottom:24px;right:24px;z-index:400;
+  display:flex;flex-direction:column;gap:8px;align-items:flex-end}
+@media(max-width:480px){#toasts{right:12px;left:12px;align-items:stretch}}
+.toast{background:var(--bg3);border:1px solid var(--bd3);border-radius:var(--r14);
+  padding:13px 16px;font-size:13px;font-weight:500;color:var(--t1);
+  display:flex;align-items:center;gap:10px;min-width:260px;max-width:340px;
+  box-shadow:0 8px 32px rgba(0,0,0,.5);animation:toastIn .3s var(--spring)}
+@keyframes toastIn{from{opacity:0;transform:translateY(12px) scale(.94)}to{opacity:1;transform:translateY(0) scale(1)}}
+.toast.out{animation:toastOut .22s var(--ease-in) forwards}
+@keyframes toastOut{to{opacity:0;transform:translateY(6px) scale(.94)}}
+.toast-dot{width:8px;height:8px;border-radius:var(--rfull);flex-shrink:0}
+.toast.ok .toast-dot{background:var(--green)}
+.toast.err .toast-dot{background:var(--red)}
+.toast.info .toast-dot{background:var(--brand)}
+.toast-x{margin-left:auto;color:var(--t3);cursor:pointer;font-size:15px;flex-shrink:0;transition:color .1s;background:none;border:none;font-family:var(--font)}
+.toast-x:hover{color:var(--t1)}
+
+/* Submit btn */
+.btn-cta{width:100%;background:var(--brand);color:#fff;border:none;border-radius:var(--r14);
+  font-family:var(--font);font-size:16px;font-weight:800;padding:18px 24px;cursor:pointer;
+  margin-top:28px;display:flex;align-items:center;justify-content:center;gap:10px;
+  transition:all .2s var(--ease);position:relative;overflow:hidden;letter-spacing:-.01em;
+  box-shadow:0 0 0 1px var(--brand) inset}
+.btn-cta::after{content:'';position:absolute;top:0;left:-100%;width:50%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.18),transparent);
+  transform:skewX(-15deg);transition:left .9s}
+.btn-cta:hover{background:var(--brand-h);box-shadow:0 8px 28px var(--brand-glow);transform:translateY(-1px)}
+.btn-cta:hover::after{left:150%}
+.btn-cta:active{transform:scale(.98)}
+
+@media print{
+  body{background:#fff;color:#000}
+  .topbar,.nav,#toasts,#cmd,#drawer,#modal,.btn-cta,.toolbar,.filter-row,.srch{display:none!important}
+  .rc,.cc{border:1px solid #ddd;break-inside:avoid;margin-bottom:8px}
+  main{padding:0}
+}
+</style>
+</head>
+<body>
+<canvas id="confetti-c" style="position:fixed;inset:0;pointer-events:none;z-index:9999;display:none"></canvas>
+<div class="mesh"></div>
+<div class="noise"></div>
+<div id="toasts"></div>
+
+<!-- ══════════ INSTALL SCREEN ══════════ -->
+<div id="scr-install">
+  <div class="ins-wrap">
+    <div class="ins-badge"><span>●</span><span id="ins-badge-txt">Disponible para instalar</span></div>
+    <div class="ins-app-icon" id="ins-icon">🍾</div>
+    <div class="ins-name">ARTHUR<br/><em>RESERVACIONES</em></div>
+    <div class="ins-tagline" id="ins-tagline">Sistema profesional de reservaciones para negocios nocturnos de élite</div>
+    <div class="ins-feats">
+      <span class="feat">📲 App nativa</span>
+      <span class="feat">📊 Exporta a Excel</span>
+      <span class="feat">💬 WhatsApp auto</span>
+      <span class="feat">🌍 ES / EN</span>
+    </div>
+
+    <div class="ins-main-btn">
+      <button class="btn btn-primary btn-full" id="ins-main-btn" onclick="handleInstall()">
+        <span style="font-size:20px">⬇</span> <span id="ins-main-txt">Instalar la aplicación</span>
+      </button>
+    </div>
+    <div class="ins-or" id="ins-or">— o —</div>
+    <button class="ins-skip-btn" onclick="skipInstall()" id="ins-skip">Continuar en el navegador</button>
+
+    <div class="ins-steps" id="ins-steps">
+      <div class="ins-steps-lbl" id="ins-steps-lbl">📱 Cómo instalar</div>
+      <div id="ins-steps-body"></div>
+    </div>
+
+    <div class="ins-social">
+      <div class="ins-social-item">
+        <div class="ins-social-val" style="color:var(--brand)">∞</div>
+        <div class="ins-social-lbl">Reservas</div>
+      </div>
+      <div class="ins-divider"></div>
+      <div class="ins-social-item">
+        <div class="ins-social-val" style="color:var(--green)">3</div>
+        <div class="ins-social-lbl">Tipos de mesa</div>
+      </div>
+      <div class="ins-divider"></div>
+      <div class="ins-social-item">
+        <div class="ins-social-val" style="color:var(--amber)">ES · EN</div>
+        <div class="ins-social-lbl">Idiomas</div>
+      </div>
+    </div>
+    <div class="ins-footer" id="ins-footer">Demo gratis · US$39 al mes para tu local<br/>Datos privados y almacenados en tu dispositivo</div>
+  </div>
+</div>
+
+<!-- ══════════ SETUP WIZARD ══════════ -->
+<div id="scr-setup">
+  <div class="wiz-wrap">
+    <div class="wiz-header">
+      <div class="wiz-bar"><div class="wiz-fill" id="wiz-fill" style="width:33%"></div></div>
+      <div class="wiz-label" id="wiz-label">1 / 3</div>
+    </div>
+
+    <!-- Step 0 -->
+    <div class="step-panel slide-in" id="sp0">
+      <div class="step-ico">🏢</div>
+      <div class="step-title" id="s0t">Tu negocio</div>
+      <div class="step-desc" id="s0d">Configura el nombre y datos de contacto de tu establecimiento. Solo una vez.</div>
+      <div class="g2">
+        <div class="fld"><input id="c-name" type="text" maxlength="40" placeholder=" " autocomplete="off" required/><label id="l-name">Nombre del negocio *</label></div>
+        <div class="fld"><select id="c-type"><option value="">Seleccionar…</option><option>Discoteca</option><option>Night Club</option><option>Lounge</option><option>Bar Nocturno</option><option>Rooftop</option><option>Restaurant-Bar</option><option>Otro</option></select><label>Tipo de local *</label></div>
+        <div class="fld"><input id="c-wa" type="tel" placeholder=" " autocomplete="tel" required/><label id="l-wa">WhatsApp del negocio *</label></div>
+        <div class="fld"><input id="c-addr" type="text" placeholder=" " autocomplete="off"/><label id="l-addr">Dirección (opcional)</label></div>
+        <div class="fld gc2"><input id="c-ig" type="text" placeholder=" " autocomplete="off"/><label id="l-ig">Instagram (opcional)</label></div>
+      </div>
+      <div class="step-actions">
+        <button class="btn btn-primary" style="flex:1" onclick="wiz(0,1)" id="s0btn">Siguiente →</button>
+      </div>
+    </div>
+
+    <!-- Step 1 -->
+    <div class="step-panel" id="sp1" style="display:none">
+      <div class="step-ico">🎨</div>
+      <div class="step-title" id="s1t">Personaliza tu app</div>
+      <div class="step-desc" id="s1d">Elige el idioma, color de marca y el ícono de tu negocio.</div>
+      <div class="g2">
+        <div class="fld"><select id="c-lang" onchange="syncWizLang()"><option value="es">Español</option><option value="en">English</option></select><label id="l-lang">Idioma</label></div>
+        <div class="fld"><select id="c-icon"><option value="🍾">🍾 Champagne</option><option value="🎵">🎵 Música</option><option value="🌙">🌙 Luna</option><option value="👑">👑 Corona</option><option value="💎">💎 Diamante</option><option value="🔥">🔥 Fuego</option><option value="⭐">⭐ Estrella</option><option value="🎭">🎭 Máscara</option><option value="🏆">🏆 Trofeo</option><option value="🌟">🌟 Brillo</option></select><label id="l-icon">Ícono</label></div>
+      </div>
+      <div style="margin-bottom:16px">
+        <div style="font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);margin-bottom:10px" id="l-color">Color del tema</div>
+        <div class="swatches" id="wiz-swatches">
+          <div class="swatch on" style="background:#6366F1" data-c="#6366F1" onclick="pickC(this,'wiz-swatches')"></div>
+          <div class="swatch" style="background:#C9A84C" data-c="#C9A84C" onclick="pickC(this,'wiz-swatches')"></div>
+          <div class="swatch" style="background:#10B981" data-c="#10B981" onclick="pickC(this,'wiz-swatches')"></div>
+          <div class="swatch" style="background:#EF4444" data-c="#EF4444" onclick="pickC(this,'wiz-swatches')"></div>
+          <div class="swatch" style="background:#06B6D4" data-c="#06B6D4" onclick="pickC(this,'wiz-swatches')"></div>
+          <div class="swatch" style="background:#F59E0B" data-c="#F59E0B" onclick="pickC(this,'wiz-swatches')"></div>
+          <div class="swatch" style="background:#EC4899" data-c="#EC4899" onclick="pickC(this,'wiz-swatches')"></div>
+          <div class="swatch" style="background:#8B5CF6" data-c="#8B5CF6" onclick="pickC(this,'wiz-swatches')"></div>
+          <div class="swatch" style="background:#F97316" data-c="#F97316" onclick="pickC(this,'wiz-swatches')"></div>
+        </div>
+      </div>
+      <div class="step-actions">
+        <button class="btn btn-secondary" onclick="wiz(1,-1)" id="s1back">← Atrás</button>
+        <button class="btn btn-primary" style="flex:1" onclick="wiz(1,1)" id="s1btn">Siguiente →</button>
+      </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="step-panel" id="sp2" style="display:none">
+      <div class="step-ico">⚡</div>
+      <div class="step-title" id="s2t">Elige tu plan</div>
+      <div class="step-desc" id="s2d">Prueba la demo gratis. Suscríbete cuando quieras usarla en tu local.</div>
+      <div class="plan-grid">
+        <div class="plan-card on" id="pc-free" onclick="selPlan('free')">
+          <span class="plan-ribbon ribbon-free">Demo</span>
+          <div class="plan-name" id="pn-free">Demo</div>
+          <div class="plan-price">$0</div>
+          <div class="plan-note" id="pp-free">/ siempre</div>
+          <ul class="plan-list" id="pl-free"></ul>
+        </div>
+        <div class="plan-card pro-card" id="pc-pro" onclick="selPlan('pro')">
+          <span class="plan-ribbon ribbon-pro">Local</span>
+          <div class="plan-name" style="color:var(--amber)" id="pn-pro">Pro</div>
+          <div class="plan-price" style="color:var(--amber)">$39</div>
+          <div class="plan-note" id="pp-pro">/ mes</div>
+          <ul class="plan-list" id="pl-pro"></ul>
+        </div>
+      </div>
+      <div class="step-actions">
+        <button class="btn btn-secondary" onclick="wiz(2,-1)" id="s2back">← Atrás</button>
+        <button class="btn btn-primary" style="flex:1" onclick="launchApp()" id="s2btn">Comenzar →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ MAIN APP ══════════ -->
+<div id="scr-app">
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="topbar-in">
+      <div class="brand">
+        <div class="brand-mark" id="brand-mark">🍾</div>
+        <div>
+          <div class="brand-name" id="brand-name">Mi Negocio</div>
+          <div class="brand-sub" id="brand-sub">RESERVACIONES</div>
+        </div>
+      </div>
+      <div class="topbar-r">
+        <span class="chip chip-free" id="plan-chip">DEMO</span>
+        <button class="btn-icon" id="lang-btn" onclick="toggleLang()" title="Toggle language">EN</button>
+        <button class="btn-icon" onclick="openCmd()" title="Comandos (Ctrl+K)"><span style="font-size:12px">⌘K</span></button>
+        <button class="btn-icon" onclick="openDrawer()">⚙</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Nav -->
+  <nav class="nav">
+    <div class="nav-in">
+      <button class="tab-btn on" id="tab-new" onclick="showTab('new')" aria-label="Nueva reservación">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <span id="tn-new">Nueva</span>
+      </button>
+      <button class="tab-btn" id="tab-manage" onclick="showTab('manage')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <span id="tn-manage">Reservas</span>
+        <span class="notif" id="notif-badge" style="display:none">0</span>
+      </button>
+      <button class="tab-btn" id="tab-clients" onclick="showTab('clients')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        <span id="tn-clients">Clientes</span>
+      </button>
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- ─── TAB: NUEVA ─── -->
+    <div id="pnl-new">
+      <div class="banner">
+        <div class="banner-ico">✨</div>
+        <div><div class="banner-t" id="b-t">Plan Gratuito activo</div><div class="banner-d" id="b-d">Reservaciones ilimitadas · WhatsApp automático · Gestión de clientes</div></div>
+      </div>
+      <div class="sec-lbl" id="lbl-table">Tipo de Mesa</div>
+      <div class="table-grid" id="table-grid"></div>
+      <div class="sec-lbl" id="lbl-date">Fecha</div>
+      <div class="date-strip" id="date-strip"></div>
+      <div class="sec-lbl" id="lbl-guest">Datos del Cliente</div>
+      <form id="res-form" onsubmit="submitRes(event)" novalidate>
+        <div class="g2">
+          <div class="fld" id="fld-first"><input id="f-first" type="text" placeholder=" " autocomplete="given-name" required/><label id="lf-first">Nombre *</label></div>
+          <div class="fld" id="fld-last"><input id="f-last" type="text" placeholder=" " autocomplete="family-name" required/><label id="lf-last">Apellido *</label></div>
+          <div class="fld" id="fld-tel"><input id="f-tel" type="tel" placeholder=" " autocomplete="tel" required/><label id="lf-tel">WhatsApp / Teléfono *</label></div>
+          <div class="fld" id="fld-email"><input id="f-email" type="email" placeholder=" " autocomplete="email"/><label id="lf-email">Correo (opcional)</label></div>
+          <div class="fld"><select id="f-guests" required></select><label id="lf-guests">N° de Personas *</label></div>
+          <div class="fld"><select id="f-occasion"></select><label id="lf-occasion">Ocasión Especial</label></div>
+          <div class="fld gc2"><textarea id="f-notes" placeholder=" " rows="3"></textarea><label id="lf-notes">Peticiones Especiales</label></div>
+          <div class="fld gc2"><select id="f-source"></select><label id="lf-source">¿Cómo nos conociste?</label></div>
+        </div>
+        <button type="submit" class="btn-cta">
+          <span id="btn-submit-txt">Confirmar Reservación</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+      </form>
+    </div>
+
+    <!-- ─── TAB: MANAGE ─── -->
+    <div id="pnl-manage" style="display:none">
+      <div class="stats-row" id="stats-row">
+        <div class="stat-card"><div class="stat-val" id="st-total">0</div><div class="stat-lbl" id="stl-total">Total</div></div>
+        <div class="stat-card"><div class="stat-val" id="st-conf">0</div><div class="stat-lbl" id="stl-conf">Confirmadas</div></div>
+        <div class="stat-card"><div class="stat-val" id="st-pend">0</div><div class="stat-lbl" id="stl-pend">Pendientes</div></div>
+        <div class="stat-card"><div class="stat-val" id="st-ppl">0</div><div class="stat-lbl" id="stl-ppl">Personas</div></div>
+      </div>
+      <div class="toolbar">
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-secondary btn-sm" onclick="exportCSV()" id="btn-csv">⬇ CSV</button>
+          <button class="btn btn-secondary btn-sm" onclick="window.print()" id="btn-print">🖨 Imprimir</button>
+        </div>
+      </div>
+      <div class="srch"><span class="srch-ico">🔍</span><input type="text" id="srch-res" oninput="renderManage()" placeholder="Buscar por nombre o teléfono…"/></div>
+      <div class="filter-row">
+        <button class="fp on" id="fp-all" onclick="setFilter('all',this)">Todas</button>
+        <button class="fp" id="fp-pend" onclick="setFilter('pending',this)">Pendientes</button>
+        <button class="fp" id="fp-conf" onclick="setFilter('confirmed',this)">Confirmadas</button>
+        <button class="fp" id="fp-canc" onclick="setFilter('cancelled',this)">Canceladas</button>
+      </div>
+      <div class="res-list" id="res-list"></div>
+    </div>
+
+    <!-- ─── TAB: CLIENTS ─── -->
+    <div id="pnl-clients" style="display:none">
+      <div class="upsell" id="upsell-pro" style="display:none">
+        <div class="upsell-ico">⚡</div>
+        <div><div class="upsell-t" id="ups-t">Arthur Pro</div><div class="upsell-d" id="ups-d">Exporta clientes, analíticas avanzadas y elimina la marca Arthur.</div></div>
+        <a class="btn btn-pro btn-sm" href="../#precio" target="_blank" rel="noopener" style="margin-left:auto;flex-shrink:0;text-decoration:none">Suscribirme</a>
+      </div>
+      <div class="srch"><span class="srch-ico">🔍</span><input type="text" id="srch-cli" oninput="renderClients()" placeholder="Buscar clientes…"/></div>
+      <div class="res-list" id="cli-list"></div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ══════════ COMMAND PALETTE ══════════ -->
+<div id="cmd" onclick="if(event.target===this)closeCmd()">
+  <div class="cmd-box">
+    <div class="cmd-search">
+      <span style="font-size:16px;color:var(--t3)">⌘</span>
+      <input type="text" id="cmd-inp" placeholder="Escribe un comando…" oninput="renderCmd()" onkeydown="cmdKey(event)" autocomplete="off"/>
+      <span class="kbd">ESC</span>
+    </div>
+    <div class="cmd-list" id="cmd-list"></div>
+    <div class="cmd-foot">
+      <div class="cmd-hint"><span class="kbd">↑↓</span> navegar</div>
+      <div class="cmd-hint"><span class="kbd">↵</span> ejecutar</div>
+      <div class="cmd-hint"><span class="kbd">ESC</span> cerrar</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ SETTINGS DRAWER ══════════ -->
+<div id="drawer" onclick="if(event.target===this)closeDrawer()">
+  <div class="drawer">
+    <div class="d-handle"></div>
+    <div class="d-title" id="d-title">⚙️ Ajustes</div>
+    <div class="d-sec">
+      <div class="d-sec-lbl" id="d-s1">Negocio</div>
+      <div class="d-row"><div><div class="d-row-lbl" id="d-lbl-n">Nombre</div></div><input class="d-inp" id="d-name" type="text" maxlength="40"/></div>
+      <div class="d-row"><div><div class="d-row-lbl">WhatsApp</div><div class="d-row-sub" id="d-wa-sub">Confirmaciones auto</div></div><input class="d-inp" id="d-wa" type="tel"/></div>
+      <div class="d-row"><div><div class="d-row-lbl" id="d-lbl-a">Dirección</div></div><input class="d-inp" id="d-addr" type="text"/></div>
+    </div>
+    <div class="d-sec">
+      <div class="d-sec-lbl" id="d-s2">Preferencias</div>
+      <div class="d-row"><div><div class="d-row-lbl" id="d-lbl-l">Idioma</div></div><select class="d-sel" id="d-lang"><option value="es">Español</option><option value="en">English</option></select></div>
+      <div class="d-row"><div><div class="d-row-lbl" id="d-lbl-c">Color del tema</div></div>
+        <div class="swatches" id="drawer-swatches">
+          <div class="swatch" style="background:#6366F1" data-c="#6366F1" onclick="pickC(this,'drawer-swatches')"></div>
+          <div class="swatch" style="background:#C9A84C" data-c="#C9A84C" onclick="pickC(this,'drawer-swatches')"></div>
+          <div class="swatch" style="background:#10B981" data-c="#10B981" onclick="pickC(this,'drawer-swatches')"></div>
+          <div class="swatch" style="background:#EF4444" data-c="#EF4444" onclick="pickC(this,'drawer-swatches')"></div>
+          <div class="swatch" style="background:#06B6D4" data-c="#06B6D4" onclick="pickC(this,'drawer-swatches')"></div>
+          <div class="swatch" style="background:#F59E0B" data-c="#F59E0B" onclick="pickC(this,'drawer-swatches')"></div>
+          <div class="swatch" style="background:#EC4899" data-c="#EC4899" onclick="pickC(this,'drawer-swatches')"></div>
+          <div class="swatch" style="background:#8B5CF6" data-c="#8B5CF6" onclick="pickC(this,'drawer-swatches')"></div>
+        </div>
+      </div>
+      <div class="d-row"><div><div class="d-row-lbl">Plan</div><div class="d-row-sub" id="d-plan-sub">Versión actual</div></div><span class="chip chip-free" id="d-plan-chip">DEMO</span></div>
+    </div>
+    <div class="d-acts">
+      <button class="btn btn-primary" onclick="saveSettings()" id="d-save">Guardar cambios</button>
+      <button class="btn btn-secondary" onclick="closeDrawer()" id="d-cancel">Cancelar</button>
+      <button class="btn btn-danger btn-sm" onclick="resetApp()" id="d-reset" style="font-size:12px">🗑 Borrar todos los datos</button>
+    </div>
+    <div class="d-foot" id="d-foot">Arthur Reservaciones v3.0<br/>© 2026 Juan Carlos Pérez Arthur</div>
+  </div>
+</div>
+
+<!-- ══════════ SUCCESS MODAL ══════════ -->
+<div id="modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal-box">
+    <span class="modal-e">🥂</span>
+    <div class="modal-t" id="m-title">¡Confirmado!</div>
+    <div class="modal-d" id="m-desc">Tu reservación fue registrada. Se abrirá WhatsApp para coordinar con el equipo.</div>
+    <div class="modal-acts">
+      <button class="btn btn-primary" onclick="closeModal()" id="m-btn" style="padding:12px 32px">OK</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* Arthur Reservaciones web · almacenamiento en este dispositivo (localStorage) */
+(function(){
+  if(window.storage) return;
+  function ls(){ try{ return window.localStorage; }catch(e){ return null; } }
+  window.storage={
+    get:async function(k){ var l=ls(); if(!l) return null; var v=l.getItem(k); return v===null?null:{key:k,value:v}; },
+    set:async function(k,v){ var l=ls(); if(l) l.setItem(k,v); return {key:k,value:v}; },
+    delete:async function(k){ var l=ls(); if(l) l.removeItem(k); return {key:k,deleted:true}; }
+  };
+})();
+function escH(v){ return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
+function escR(r){ var o={}; for(var k in r){ o[k]= typeof r[k]==='string'? escH(r[k]) : r[k]; } return o; }
+'use strict';
+
+/* ════ TRANSLATIONS ════ */
+const T = {
+es:{
+  ins_badge:'Disponible para instalar',ins_tagline:'Sistema profesional de reservaciones para negocios nocturnos de élite',
+  ins_main:'Instalar la aplicación',ins_skip:'Continuar en el navegador',
+  ins_steps_lbl:'📱 Cómo instalar en tu dispositivo',ins_footer:'Demo gratis · US$39 al mes para tu local\nDatos privados y almacenados en tu dispositivo',
+  ios_steps:[{t:'Abre en <strong>Safari</strong> (no Chrome)'},{t:'Toca el botón de <strong>Compartir</strong> (cuadro con flecha ↑)'},{t:'Selecciona <strong>"Añadir a pantalla de inicio"</strong>'},{t:'Toca <strong>Añadir</strong> — listo 🎉'}],
+  android_steps:[{t:'Abre en <strong>Chrome</strong>'},{t:'Toca los <strong>3 puntos</strong> (⋮) en la esquina superior'},{t:'Selecciona <strong>"Agregar a pantalla de inicio"</strong>'},{t:'Toca <strong>Agregar</strong> — listo 🎉'}],
+  desktop_steps:[{t:'Abre en <strong>Chrome</strong> o <strong>Edge</strong>'},{t:'Busca el ícono <strong>⊕</strong> en la barra de dirección'},{t:'Haz clic en <strong>"Instalar Arthur Reservaciones"</strong>'},{t:'Disfruta la app instalada 🎉'}],
+  s0_t:'Tu negocio',s0_d:'Configura el nombre y datos de contacto. Solo una vez.',
+  l_name:'Nombre del negocio *',l_wa:'WhatsApp del negocio *',l_addr:'Dirección (opcional)',l_ig:'Instagram (opcional)',
+  s0_btn:'Siguiente →',s1_back:'← Atrás',s1_btn:'Siguiente →',s2_back:'← Atrás',s2_btn:'Comenzar →',
+  s1_t:'Personaliza tu app',s1_d:'Elige el idioma, color de marca y el ícono de tu negocio.',
+  l_lang:'Idioma',l_icon:'Ícono',l_color:'Color del tema',
+  s2_t:'Tu plan',s2_d:'Prueba la demo gratis. Suscríbete cuando quieras usarla en tu local.',
+  pn_free:'Demo',pp_free:'/ prueba',pn_pro:'Suscripción',pp_pro:'/ mes',
+  free_feats:['Todas las funciones','3 tipos de mesa','Bilingüe ES / EN','Confirmación por WhatsApp','Base de clientes','Exportar a Excel'],
+  free_locked:['Configuración por nosotros','Soporte por correo'],
+  pro_feats:['Todo lo de la demo','Configuración de tu local','Soporte por correo','Mejoras nuevas incluidas','Cancelas cuando quieras'],
+  brand_sub:'RESERVACIONES',tn_new:'Nueva',tn_manage:'Reservas',tn_clients:'Clientes',
+  b_t:'Modo demo',b_d:'Todas las funciones activas · Suscríbete para configurarla en tu local',
+  lbl_table:'Tipo de Mesa',lbl_date:'Fecha',lbl_guest:'Datos del Cliente',
+  lf_first:'Nombre *',lf_last:'Apellido *',lf_tel:'WhatsApp / Teléfono *',lf_email:'Correo (opcional)',
+  lf_guests:'N° de Personas *',lf_occasion:'Ocasión Especial',lf_notes:'Peticiones Especiales',lf_source:'¿Cómo nos conociste?',
+  btn_submit:'Confirmar Reservación',
+  guests_ph:'Seleccionar…',occasion_ph:'Ninguna',source_ph:'Seleccionar…',
+  guests:['1 persona','2 personas','3 personas','4 personas','5 personas','6 personas','7 personas','8 personas','9–10 personas','11–15 personas','16+ personas'],
+  occasions:['Ninguna','Cumpleaños 🎂','Aniversario 💑','Despedida de soltero/a 💍','Evento corporativo 💼','Graduación 🎓','Noche de amigos 🎉','Otra'],
+  sources:['Instagram / Redes sociales','Recomendación de amigo/a','TikTok','WhatsApp / Flyer','Cliente frecuente','Otro'],
+  stl_total:'Total',stl_conf:'Confirmadas',stl_pend:'Pendientes',stl_ppl:'Personas',
+  fp_all:'Todas',fp_pend:'Pendientes',fp_conf:'Confirmadas',fp_canc:'Canceladas',
+  btn_csv:'⬇ CSV',btn_print:'🖨 Imprimir',
+  m_title:'¡Reservación Confirmada!',m_desc:'Tu mesa fue registrada exitosamente. Se abrirá WhatsApp para coordinar con el equipo.',m_btn:'Perfecto',
+  STATUS:{confirmed:'CONFIRMADA',pending:'PENDIENTE',cancelled:'CANCELADA'},
+  act_confirm:'✓ Confirmar',act_cancel:'✗ Cancelar',act_wa:'💬 WA',act_del:'Eliminar',
+  empty_res:'Sin reservaciones',empty_res_sub:'Las nuevas reservaciones aparecerán aquí.',
+  empty_cli:'Sin clientes',empty_cli_sub:'Los clientes se crean automáticamente desde las reservaciones.',
+  visit:'visita',visits:'visitas',
+  del_confirm:'¿Eliminar esta reservación permanentemente?',
+  reset_confirm:'¿Borrar TODOS los datos? Esta acción no se puede deshacer.',
+  toast_saved:'✓ Cambios guardados',toast_del:'🗑 Eliminado',toast_err:'Completa todos los campos requeridos',
+  toast_table:'Selecciona un tipo de mesa',toast_date:'Selecciona una fecha',
+  lang_toggle:'EN',
+  wa_header:'Nueva Reservación',wa_guest:'Cliente',wa_tel:'Tel',wa_date:'Fecha',wa_table:'Mesa',wa_people:'Personas',wa_notes:'Notas',wa_footer:'Vía Arthur Reservaciones App',
+  table_tags:['DISPONIBLE','LIMITADO','EXCLUSIVO'],
+  table_names:['Mesa Estándar','Mesa VIP','Ultra VIP / Presidential'],
+  table_descs:['Zona principal con acceso a la pista y servicio de mesa completo.','Área premium, servicio exclusivo y botella incluida en consumo mínimo.','Cabina privada o área presidential con sommelier personal.'],
+  table_caps:[6,10,20],table_upto:'Hasta',table_ppl:'personas',table_min:'consumo mínimo',
+  days:['DOM','LUN','MAR','MIÉ','JUE','VIE','SÁB'],
+  months:['ENE','FEB','MAR','ABR','MAY','JUN','JUL','AGO','SEP','OCT','NOV','DIC'],
+  export_file:'arthur-reservaciones',
+  d_title:'⚙️ Ajustes',d_s1:'Negocio',d_s2:'Preferencias',d_lbl_n:'Nombre',d_wa_sub:'Confirmaciones automáticas',
+  d_lbl_a:'Dirección',d_lbl_l:'Idioma',d_lbl_c:'Color del tema',d_plan_sub:'Versión actual',
+  d_save:'Guardar cambios',d_cancel:'Cancelar',d_reset:'🗑 Borrar todos los datos',
+  ups_t:'Arthur Reservaciones para tu local',ups_d:'US$39 al mes, con configuración y soporte.',
+  srch_res:'Buscar por nombre o teléfono…',srch_cli:'Buscar clientes…',
+  cmd_ph:'Escribe un comando…',
+  cmds:[
+    {ico:'✨',lbl:'Nueva reservación',sub:'Ir al formulario',fn:'newRes'},
+    {ico:'📋',lbl:'Ver reservaciones',sub:'Gestionar reservas',fn:'goManage'},
+    {ico:'👤',lbl:'Ver clientes',sub:'Base de clientes',fn:'goClients'},
+    {ico:'⬇',lbl:'Exportar CSV',sub:'Descargar datos',fn:'exportCSV'},
+    {ico:'🖨',lbl:'Imprimir',sub:'Vista de impresión',fn:'printPage'},
+    {ico:'⚙',lbl:'Ajustes',sub:'Configuración',fn:'openDrawer'},
+    {ico:'🌍',lbl:'Cambiar idioma',sub:'Switch to English',fn:'toggleLang'},
+    {ico:'🗑',lbl:'Limpiar datos',sub:'Borrar todo',fn:'resetApp'},
+  ],
+},
+en:{
+  ins_badge:'Available to install',ins_tagline:'Professional reservation system for elite nightlife venues',
+  ins_main:'Install the app',ins_skip:'Continue in browser',
+  ins_steps_lbl:'📱 How to install on your device',ins_footer:'Free demo · US$39/month for your venue\nYour data is private and stored on your device',
+  ios_steps:[{t:'Open in <strong>Safari</strong> (not Chrome)'},{t:'Tap the <strong>Share</strong> button (box with arrow ↑)'},{t:'Select <strong>"Add to Home Screen"</strong>'},{t:'Tap <strong>Add</strong> — done 🎉'}],
+  android_steps:[{t:'Open in <strong>Chrome</strong>'},{t:'Tap the <strong>3 dots</strong> (⋮) in the top corner'},{t:'Select <strong>"Add to Home Screen"</strong>'},{t:'Tap <strong>Add</strong> — done 🎉'}],
+  desktop_steps:[{t:'Open in <strong>Chrome</strong> or <strong>Edge</strong>'},{t:'Look for the <strong>⊕</strong> icon in the address bar'},{t:'Click <strong>"Install Arthur Reservaciones"</strong>'},{t:'Enjoy the installed app 🎉'}],
+  s0_t:'Your business',s0_d:'Set up your venue name and contact. Just once.',
+  l_name:'Business name *',l_wa:'Business WhatsApp *',l_addr:'Address (optional)',l_ig:'Instagram (optional)',
+  s0_btn:'Next →',s1_back:'← Back',s1_btn:'Next →',s2_back:'← Back',s2_btn:'Get Started →',
+  s1_t:'Customize your app',s1_d:'Choose language, brand color and your venue\'s icon.',
+  l_lang:'Language',l_icon:'Icon',l_color:'Theme color',
+  s2_t:'Your plan',s2_d:'Try the demo for free. Subscribe when you want it for your venue.',
+  pn_free:'Demo',pp_free:'/ trial',pn_pro:'Subscription',pp_pro:'/ month',
+  free_feats:['Every feature','3 table types','Bilingual ES / EN','WhatsApp confirmation','Client database','Excel export'],
+  free_locked:['Setup done for you','Email support'],
+  pro_feats:['Everything in the demo','Your venue set up for you','Email support','New improvements included','Cancel anytime'],
+  brand_sub:'RESERVATIONS',tn_new:'New',tn_manage:'Bookings',tn_clients:'Clients',
+  b_t:'Demo mode',b_d:'Every feature on · Subscribe to set it up for your venue',
+  lbl_table:'Table Type',lbl_date:'Date',lbl_guest:'Guest Information',
+  lf_first:'First Name *',lf_last:'Last Name *',lf_tel:'WhatsApp / Phone *',lf_email:'Email (optional)',
+  lf_guests:'Number of Guests *',lf_occasion:'Special Occasion',lf_notes:'Special Requests',lf_source:'How did you find us?',
+  btn_submit:'Confirm Reservation',
+  guests_ph:'Select…',occasion_ph:'None',source_ph:'Select…',
+  guests:['1 guest','2 guests','3 guests','4 guests','5 guests','6 guests','7 guests','8 guests','9–10 guests','11–15 guests','16+ guests'],
+  occasions:['None','Birthday 🎂','Anniversary 💑','Bachelor/ette Party 💍','Corporate Event 💼','Graduation 🎓','Night Out 🎉','Other'],
+  sources:['Instagram / Social Media','Friend referral','TikTok','WhatsApp / Flyer','Returning guest','Other'],
+  stl_total:'Total',stl_conf:'Confirmed',stl_pend:'Pending',stl_ppl:'Guests',
+  fp_all:'All',fp_pend:'Pending',fp_conf:'Confirmed',fp_canc:'Cancelled',
+  btn_csv:'⬇ CSV',btn_print:'🖨 Print',
+  m_title:'Reservation Confirmed!',m_desc:'Your table has been registered. WhatsApp will open to coordinate with the team.',m_btn:'Perfect',
+  STATUS:{confirmed:'CONFIRMED',pending:'PENDING',cancelled:'CANCELLED'},
+  act_confirm:'✓ Confirm',act_cancel:'✗ Cancel',act_wa:'💬 WA',act_del:'Delete',
+  empty_res:'No reservations yet',empty_res_sub:'New reservations will appear here.',
+  empty_cli:'No clients yet',empty_cli_sub:'Clients are created automatically from reservations.',
+  visit:'visit',visits:'visits',
+  del_confirm:'Permanently delete this reservation?',
+  reset_confirm:'Delete ALL data? This cannot be undone.',
+  toast_saved:'✓ Changes saved',toast_del:'🗑 Deleted',toast_err:'Please fill in all required fields',
+  toast_table:'Please select a table type',toast_date:'Please select a date',
+  lang_toggle:'ES',
+  wa_header:'New Reservation',wa_guest:'Guest',wa_tel:'Phone',wa_date:'Date',wa_table:'Table',wa_people:'Guests',wa_notes:'Notes',wa_footer:'Via Arthur Reservaciones App',
+  table_tags:['AVAILABLE','LIMITED','EXCLUSIVE'],
+  table_names:['Standard Table','VIP Table','Ultra VIP / Presidential'],
+  table_descs:['Main area with dance floor access and full table service.','Premium area, exclusive service and bottle included in minimum spend.','Private booth or presidential area with personal sommelier.'],
+  table_caps:[6,10,20],table_upto:'Up to',table_ppl:'guests',table_min:'minimum spend',
+  days:['SUN','MON','TUE','WED','THU','FRI','SAT'],
+  months:['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'],
+  export_file:'arthur-reservations',
+  d_title:'⚙️ Settings',d_s1:'Business',d_s2:'Preferences',d_lbl_n:'Name',d_wa_sub:'Automatic confirmations',
+  d_lbl_a:'Address',d_lbl_l:'Language',d_lbl_c:'Theme color',d_plan_sub:'Current version',
+  d_save:'Save changes',d_cancel:'Cancel',d_reset:'🗑 Delete all data',
+  ups_t:'Arthur Reservaciones for your venue',ups_d:'US$39/month with setup and support.',
+  srch_res:'Search by name or phone…',srch_cli:'Search clients…',
+  cmd_ph:'Type a command…',
+  cmds:[
+    {ico:'✨',lbl:'New reservation',sub:'Go to form',fn:'newRes'},
+    {ico:'📋',lbl:'View reservations',sub:'Manage bookings',fn:'goManage'},
+    {ico:'👤',lbl:'View clients',sub:'Client database',fn:'goClients'},
+    {ico:'⬇',lbl:'Export CSV',sub:'Download data',fn:'exportCSV'},
+    {ico:'🖨',lbl:'Print',sub:'Print view',fn:'printPage'},
+    {ico:'⚙',lbl:'Settings',sub:'Configuration',fn:'openDrawer'},
+    {ico:'🌍',lbl:'Change language',sub:'Cambiar idioma',fn:'toggleLang'},
+    {ico:'🗑',lbl:'Clear data',sub:'Delete everything',fn:'resetApp'},
+  ],
+}};
+
+/* ════ STATE ════ */
+let S = {
+  cfg: null, res: [], lang: 'es', accent: '#6366F1', plan: 'free',
+  selTable: null, selDate: null, filterStatus: 'all', currentTab: 'new',
+  deferredPrompt: null, step: 0, cmdIdx: 0
+};
+
+/* ════ STORAGE ════ */
+async function loadStorage() {
+  try { const r = await window.storage.get('ar_cfg'); if(r) S.cfg = JSON.parse(r.value); } catch(e){}
+  try { const r = await window.storage.get('ar_res'); if(r) S.res = JSON.parse(r.value); } catch(e){}
+}
+async function saveCfg() { try { await window.storage.set('ar_cfg', JSON.stringify(S.cfg)); } catch(e){} }
+async function saveRes() { try { await window.storage.set('ar_res', JSON.stringify(S.res)); } catch(e){} }
+
+/* ════ INIT ════ */
+(async function init() {
+  await loadStorage();
+  S.lang = S.cfg?.lang || 'es';
+  S.accent = S.cfg?.color || '#6366F1';
+  S.plan = S.cfg?.plan || 'free';
+  applyAccent(S.accent);
+  buildInstallScreen();
+  if (S.cfg) {
+    hide('scr-install'); showSetup(false);
+    showAppDirectly();
+  }
+  // PWA install prompt
+  window.addEventListener('beforeinstallprompt', e => {
+    e.preventDefault(); S.deferredPrompt = e;
+    document.getElementById('ins-main-btn').style.background = 'var(--green)';
+  });
+  // Keyboard shortcuts
+  document.addEventListener('keydown', e => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'k') { e.preventDefault(); openCmd(); }
+    if (e.key === 'Escape') { closeCmd(); closeDrawer(); closeModal(); }
+  });
+})();
+
+/* ════ INSTALL SCREEN ════ */
+function buildInstallScreen() {
+  const t = T[S.lang];
+  const ua = navigator.userAgent.toLowerCase();
+  const isIOS = /iphone|ipad|ipod/.test(ua);
+  const isAndroid = /android/.test(ua);
+  const steps = isIOS ? t.ios_steps : isAndroid ? t.android_steps : t.desktop_steps;
+  set('ins-badge-txt', t.ins_badge);
+  set('ins-main-txt', t.ins_main);
+  set('ins-skip', t.ins_skip);
+  set('ins-steps-lbl', t.ins_steps_lbl);
+  set('ins-footer', t.ins_footer.replace('\n','<br/>'));
+  document.getElementById('ins-footer').innerHTML = t.ins_footer.replace('\n','<br/>');
+  document.getElementById('ins-steps-body').innerHTML = steps.map((s,i) =>
+    `<div class="ins-step"><div class="step-n">${i+1}</div><div class="step-t">${s.t}</div></div>`
+  ).join('');
+}
+
+async function handleInstall() {
+  if (S.deferredPrompt) {
+    S.deferredPrompt.prompt();
+    const { outcome } = await S.deferredPrompt.userChoice;
+    S.deferredPrompt = null;
+    if (outcome === 'accepted') { toast('¡App instalada! 🎉', 'ok'); setTimeout(() => skipInstall(), 1000); }
+  } else {
+    // Haptic
+    if (navigator.vibrate) navigator.vibrate([10,30,10]);
+    toast('Sigue los pasos de abajo para instalar 👆', 'info');
+  }
+}
+
+function skipInstall() {
+  hide('scr-install');
+  if (S.cfg) { showAppDirectly(); } else { showSetup(true); }
+}
+
+function showSetup(show) {
+  const el = document.getElementById('scr-setup');
+  el.style.display = show ? 'flex' : 'none';
+  if (show) { S.lang = 'es'; buildPlanCards(); applyWizLang(); }
+}
+
+function showAppDirectly() {
+  hide('scr-setup');
+  document.getElementById('scr-app').style.display = 'block';
+  applyLang(); renderApp();
+}
+
+/* ════ ACCENT COLOR ════ */
+function applyAccent(c) {
+  S.accent = c;
+  const r = parseInt(c.slice(1,3),16)||99;
+  const g = parseInt(c.slice(3,5),16)||102;
+  const b = parseInt(c.slice(5,7),16)||241;
+  const root = document.documentElement;
+  root.style.setProperty('--brand', c);
+  root.style.setProperty('--brand-h', `rgb(${Math.max(0,r-20)},${Math.max(0,g-20)},${Math.max(0,b-20)})`);
+  root.style.setProperty('--brand-glow', `rgba(${r},${g},${b},.4)`);
+  root.style.setProperty('--brand-soft', `rgba(${r},${g},${b},.10)`);
+  root.style.setProperty('--brand-bd', `rgba(${r},${g},${b},.25)`);
+  document.getElementById('themeColor').content = c;
+}
+
+function pickC(el, groupId) {
+  document.querySelectorAll(`#${groupId} .swatch`).forEach(s => s.classList.remove('on'));
+  el.classList.add('on');
+  applyAccent(el.dataset.c);
+  if(S.cfg) S.cfg.color = el.dataset.c;
+}
+
+/* ════ WIZARD ════ */
+function applyWizLang() {
+  const t = T[S.lang];
+  set('s0t', t.s0_t); set('s0d', t.s0_d);
+  set('l-name', t.l_name); set('l-wa', t.l_wa); set('l-addr', t.l_addr); set('l-ig', t.l_ig);
+  set('s0btn', t.s0_btn);
+  set('s1t', t.s1_t); set('s1d', t.s1_d);
+  set('l-lang', t.l_lang); set('l-icon', t.l_icon); set('l-color', t.l_color);
+  set('s1back', t.s1_back); set('s1btn', t.s1_btn);
+  set('s2t', t.s2_t); set('s2d', t.s2_d);
+  set('pn-free', t.pn_free); set('pp-free', t.pp_free);
+  set('pn-pro', t.pn_pro); set('pp-pro', t.pp_pro);
+  set('s2back', t.s2_back); set('s2btn', t.s2_btn);
+  buildPlanCards();
+}
+
+function syncWizLang() { S.lang = val('c-lang'); applyWizLang(); }
+
+function buildPlanCards() {
+  const t = T[S.lang];
+  document.getElementById('pl-free').innerHTML =
+    t.free_feats.map(f=>`<li>${f}</li>`).join('') +
+    t.free_locked.map(f=>`<li class="lock">${f}</li>`).join('');
+  document.getElementById('pl-pro').innerHTML =
+    t.pro_feats.map(f=>`<li>${f}</li>`).join('');
+}
+
+function wiz(from, dir) {
+  const t = T[S.lang];
+  if(dir===1 && from===0) {
+    if(!val('c-name').trim()){toast(t.l_name.replace(' *',''),'err');return;}
+    if(!val('c-wa').trim()){toast(t.l_wa.replace(' *',''),'err');return;}
+    if(!val('c-type')){toast('Selecciona el tipo de local','err');return;}
+  }
+  const to = from + dir;
+  hide('sp'+from); show('sp'+to);
+  document.getElementById('sp'+to).classList.remove('slide-in');
+  void document.getElementById('sp'+to).offsetWidth;
+  document.getElementById('sp'+to).classList.add('slide-in');
+  S.step = to;
+  const fills = [33, 66, 100];
+  document.getElementById('wiz-fill').style.width = fills[to] + '%';
+  set('wiz-label', `${to+1} / 3`);
+}
+
+function selPlan(p) {
+  if(p==='pro'){ try{ window.open('../#precio','_blank','noopener'); }catch(e){ location.href='../#precio'; } p='free'; }
+  S.plan = p;
+  document.getElementById('pc-free').classList.toggle('on', p==='free');
+  document.getElementById('pc-pro').classList.toggle('on', p==='pro');
+}
+
+function launchApp() {
+  S.cfg = {
+    name: val('c-name').trim(), type: val('c-type'),
+    wa: val('c-wa').replace(/\D/g,''), addr: val('c-addr').trim(),
+    ig: val('c-ig').trim(), lang: val('c-lang'), icon: val('c-icon'),
+    color: S.accent, plan: S.plan
+  };
+  S.lang = S.cfg.lang;
+  saveCfg();
+  hide('scr-setup');
+  document.getElementById('scr-app').style.display = 'block';
+  applyLang(); renderApp();
+}
+
+/* ════ APP LANGUAGE ════ */
+function applyLang() {
+  const t = T[S.lang];
+  // brand
+  set('brand-mark', S.cfg?.icon || '🍾');
+  set('brand-name', S.cfg?.name || 'Mi Negocio');
+  set('brand-sub', t.brand_sub);
+  document.title = (S.cfg?.name || 'Arthur') + ' Reservaciones';
+  document.getElementById('html').lang = S.lang;
+  // nav
+  set('tn-new', t.tn_new); set('tn-manage', t.tn_manage); set('tn-clients', t.tn_clients);
+  // lang btn
+  set('lang-btn', t.lang_toggle);
+  // banner
+  set('b-t', t.b_t); set('b-d', t.b_d);
+  // labels
+  set('lbl-table', t.lbl_table); set('lbl-date', t.lbl_date); set('lbl-guest', t.lbl_guest);
+  set('lf-first', t.lf_first); set('lf-last', t.lf_last);
+  set('lf-tel', t.lf_tel); set('lf-email', t.lf_email);
+  set('lf-guests', t.lf_guests); set('lf-occasion', t.lf_occasion);
+  set('lf-notes', t.lf_notes); set('lf-source', t.lf_source);
+  set('btn-submit-txt', t.btn_submit);
+  // selects
+  buildSel('f-guests', t.guests, t.guests_ph);
+  buildSel('f-occasion', t.occasions, t.occasion_ph);
+  buildSel('f-source', t.sources, t.source_ph);
+  // stats
+  set('stl-total', t.stl_total); set('stl-conf', t.stl_conf);
+  set('stl-pend', t.stl_pend); set('stl-ppl', t.stl_ppl);
+  // filters
+  set('fp-all', t.fp_all); set('fp-pend', t.fp_pend);
+  set('fp-conf', t.fp_conf); set('fp-canc', t.fp_canc);
+  // search
+  attr('srch-res', 'placeholder', t.srch_res);
+  attr('srch-cli', 'placeholder', t.srch_cli);
+  // modal
+  set('m-title', t.m_title); set('m-desc', t.m_desc); set('m-btn', t.m_btn);
+  // drawer
+  set('d-title', t.d_title); set('d-s1', t.d_s1); set('d-s2', t.d_s2);
+  set('d-lbl-n', t.d_lbl_n); set('d-wa-sub', t.d_wa_sub); set('d-lbl-a', t.d_lbl_a);
+  set('d-lbl-l', t.d_lbl_l); set('d-lbl-c', t.d_lbl_c); set('d-plan-sub', t.d_plan_sub);
+  set('d-save', t.d_save); set('d-cancel', t.d_cancel); set('d-reset', t.d_reset);
+  set('ups-t', t.ups_t); set('ups-d', t.ups_d);
+  // chip
+  const chip = document.getElementById('plan-chip');
+  if(chip){ chip.textContent = S.plan==='pro'?'PRO':'DEMO'; chip.className='chip '+(S.plan==='pro'?'chip-pro':'chip-free'); }
+  const dchip = document.getElementById('d-plan-chip');
+  if(dchip){ dchip.textContent = S.plan==='pro'?'PRO':'DEMO'; dchip.className='chip '+(S.plan==='pro'?'chip-pro':'chip-free'); }
+  // export/print
+  set('btn-csv', t.btn_csv); set('btn-print', t.btn_print);
+  attr('cmd-inp', 'placeholder', t.cmd_ph);
+}
+
+function toggleLang() {
+  S.lang = S.lang==='es'?'en':'es';
+  if(S.cfg){ S.cfg.lang=S.lang; saveCfg(); }
+  applyLang(); buildTables(); buildDates(); renderManage(); renderClients();
+}
+
+/* ════ RENDER APP ════ */
+function renderApp() {
+  applyAccent(S.cfg?.color || '#6366F1');
+  buildTables(); buildDates(); renderManage(); renderClients(); updateBadge();
+  const upsell = document.getElementById('upsell-pro');
+  if(upsell) upsell.style.display = S.plan==='free' ? 'flex' : 'none';
+}
+
+/* ════ TABLES ════ */
+const TBL_ICONS = ['🪑','⭐','👑'];
+const TBL_PRICES = ['—', '—', '—'];
+
+function buildTables() {
+  const t = T[S.lang];
+  document.getElementById('table-grid').innerHTML = TBL_ICONS.map((ico,i) => `
+    <div class="tc" onclick="selTable(this,${i})" role="button" tabindex="0" aria-label="${t.table_names[i]}" onkeypress="if(event.key==='Enter')selTable(this,${i})">
+      <span class="tc-check">✓</span>
+      <div class="tc-top">
+        <div class="tc-icon">${ico}</div>
+        <div class="tc-tag tag-${['a','b','c'][i]}">${t.table_tags[i]}</div>
+      </div>
+      <div class="tc-name">${t.table_names[i]}</div>
+      <div class="tc-desc">${t.table_descs[i]}</div>
+      <div class="tc-price">${TBL_PRICES[i]}<div class="tc-note">${t.table_min}</div></div>
+      <div class="tc-cap">👥 ${t.table_upto} ${t.table_caps[i]} ${t.table_ppl}</div>
+    </div>`).join('');
+}
+
+function selTable(el, i) {
+  document.querySelectorAll('.tc').forEach(c=>c.classList.remove('on'));
+  el.classList.add('on');
+  if(navigator.vibrate) navigator.vibrate(10);
+  const t = T[S.lang];
+  S.selTable = {index:i, name:t.table_names[i], icon:TBL_ICONS[i]};
+}
+
+/* ════ DATES ════ */
+function buildDates() {
+  const t = T[S.lang];
+  const today = new Date();
+  let html = '';
+  for(let i=1;i<=21;i++){
+    const d = new Date(today); d.setDate(today.getDate()+i);
+    const key = `${t.days[d.getDay()]} ${d.getDate()} ${t.months[d.getMonth()]}`;
+    html += `<div class="dp" onclick="selDate(this,'${key}')" tabindex="0" role="button" aria-label="${key}" onkeypress="if(event.key==='Enter')selDate(this,'${key}')">
+      <span class="dp-d">${t.days[d.getDay()]}</span>
+      <span class="dp-n">${d.getDate()}</span>
+      <span class="dp-m">${t.months[d.getMonth()]}</span>
+    </div>`;
+  }
+  document.getElementById('date-strip').innerHTML = html;
+}
+
+function selDate(el, key) {
+  document.querySelectorAll('.dp').forEach(c=>c.classList.remove('on'));
+  el.classList.add('on');
+  if(navigator.vibrate) navigator.vibrate(10);
+  S.selDate = key;
+}
+
+/* ════ FORM ════ */
+function submitRes(e) {
+  e.preventDefault();
+  const t = T[S.lang];
+  if(!S.selTable){ toast(t.toast_table,'err'); return; }
+  if(!S.selDate){ toast(t.toast_date,'err'); return; }
+  const first=val('f-first').trim(), last=val('f-last').trim();
+  const tel=val('f-tel').trim(), email=val('f-email').trim(), guests=val('f-guests');
+  if(!first||!last||!tel||!guests){ toast(t.toast_err,'err'); return; }
+
+  const r = {
+    id: Date.now(), first, last, tel, email, guests,
+    occasion: val('f-occasion'), notes: val('f-notes'), source: val('f-source'),
+    table: S.selTable.name, tableIcon: S.selTable.icon, tableIdx: S.selTable.index,
+    date: S.selDate, status: 'pending', at: new Date().toISOString()
+  };
+  S.res.unshift(r); saveRes();
+
+  // Reset
+  document.getElementById('res-form').reset();
+  document.querySelectorAll('.tc').forEach(c=>c.classList.remove('on'));
+  document.querySelectorAll('.dp').forEach(c=>c.classList.remove('on'));
+  S.selTable=null; S.selDate=null;
+  updateBadge();
+
+  // Confetti + Modal
+  launchConfetti();
+  if(navigator.vibrate) navigator.vibrate([15,50,15]);
+  document.getElementById('modal').classList.add('on');
+
+  // WhatsApp
+  const wa = S.cfg?.wa||'';
+  if(wa){
+    const msg = encodeURIComponent(
+      `📋 *${t.wa_header} — ${S.cfg.name}*\n\n`+
+      `👤 *${t.wa_guest}:* ${first} ${last}\n`+
+      `📞 *${t.wa_tel}:* ${tel}\n`+
+      `📅 *${t.wa_date}:* ${r.date}\n`+
+      `${r.tableIcon} *${t.wa_table}:* ${r.table}\n`+
+      `👥 *${t.wa_people}:* ${guests}\n`+
+      (r.occasion&&r.occasion!==t.occasions[0]?`🎉 ${r.occasion}\n`:'')+
+      (r.notes?`💬 *${t.wa_notes}:* ${r.notes}\n`:'')+
+      `\n_${t.wa_footer}_`
+    );
+    setTimeout(()=>window.open(`https://wa.me/${wa}?text=${msg}`,'_blank'),1600);
+  }
+}
+
+/* ════ MANAGE ════ */
+function setFilter(f, el) {
+  S.filterStatus=f;
+  document.querySelectorAll('.fp').forEach(c=>c.classList.remove('on'));
+  el.classList.add('on'); renderManage();
+}
+
+function renderManage() {
+  const t = T[S.lang];
+  const q = (val('srch-res')||'').toLowerCase();
+  const all = S.res;
+  // stats with animated counters
+  animateCounter('st-total', all.length);
+  animateCounter('st-conf', all.filter(r=>r.status==='confirmed').length);
+  animateCounter('st-pend', all.filter(r=>r.status==='pending').length);
+  const ppl = all.reduce((a,r)=>{const n=parseInt(r.guests);return a+(isNaN(n)?0:n);},0);
+  animateCounter('st-ppl', ppl || 0);
+
+  let list = all.filter(r => {
+    const m = `${r.first} ${r.last} ${r.tel} ${r.email}`.toLowerCase().includes(q);
+    if(!m) return false;
+    if(S.filterStatus==='all') return true;
+    return r.status===S.filterStatus;
+  });
+
+  const el = document.getElementById('res-list');
+  if(!list.length){
+    el.innerHTML=`<div class="empty"><span class="empty-e">📋</span><div class="empty-t">${t.empty_res}</div><div class="empty-s">${t.empty_res_sub}</div></div>`;
+    return;
+  }
+  el.innerHTML = list.map(r0=>{
+    const r=escR(r0);
+    const init=(r.first[0]||'?')+(r.last[0]||'?');
+    const sc=r.status==='confirmed'?'s-c':r.status==='cancelled'?'s-x':'s-p';
+    const st=t.STATUS[r.status];
+    const d=new Date(r.at||Date.now());
+    const ds=`${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()}`;
+    return `<div class="rc" role="listitem">
+      <div class="av">${init}</div>
+      <div class="rc-body">
+        <div class="rc-name">${r.first} ${r.last}<span class="status ${sc}">${st}</span></div>
+        <div class="rc-meta">
+          <span class="mi">📅 ${r.date}</span>
+          <span class="mi">${r.tableIcon||'🪑'} ${r.table}</span>
+          <span class="mi">👥 ${r.guests}</span>
+          <span class="mi">📞 ${r.tel}</span>
+          ${r.occasion&&r.occasion!==t.occasions[0]?`<span class="mi">🎉 ${r.occasion}</span>`:''}
+          <span class="mi" style="color:var(--t3);font-size:10px">↗ ${ds}</span>
+        </div>
+      </div>
+      <div class="rc-r">
+        <div class="rc-acts">
+          ${r.status!=='confirmed'?`<button class="btn btn-secondary btn-xs" onclick="updRes(${r.id},'confirmed')">${t.act_confirm}</button>`:''}
+          ${r.status!=='cancelled'?`<button class="btn btn-ghost btn-xs" onclick="updRes(${r.id},'cancelled')">${t.act_cancel}</button>`:''}
+          <a href="https://wa.me/${r.tel.replace(/\D/g,'')}" target="_blank" rel="noopener"><button class="btn btn-secondary btn-xs">${t.act_wa}</button></a>
+          <button class="btn btn-danger btn-xs" onclick="delRes(${r.id})">🗑</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function updRes(id,status) {
+  const r=S.res.find(r=>r.id===id);
+  if(r){r.status=status;saveRes();renderManage();updateBadge();toast(T[S.lang].toast_saved,'ok');}
+}
+function delRes(id) {
+  if(!confirm(T[S.lang].del_confirm)) return;
+  S.res=S.res.filter(r=>r.id!==id);
+  saveRes();renderManage();updateBadge();toast(T[S.lang].toast_del,'err');
+}
+
+/* ════ CLIENTS ════ */
+function renderClients() {
+  const t = T[S.lang];
+  const q = (val('srch-cli')||'').toLowerCase();
+  const map = new Map();
+  S.res.forEach(r=>{ if(!map.has(r.tel)) map.set(r.tel,{r,n:0}); map.get(r.tel).n++; });
+  let clients = [...map.values()].filter(({r})=>`${r.first} ${r.last} ${r.tel} ${r.email}`.toLowerCase().includes(q));
+  const el = document.getElementById('cli-list');
+  if(!clients.length){
+    el.innerHTML=`<div class="empty"><span class="empty-e">👤</span><div class="empty-t">${t.empty_cli}</div><div class="empty-s">${t.empty_cli_sub}</div></div>`;
+    return;
+  }
+  el.innerHTML = clients.map(({r:r0,n})=>{
+    const r=escR(r0);
+    const init=(r.first[0]||'?')+(r.last[0]||'?');
+    const vl = n===1?t.visit:t.visits;
+    return `<div class="cc">
+      <div class="av">${init}</div>
+      <div class="cc-body">
+        <div class="cc-name">${r.first} ${r.last}</div>
+        <div class="cc-meta">
+          <span>📞 ${r.tel}</span>
+          ${r.email?`<span>✉️ ${r.email}</span>`:''}
+          ${r.source?`<span>📣 ${r.source}</span>`:''}
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+        <span class="visits-tag">🔁 ${n} ${vl}</span>
+        <a href="https://wa.me/${r.tel.replace(/\D/g,'')}" target="_blank" rel="noopener">
+          <button class="btn btn-secondary btn-sm">${t.act_wa}</button>
+        </a>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+/* ════ TABS ════ */
+function showTab(tab) {
+  ['new','manage','clients'].forEach(t=>{
+    const p=document.getElementById('pnl-'+t), b=document.getElementById('tab-'+t);
+    if(p) p.style.display=t===tab?'block':'none';
+    if(b) b.classList.toggle('on',t===tab);
+  });
+  S.currentTab=tab;
+  if(tab==='manage') renderManage();
+  if(tab==='clients') renderClients();
+}
+
+/* ════ SETTINGS ════ */
+function openDrawer() {
+  if(!S.cfg) return;
+  document.getElementById('d-name').value=S.cfg.name||'';
+  document.getElementById('d-wa').value=S.cfg.wa||'';
+  document.getElementById('d-addr').value=S.cfg.addr||'';
+  document.getElementById('d-lang').value=S.cfg.lang||'es';
+  document.querySelectorAll('#drawer-swatches .swatch').forEach(s=>s.classList.toggle('on',s.dataset.c===S.accent));
+  document.getElementById('drawer').classList.add('on');
+}
+function closeDrawer(){ document.getElementById('drawer').classList.remove('on'); }
+function saveSettings(){
+  S.cfg.name=document.getElementById('d-name').value.trim()||S.cfg.name;
+  S.cfg.wa=document.getElementById('d-wa').value.replace(/\D/g,'');
+  S.cfg.addr=document.getElementById('d-addr').value.trim();
+  S.cfg.lang=document.getElementById('d-lang').value;
+  S.cfg.color=S.accent; S.lang=S.cfg.lang;
+  saveCfg(); closeDrawer(); applyLang(); renderApp();
+  toast(T[S.lang].toast_saved,'ok');
+}
+function resetApp(){
+  if(!confirm(T[S.lang].reset_confirm)) return;
+  try { window.storage.delete('ar_cfg'); window.storage.delete('ar_res'); } catch(e){}
+  S.cfg=null; S.res=[];
+  location.reload();
+}
+
+/* ════ COMMAND PALETTE ════ */
+let cmdFocus = 0;
+function openCmd(){ document.getElementById('cmd').classList.add('on'); document.getElementById('cmd-inp').focus(); renderCmd(); }
+function closeCmd(){ document.getElementById('cmd').classList.remove('on'); document.getElementById('cmd-inp').value=''; }
+function renderCmd(){
+  const t=T[S.lang], q=val('cmd-inp').toLowerCase();
+  const cmds=t.cmds.filter(c=>q?c.lbl.toLowerCase().includes(q)||c.sub.toLowerCase().includes(q):true);
+  cmdFocus=0;
+  document.getElementById('cmd-list').innerHTML=cmds.map((c,i)=>`
+    <div class="cmd-item${i===0?' hi':''}" onclick="runCmd('${c.fn}')" data-fn="${c.fn}">
+      <span class="cmd-item-ico">${c.ico}</span>
+      <div><div class="cmd-item-lbl">${c.lbl}</div><div style="font-size:11px;color:var(--t3)">${c.sub}</div></div>
+    </div>`).join('') || `<div style="padding:24px;text-align:center;color:var(--t3);font-size:13px">Sin resultados</div>`;
+}
+function cmdKey(e){
+  const items=[...document.querySelectorAll('.cmd-item')];
+  if(e.key==='ArrowDown'){e.preventDefault();cmdFocus=Math.min(cmdFocus+1,items.length-1);}
+  if(e.key==='ArrowUp'){e.preventDefault();cmdFocus=Math.max(cmdFocus-1,0);}
+  items.forEach((el,i)=>el.classList.toggle('hi',i===cmdFocus));
+  if(e.key==='Enter'&&items[cmdFocus]){runCmd(items[cmdFocus].dataset.fn);}
+}
+function runCmd(fn){
+  closeCmd();
+  const fns={
+    newRes:()=>showTab('new'),
+    goManage:()=>showTab('manage'),
+    goClients:()=>showTab('clients'),
+    exportCSV, printPage:()=>window.print(), openDrawer, toggleLang, resetApp
+  };
+  if(fns[fn]) fns[fn]();
+}
+
+/* ════ EXPORT ════ */
+function exportCSV(){
+  const t=T[S.lang];
+  const hdr=['ID','Nombre','Apellido','Tel','Email','Mesa','Fecha','Personas','Ocasión','Estado','Registrado'];
+  const rows=S.res.map(r=>[r.id,r.first,r.last,r.tel,r.email,r.table,r.date,r.guests,r.occasion||'',r.status,r.at||''].map(v=>`"${String(v).replace(/"/g,'""')}"`).join(','));
+  const csv='\uFEFF'+[hdr.join(','),...rows].join('\n');
+  const a=document.createElement('a');
+  a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
+  a.download=`${t.export_file}-${new Date().toISOString().slice(0,10)}.csv`;
+  a.click(); toast(t.toast_saved,'ok');
+}
+
+/* ════ MODAL ════ */
+function closeModal(){ document.getElementById('modal').classList.remove('on'); }
+
+/* ════ BADGE ════ */
+function updateBadge(){
+  const c=S.res.filter(r=>r.status==='pending').length;
+  const b=document.getElementById('notif-badge');
+  if(b){b.textContent=c;b.style.display=c>0?'inline-flex':'none';}
+}
+
+/* ════ ANIMATED COUNTER ════ */
+function animateCounter(id, target) {
+  const el = document.getElementById(id);
+  if(!el) return;
+  const start = parseInt(el.textContent)||0;
+  if(start===target) return;
+  const dur=400, step=16;
+  let t=0;
+  const tick=()=>{
+    t+=step;
+    const p=Math.min(t/dur,1);
+    const ease=p<.5?2*p*p:(4-(2*p))*p-1;
+    el.textContent=Math.round(start+(target-start)*ease);
+    if(p<1) requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
+}
+
+/* ════ CONFETTI ════ */
+function launchConfetti(){
+  const c=document.getElementById('confetti-c');
+  c.width=innerWidth; c.height=innerHeight; c.style.display='block';
+  const ctx=c.getContext('2d');
+  const colors=['#6366F1','#10B981','#F59E0B','#EF4444','#06B6D4','#EC4899','#8B5CF6'];
+  const ps=[];
+  for(let i=0;i<140;i++){
+    ps.push({
+      x:Math.random()*c.width, y:-10,
+      w:Math.random()*10+5, h:Math.random()*5+3,
+      color:colors[Math.floor(Math.random()*colors.length)],
+      rot:Math.random()*Math.PI*2,
+      vx:(Math.random()-.5)*5, vy:Math.random()*4+2,
+      vr:(Math.random()-.5)*.22, op:1
+    });
+  }
+  const anim=()=>{
+    ctx.clearRect(0,0,c.width,c.height);
+    let alive=false;
+    ps.forEach(p=>{
+      p.x+=p.vx; p.y+=p.vy; p.vy+=0.06; p.rot+=p.vr; p.op-=.008;
+      if(p.op>0){
+        alive=true;
+        ctx.save(); ctx.globalAlpha=p.op;
+        ctx.translate(p.x,p.y); ctx.rotate(p.rot);
+        ctx.fillStyle=p.color; ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);
+        ctx.restore();
+      }
+    });
+    if(alive) requestAnimationFrame(anim); else c.style.display='none';
+  };
+  requestAnimationFrame(anim);
+}
+
+/* ════ TOAST ════ */
+let toastQueue = [];
+function toast(msg, type='ok') {
+  const wrap = document.getElementById('toasts');
+  const el = document.createElement('div');
+  el.className = `toast ${type}`;
+  el.innerHTML = `<span class="toast-dot"></span>${msg}<button class="toast-x" onclick="this.parentElement.remove()">✕</button>`;
+  wrap.appendChild(el);
+  setTimeout(()=>{el.classList.add('out');setTimeout(()=>el.remove(),250);},3200);
+}
+
+/* ════ UTILS ════ */
+function val(id){const e=document.getElementById(id);return e?e.value:'';}
+function set(id,v){const e=document.getElementById(id);if(e)e.textContent=v;}
+function attr(id,a,v){const e=document.getElementById(id);if(e)e.setAttribute(a,v);}
+function show(id){const e=document.getElementById(id);if(e)e.style.display='';}
+function hide(id){const e=document.getElementById(id);if(e)e.style.display='none';}
+function buildSel(id,opts,ph){
+  const el=document.getElementById(id);
+  if(!el)return;
+  el.innerHTML=`<option value="">${ph}</option>`+opts.map(o=>`<option>${o}</option>`).join('');
+}
+
+// Register PWA manifest dynamically (solo si no hay uno fijo)
+if(!document.querySelector('link[rel="manifest"]')) try {
+  const mf={name:'Arthur Reservaciones',short_name:'Arthur',display:'standalone',
+    background_color:'#08080F',theme_color:'#6366F1',start_url:'.',
+    icons:[{src:"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='40' fill='%236366F1'/%3E%3Ctext x='96' y='130' font-size='100' text-anchor='middle'%3E🍾%3C/text%3E%3C/svg%3E",sizes:'192x192',type:'image/svg+xml'}]};
+  const blob=new Blob([JSON.stringify(mf)],{type:'application/manifest+json'});
+  const url=URL.createObjectURL(blob);
+  const link=document.createElement('link');link.rel='manifest';link.href=url;
+  document.head.appendChild(link);
+} catch(e){}
+
+// Command palette actions exposed globally
+window.newRes=()=>showTab('new');
+window.goManage=()=>showTab('manage');
+window.goClients=()=>showTab('clients');
+window.printPage=()=>window.print();
+window.openDrawer=openDrawer;
+window.toggleLang=toggleLang;
+window.resetApp=resetApp;
+window.exportCSV=exportCSV;
+</script>
+</body>
+</html>

@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Arthur Reservaciones · Reservaciones para discotecas, bares y restaurantes</title>
+<meta name="description" content="Organiza las reservaciones de mesas y VIP de tu discoteca, bar o restaurante en una sola pantalla y confírmalas por WhatsApp. US$39 al mes.">
+<meta name="theme-color" content="#0B0B14">
+<link rel="icon" type="image/png" href="favicon.png">
+<meta property="og:title" content="Arthur Reservaciones">
+<meta property="og:description" content="Reservaciones de mesas y VIP en una sola pantalla, con confirmación por WhatsApp.">
+<meta property="og:image" content="app/icon-512.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Una sola columna de vitrina nocturna: promesa arriba, la noche de hoy como prueba, cómo funciona, precio, preguntas */
+:root{
+  --bg:#0B0B14; --surface:#141422; --surface-2:#1B1B2D; --line:#2A2A42;
+  --ink:#EEEEF7; --muted:#A6A6C2; --accent:#5B5EEA; --accent-ink:#B4B6FF; --gold:#F2C14E; --ok:#4ACB8E;
+  --f-display:"Sora","Segoe UI",system-ui,sans-serif;
+  --f-body:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --r:14px;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--accent-ink)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent-ink);outline-offset:3px;border-radius:8px}
+.wrap{max-width:1080px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left));padding-right:max(20px,env(safe-area-inset-right))}
+h1,h2,h3{font-family:var(--f-display);line-height:1.12;margin:0;text-wrap:balance;letter-spacing:-.015em}
+p{margin:0}
+.eyebrow{font-size:.78rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+
+/* nav */
+header.nav{position:sticky;top:0;z-index:10;background:rgba(11,11,20,.88);backdrop-filter:saturate(140%) blur(10px);-webkit-backdrop-filter:saturate(140%) blur(10px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:64px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);font-family:var(--f-display);font-weight:700;font-size:1.05rem}
+.brand img{width:30px;height:30px;border-radius:8px}
+.nav nav{display:flex;align-items:center;gap:20px;font-size:.95rem}
+.nav nav a{color:var(--muted);text-decoration:none}
+.nav nav a:hover{color:var(--ink)}
+.sm-only{display:none}
+.brand{white-space:nowrap}
+@media (max-width:640px){.nav nav .hide-sm{display:none}.nav nav .sm-only{display:inline}}
+
+/* botones */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 22px;border-radius:12px;font-weight:600;font-size:1rem;text-decoration:none;border:1px solid transparent;cursor:pointer;transition:transform .15s ease,background .15s ease}
+.btn:hover{transform:translateY(-1px)}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:#6A6DF2}
+.btn-ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn-ghost:hover{background:var(--surface)}
+.btn-sm{min-height:40px;padding:0 16px;font-size:.92rem}
+
+/* hero */
+.hero{padding:72px 0 56px}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:48px;align-items:center}
+@media (max-width:880px){.hero .wrap{grid-template-columns:1fr;gap:40px}.hero{padding-top:48px}}
+.hero h1{font-size:clamp(2.2rem,5.4vw,3.5rem);font-weight:800;margin-top:14px}
+.hero h1 em{font-style:normal;color:var(--gold)}
+.hero .lead{color:var(--muted);font-size:1.12rem;margin-top:18px;max-width:34em}
+.hero .ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.hero .fine{color:var(--muted);font-size:.9rem;margin-top:14px}
+
+/* la noche de hoy */
+.tonight{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:0 30px 80px -30px rgba(91,94,234,.45)}
+.tonight-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:4px 4px 14px;border-bottom:1px solid var(--line)}
+.tonight-head h2{font-size:1.05rem}
+.tag{font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:2px 10px;white-space:nowrap}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;padding:14px 0}
+.stat{background:var(--surface-2);border-radius:12px;padding:10px 12px}
+.stat b{display:block;font-family:var(--f-display);font-size:1.5rem;line-height:1.1;font-variant-numeric:tabular-nums}
+.stat span{font-size:.78rem;color:var(--muted)}
+.res{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.res li{display:grid;grid-template-columns:40px minmax(0,1fr) auto;gap:12px;align-items:center;background:var(--surface-2);border-radius:12px;padding:10px 12px}
+.av{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-weight:600;font-size:.85rem;background:#2A2A48;color:var(--accent-ink)}
+.res .who{min-width:0}
+.res .who b{display:block;font-weight:600;line-height:1.35}
+.res .who span{font-size:.82rem;color:var(--muted)}
+.pill{font-size:.72rem;font-weight:600;border-radius:999px;padding:3px 10px;white-space:nowrap}
+.pill.ok{background:rgba(74,203,142,.14);color:var(--ok)}
+.pill.wait{background:rgba(242,193,78,.14);color:var(--gold)}
+
+/* secciones */
+section.block{padding:64px 0;border-top:1px solid var(--line)}
+.sec-head{display:grid;gap:10px;max-width:40em;margin-bottom:32px}
+.sec-head h2{font-size:clamp(1.7rem,3.6vw,2.4rem);font-weight:700}
+.sec-head p{color:var(--muted)}
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;counter-reset:s;list-style:none;margin:0;padding:0}
+@media (max-width:820px){.steps{grid-template-columns:1fr}}
+.steps li{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:22px;display:grid;gap:8px}
+.steps li::before{counter-increment:s;content:counter(s);font-family:var(--f-display);font-weight:800;font-size:1.6rem;color:var(--accent-ink);line-height:1}
+.steps h3{font-size:1.12rem}
+.steps p{color:var(--muted);font-size:.97rem}
+.feats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 40px;list-style:none;margin:0;padding:0}
+@media (max-width:720px){.feats{grid-template-columns:1fr}}
+.feats li{display:grid;grid-template-columns:28px minmax(0,1fr);gap:12px;padding:16px 0;border-bottom:1px solid var(--line)}
+.feats svg{width:22px;height:22px;margin-top:3px;stroke:var(--gold);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.feats b{display:block;font-weight:600}
+.feats span{color:var(--muted);font-size:.95rem}
+
+/* precio */
+.price{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:32px;align-items:center;background:linear-gradient(160deg,#17172A,#111120);border:1px solid var(--line);border-radius:22px;padding:36px}
+@media (max-width:820px){.price{grid-template-columns:1fr;padding:26px}}
+.amount{font-family:var(--f-display);font-weight:800;font-size:clamp(3rem,8vw,4.4rem);line-height:1;letter-spacing:-.03em}
+.amount small{font-size:1.1rem;font-weight:600;color:var(--muted);letter-spacing:0;margin-left:6px}
+.price .note{color:var(--muted);margin-top:10px}
+.incl{list-style:none;margin:0 0 22px;padding:0;display:grid;gap:10px}
+.incl li{display:grid;grid-template-columns:22px minmax(0,1fr);gap:10px}
+.incl svg{width:20px;height:20px;margin-top:3px;stroke:var(--ok);fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.honest{margin-top:18px;font-size:.88rem;color:var(--muted);border-top:1px solid var(--line);padding-top:14px}
+
+/* preguntas */
+.faq{display:grid;gap:10px;max-width:760px}
+.faq details{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:0 18px}
+.faq summary{cursor:pointer;padding:16px 0;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:12px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";color:var(--accent-ink);font-size:1.3rem;line-height:1}
+.faq details[open] summary::after{content:"–"}
+.faq details p{color:var(--muted);padding:0 0 16px}
+
+footer{border-top:1px solid var(--line);padding:36px 0 calc(36px + env(safe-area-inset-bottom));color:var(--muted);font-size:.9rem}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px}
+footer nav{display:flex;flex-wrap:wrap;gap:18px}
+footer a{color:var(--muted)}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn{transition:none}.btn:hover{transform:none}}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="./"><img src="app/icon-192.png" alt="" width="30" height="30">Arthur Reservaciones</a>
+    <nav aria-label="Principal">
+      <a class="hide-sm" href="#como">Cómo funciona</a>
+      <a class="hide-sm" href="#precio">Precio</a>
+      <a class="btn btn-ghost btn-sm" href="app/"><span class="sm-only">Demo</span><span class="hide-sm">Probar la demo</span></a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <p class="eyebrow">Discotecas · Bares · Lounges · Restaurantes</p>
+        <h1>Todas las reservaciones de la noche, <em>en una sola pantalla.</em></h1>
+        <p class="lead">Registra mesas estándar, VIP y presidenciales, confirma por WhatsApp con un toque y entra a la noche sabiendo quién viene, cuántos son y en qué mesa.</p>
+        <div class="ctas">
+          <a class="btn btn-primary" href="#precio">Suscribirme · US$39 al mes</a>
+          <a class="btn btn-ghost" href="app/">Probar la demo gratis</a>
+        </div>
+        <p class="fine">Funciona en celular, tablet y computadora. En español y en inglés.</p>
+      </div>
+
+      <div class="tonight" aria-label="Ejemplo de la pantalla de reservaciones">
+        <div class="tonight-head">
+          <h2>Sábado · Esta noche</h2>
+          <span class="tag">Ejemplo</span>
+        </div>
+        <div class="stats">
+          <div class="stat"><b>18</b><span>Reservaciones</span></div>
+          <div class="stat"><b>14</b><span>Confirmadas</span></div>
+          <div class="stat"><b>4</b><span>Pendientes</span></div>
+        </div>
+        <ul class="res">
+          <li><span class="av" aria-hidden="true">MR</span><span class="who"><b>Mesa VIP · 10 personas</b><span>Cumpleaños · 11:30 p.m.</span></span><span class="pill ok">Confirmada</span></li>
+          <li><span class="av" aria-hidden="true">JP</span><span class="who"><b>Presidencial · 16 personas</b><span>Botella incluida · 12:00 a.m.</span></span><span class="pill wait">Pendiente</span></li>
+          <li><span class="av" aria-hidden="true">LC</span><span class="who"><b>Mesa estándar · 6 personas</b><span>Primera visita · 10:45 p.m.</span></span><span class="pill ok">Confirmada</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="como">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Cómo funciona</p>
+        <h2>Listo para la próxima noche en tres pasos</h2>
+      </div>
+      <ol class="steps">
+        <li><h3>Configura tu local</h3><p>El nombre, tu WhatsApp, la dirección y el color de tu marca. Se hace una sola vez y toma dos minutos.</p></li>
+        <li><h3>Registra cada reservación</h3><p>Tipo de mesa, fecha, número de personas y ocasión. Todo queda guardado con el teléfono del cliente.</p></li>
+        <li><h3>Confirma y recibe</h3><p>Manda la confirmación por WhatsApp con un toque y tu equipo ve en la puerta quién está confirmado.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Lo que trae</p>
+        <h2>Hecho para la noche dominicana</h2>
+      </div>
+      <ul class="feats">
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18h16M6 18V9h12v9M9 9V6h6v3"/></svg><span><b>Mesas estándar, VIP y presidenciales</b><span>Cada una con su capacidad, para no pasarte de cupo.</span></span></li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a9 9 0 0 1-13.5 7.8L3 21l1.2-4.5A9 9 0 1 1 21 12z"/></svg><span><b>Confirmación por WhatsApp</b><span>El mensaje sale armado con nombre, fecha, mesa y personas.</span></span></li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 11a4 4 0 1 0-8 0M4 20a8 8 0 0 1 16 0"/></svg><span><b>Lista de clientes con sus visitas</b><span>Sabes quién vuelve y a quién darle trato especial.</span></span></li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4zM4 10h16M10 4v16"/></svg><span><b>Exportar a Excel e imprimir</b><span>La lista de la noche en papel para la puerta, o en CSV para tus cuentas.</span></span></li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg><span><b>Español e inglés</b><span>Cambia de idioma con un toque para clientes y turistas.</span></span></li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h8v18H8zM11 18h2"/></svg><span><b>Se instala como una app</b><span>En el celular, la tablet de la puerta o la computadora, sin pasar por tiendas.</span></span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="block" id="precio">
+    <div class="wrap">
+      <div class="price">
+        <div>
+          <p class="eyebrow">Precio</p>
+          <p class="amount">US$39<small>al mes</small></p>
+          <p class="note">Un solo plan para tu local. Cancelas cuando quieras.</p>
+        </div>
+        <div>
+          <ul class="incl">
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg><span>La app de reservaciones para tu local</span></li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg><span>Configuración con tu nombre, tu WhatsApp y tus colores</span></li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg><span>Soporte por correo y todas las mejoras nuevas</span></li>
+          </ul>
+          <a class="btn btn-primary" id="buy" href="mailto:perezarthur81@gmail.com?subject=Quiero%20Arthur%20Reservaciones">Suscribirme</a>
+          <p class="honest">Pago seguro con tarjeta, procesado por Polar. Las reservaciones se guardan en el dispositivo donde usas la app; puedes exportarlas cuando quieras.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Preguntas</p>
+        <h2>Lo que más nos preguntan</h2>
+      </div>
+      <div class="faq">
+        <details><summary>¿Tengo que instalar algo?</summary><p>No. La abres en el navegador y, si quieres, la agregas a la pantalla de inicio para usarla como una app.</p></details>
+        <details><summary>¿Puedo probarla antes de pagar?</summary><p>Sí. La demo es gratis y tiene todas las funciones. Configúrala con el nombre de tu local y registra reservaciones de prueba.</p></details>
+        <details><summary>¿Cómo cancelo?</summary><p>Desde el enlace del portal de cliente que te llega por correo al suscribirte, o escribiéndonos. Tu acceso sigue hasta el final del mes que pagaste.</p></details>
+        <details><summary>¿Cómo pago?</summary><p>Con tarjeta de crédito o débito. El pago lo procesa Polar, que te envía el recibo por correo.</p></details>
+        <details><summary>¿Dónde quedan los datos de mis clientes?</summary><p>En el dispositivo donde usas la app. Nosotros no los recibimos. Puedes exportarlos a Excel en cualquier momento.</p></details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>© 2026 Arthur Labs · Juan Carlos Pérez Arthur · Santo Domingo, República Dominicana<br>Soporte: <a href="mailto:perezarthur81@gmail.com">perezarthur81@gmail.com</a></p>
+    <nav aria-label="Legal"><a href="terminos.html">Términos y reembolsos</a><a href="privacidad.html">Privacidad</a><a href="app/">Demo</a></nav>
+  </div>
+</footer>
+
+<script>
+/* Enlace de pago de Polar: se pone aquí cuando esté creado. */
+(function(){
+  var CHECKOUT_URL = "";
+  if (CHECKOUT_URL) { var b = document.getElementById('buy'); b.href = CHECKOUT_URL; }
+})();
+</script>
+</body>
+</html>
