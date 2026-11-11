@@ -74,9 +74,9 @@ input,select,textarea{font-family:var(--font)}
 
 /* ══════════ INSTALL SCREEN ══════════ */
 #scr-install{position:fixed;inset:0;z-index:100;background:var(--bg0);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
   padding:24px;overflow-y:auto}
-.ins-wrap{width:100%;max-width:420px;display:flex;flex-direction:column;align-items:center}
+.ins-wrap{width:100%;max-width:420px;display:flex;flex-direction:column;align-items:center;margin:auto}
 
 .ins-app-icon{width:108px;height:108px;border-radius:26px;
   background:linear-gradient(135deg,var(--brand) 0%,#8B5CF6 100%);
@@ -238,6 +238,7 @@ input,select,textarea{font-family:var(--font)}
 .topbar-in{max-width:860px;margin:0 auto;padding:0 20px;
   height:56px;display:flex;align-items:center;justify-content:space-between;gap:16px}
 .brand{display:flex;align-items:center;gap:10px;min-width:0}
+.brand>div{min-width:0}
 .brand-mark{width:34px;height:34px;border-radius:9px;
   background:linear-gradient(135deg,var(--brand),#8B5CF6);
   display:flex;align-items:center;justify-content:center;
@@ -354,7 +355,11 @@ main{max-width:860px;margin:0 auto;padding:28px 16px 100px;position:relative;z-i
 .rc-meta{display:flex;flex-wrap:wrap;gap:5px 14px}
 .mi{font-size:11px;color:var(--t2);display:flex;align-items:center;gap:4px}
 .rc-r{display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-shrink:0}
-.rc-acts{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end}
+.rc-acts{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.rc-acts .btn-xs{min-height:34px;padding:6px 11px;font-size:12px;display:inline-flex;align-items:center;text-decoration:none}
+.rc.past{opacity:.6}
+.d-code{display:flex;gap:6px;align-items:center}
+.d-code .d-inp{width:150px;text-transform:uppercase}
 @media(max-width:560px){.rc{flex-wrap:wrap}.rc-body{flex:1 1 calc(100% - 54px)}.rc-r{flex:1 1 100%;align-items:stretch;padding-left:54px}.rc-acts{justify-content:flex-start}}
 
 /* Clients */
@@ -409,8 +414,8 @@ main{max-width:860px;margin:0 auto;padding:28px 16px 100px;position:relative;z-i
 #cmd{position:fixed;inset:0;z-index:200;
   background:rgba(0,0,0,.75);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
   display:flex;align-items:flex-start;justify-content:center;padding-top:14vh;
-  opacity:0;pointer-events:none;transition:opacity .18s}
-#cmd.on{opacity:1;pointer-events:all}
+  opacity:0;visibility:hidden;pointer-events:none;transition:opacity .18s,visibility .18s}
+#cmd.on{opacity:1;visibility:visible;pointer-events:all}
 .cmd-box{background:var(--bg2);border:1px solid var(--bd3);border-radius:var(--r20);
   width:100%;max-width:520px;overflow:hidden;margin:0 16px;
   box-shadow:0 24px 64px rgba(0,0,0,.7);
@@ -460,8 +465,8 @@ main{max-width:860px;margin:0 auto;padding:28px 16px 100px;position:relative;z-i
 #modal{position:fixed;inset:0;z-index:300;
   background:rgba(0,0,0,.82);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
   display:flex;align-items:center;justify-content:center;padding:24px;
-  opacity:0;pointer-events:none;transition:opacity .18s}
-#modal.on{opacity:1;pointer-events:all}
+  opacity:0;visibility:hidden;pointer-events:none;transition:opacity .18s,visibility .18s}
+#modal.on{opacity:1;visibility:visible;pointer-events:all}
 .modal-box{background:var(--bg2);border:1px solid var(--bd3);border-radius:var(--r28);
   padding:48px 36px;max-width:400px;width:100%;text-align:center;
   transform:scale(.84);transition:transform .3s var(--spring)}
@@ -504,10 +509,13 @@ main{max-width:860px;margin:0 auto;padding:28px 16px 100px;position:relative;z-i
 .btn-cta:active{transform:scale(.98)}
 
 @media print{
-  body{background:#fff;color:#000}
-  .topbar,.nav,#toasts,#cmd,#drawer,#modal,.btn-cta,.toolbar,.filter-row,.srch{display:none!important}
-  .rc,.cc{border:1px solid #ddd;break-inside:avoid;margin-bottom:8px}
-  main{padding:0}
+  html,body{height:auto!important;overflow:visible!important;background:#fff!important;color:#000!important}
+  #scr-app{min-height:0!important;padding:0!important}
+  .topbar,.nav,#toasts,#cmd,#drawer,#modal,.btn-cta,.toolbar,.filter-row,.srch,.rc-acts,.mesh,.noise,#confetti-c,.upsell,.banner,#scr-install,#scr-setup{display:none!important}
+  #scr-app *{background:transparent!important;color:#000!important;box-shadow:none!important;text-shadow:none!important}
+  .rc,.cc{border:1px solid #bbb!important;break-inside:avoid;page-break-inside:avoid;margin-bottom:6px}
+  .rc.past{opacity:1}
+  main{padding:0!important}
 }
 </style>
 </head>
@@ -525,10 +533,10 @@ main{max-width:860px;margin:0 auto;padding:28px 16px 100px;position:relative;z-i
     <div class="ins-name">ÓPTIMA<br/><em>RESERVAS</em></div>
     <div class="ins-tagline" id="ins-tagline">Sistema profesional de reservaciones para negocios nocturnos de élite</div>
     <div class="ins-feats">
-      <span class="feat">📲 App nativa</span>
-      <span class="feat">📊 Exporta a Excel</span>
-      <span class="feat">💬 WhatsApp auto</span>
-      <span class="feat">🌍 ES / EN</span>
+      <span class="feat" id="ins-f0">📲 App instalable</span>
+      <span class="feat" id="ins-f1">📊 Exporta a Excel</span>
+      <span class="feat" id="ins-f2">💬 WhatsApp con un toque</span>
+      <span class="feat" id="ins-f3">🌍 ES / EN</span>
     </div>
 
     <div class="ins-main-btn">
@@ -547,17 +555,17 @@ main{max-width:860px;margin:0 auto;padding:28px 16px 100px;position:relative;z-i
     <div class="ins-social">
       <div class="ins-social-item">
         <div class="ins-social-val" style="color:var(--brand)">∞</div>
-        <div class="ins-social-lbl">Reservas</div>
+        <div class="ins-social-lbl" id="ins-s0">Reservas</div>
       </div>
       <div class="ins-divider"></div>
       <div class="ins-social-item">
         <div class="ins-social-val" style="color:var(--green)">3</div>
-        <div class="ins-social-lbl">Tipos de mesa</div>
+        <div class="ins-social-lbl" id="ins-s1">Tipos de mesa</div>
       </div>
       <div class="ins-divider"></div>
       <div class="ins-social-item">
         <div class="ins-social-val" style="color:var(--amber)">ES · EN</div>
-        <div class="ins-social-lbl">Idiomas</div>
+        <div class="ins-social-lbl" id="ins-s2">Idiomas</div>
       </div>
     </div>
     <div class="ins-footer" id="ins-footer">Demo gratis · US$39 al mes para tu local<br/>Datos privados y almacenados en tu dispositivo</div>
@@ -579,7 +587,7 @@ main{max-width:860px;margin:0 auto;padding:28px 16px 100px;position:relative;z-i
       <div class="step-desc" id="s0d">Configura el nombre y datos de contacto de tu establecimiento. Solo una vez.</div>
       <div class="g2">
         <div class="fld"><input id="c-name" type="text" maxlength="40" placeholder=" " autocomplete="off" required/><label id="l-name">Nombre del negocio *</label></div>
-        <div class="fld"><select id="c-type"><option value="">Seleccionar…</option><option>Discoteca</option><option>Night Club</option><option>Lounge</option><option>Bar Nocturno</option><option>Rooftop</option><option>Restaurant-Bar</option><option>Otro</option></select><label>Tipo de local *</label></div>
+        <div class="fld"><select id="c-type"><option value="">Seleccionar…</option><option>Discoteca</option><option>Night Club</option><option>Lounge</option><option>Bar Nocturno</option><option>Rooftop</option><option>Restaurant-Bar</option><option>Otro</option></select><label id="l-type">Tipo de local *</label></div>
         <div class="fld"><input id="c-wa" type="tel" placeholder=" " autocomplete="tel" required/><label id="l-wa">WhatsApp del negocio *</label></div>
         <div class="fld"><input id="c-addr" type="text" placeholder=" " autocomplete="off"/><label id="l-addr">Dirección (opcional)</label></div>
         <div class="fld gc2"><input id="c-ig" type="text" placeholder=" " autocomplete="off"/><label id="l-ig">Instagram (opcional)</label></div>
@@ -661,9 +669,9 @@ main{max-width:860px;margin:0 auto;padding:28px 16px 100px;position:relative;z-i
       </div>
       <div class="topbar-r">
         <span class="chip chip-free" id="plan-chip">DEMO</span>
-        <button class="btn-icon" id="lang-btn" onclick="toggleLang()" title="Toggle language">EN</button>
-        <button class="btn-icon" onclick="openCmd()" title="Comandos (Ctrl+K)"><span style="font-size:12px">⌘K</span></button>
-        <button class="btn-icon" onclick="openDrawer()">⚙</button>
+        <button class="btn-icon" id="lang-btn" onclick="toggleLang()" title="Cambiar idioma" aria-label="Cambiar idioma">EN</button>
+        <button class="btn-icon" id="cmd-btn" onclick="openCmd()" title="Comandos (Ctrl+K)" aria-label="Comandos (Ctrl+K)"><span style="font-size:12px" aria-hidden="true">⌘K</span></button>
+        <button class="btn-icon" id="set-btn" onclick="openDrawer()" title="Ajustes" aria-label="Ajustes"><span aria-hidden="true">⚙</span></button>
       </div>
     </div>
   </header>
@@ -671,7 +679,7 @@ main{max-width:860px;margin:0 auto;padding:28px 16px 100px;position:relative;z-i
   <!-- Nav -->
   <nav class="nav">
     <div class="nav-in">
-      <button class="tab-btn on" id="tab-new" onclick="showTab('new')" aria-label="Nueva reservación">
+      <button class="tab-btn on" id="tab-new" onclick="showTab('new')">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
         <span id="tn-new">Nueva</span>
       </button>
@@ -691,7 +699,7 @@ main{max-width:860px;margin:0 auto;padding:28px 16px 100px;position:relative;z-i
 
     <!-- ─── TAB: NUEVA ─── -->
     <div id="pnl-new">
-      <div class="banner">
+      <div class="banner" id="demo-banner">
         <div class="banner-ico">✨</div>
         <div><div class="banner-t" id="b-t">Plan Gratuito activo</div><div class="banner-d" id="b-d">Reservaciones ilimitadas · WhatsApp automático · Gestión de clientes</div></div>
       </div>
@@ -712,7 +720,7 @@ main{max-width:860px;margin:0 auto;padding:28px 16px 100px;position:relative;z-i
           <div class="fld gc2"><select id="f-source"></select><label id="lf-source">¿Cómo nos conociste?</label></div>
         </div>
         <button type="submit" class="btn-cta">
-          <span id="btn-submit-txt">Confirmar Reservación</span>
+          <span id="btn-submit-txt">Guardar reservación</span>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         </button>
       </form>
@@ -747,7 +755,7 @@ main{max-width:860px;margin:0 auto;padding:28px 16px 100px;position:relative;z-i
       <div class="upsell" id="upsell-pro" style="display:none">
         <div class="upsell-ico">⚡</div>
         <div><div class="upsell-t" id="ups-t">Óptima Pro</div><div class="upsell-d" id="ups-d">Exporta clientes, analíticas avanzadas y elimina la marca Óptima.</div></div>
-        <a class="btn btn-pro btn-sm" href="../#precio" target="_blank" rel="noopener" style="margin-left:auto;flex-shrink:0;text-decoration:none">Suscribirme</a>
+        <a class="btn btn-pro btn-sm" id="ups-btn" href="../#precio" target="_blank" rel="noopener" style="margin-left:auto;flex-shrink:0;text-decoration:none">Suscribirme</a>
       </div>
       <div class="srch"><span class="srch-ico">🔍</span><input type="text" id="srch-cli" oninput="renderClients()" placeholder="Buscar clientes…"/></div>
       <div class="res-list" id="cli-list"></div>
@@ -757,7 +765,7 @@ main{max-width:860px;margin:0 auto;padding:28px 16px 100px;position:relative;z-i
 </div>
 
 <!-- ══════════ COMMAND PALETTE ══════════ -->
-<div id="cmd" onclick="if(event.target===this)closeCmd()">
+<div id="cmd" role="dialog" aria-modal="true" aria-label="Comandos" onclick="if(event.target===this)closeCmd()">
   <div class="cmd-box">
     <div class="cmd-search">
       <span style="font-size:16px;color:var(--t3)">⌘</span>
@@ -766,9 +774,9 @@ main{max-width:860px;margin:0 auto;padding:28px 16px 100px;position:relative;z-i
     </div>
     <div class="cmd-list" id="cmd-list"></div>
     <div class="cmd-foot">
-      <div class="cmd-hint"><span class="kbd">↑↓</span> navegar</div>
-      <div class="cmd-hint"><span class="kbd">↵</span> ejecutar</div>
-      <div class="cmd-hint"><span class="kbd">ESC</span> cerrar</div>
+      <div class="cmd-hint"><span class="kbd">↑↓</span> <span id="h-nav">navegar</span></div>
+      <div class="cmd-hint"><span class="kbd">↵</span> <span id="h-run">ejecutar</span></div>
+      <div class="cmd-hint"><span class="kbd">ESC</span> <span id="h-close">cerrar</span></div>
     </div>
   </div>
 </div>
@@ -781,7 +789,7 @@ main{max-width:860px;margin:0 auto;padding:28px 16px 100px;position:relative;z-i
     <div class="d-sec">
       <div class="d-sec-lbl" id="d-s1">Negocio</div>
       <div class="d-row"><div><div class="d-row-lbl" id="d-lbl-n">Nombre</div></div><input class="d-inp" id="d-name" type="text" maxlength="40"/></div>
-      <div class="d-row"><div><div class="d-row-lbl">WhatsApp</div><div class="d-row-sub" id="d-wa-sub">Confirmaciones auto</div></div><input class="d-inp" id="d-wa" type="tel"/></div>
+      <div class="d-row"><div><div class="d-row-lbl" id="d-lbl-w">WhatsApp</div><div class="d-row-sub" id="d-wa-sub">Número del local</div></div><input class="d-inp" id="d-wa" type="tel"/></div>
       <div class="d-row"><div><div class="d-row-lbl" id="d-lbl-a">Dirección</div></div><input class="d-inp" id="d-addr" type="text"/></div>
     </div>
     <div class="d-sec">
@@ -797,13 +805,19 @@ main{max-width:860px;margin:0 auto;padding:28px 16px 100px;position:relative;z-i
           <div class="swatch" style="background:#F59E0B" data-c="#F59E0B" onclick="pickC(this,'drawer-swatches')"></div>
           <div class="swatch" style="background:#EC4899" data-c="#EC4899" onclick="pickC(this,'drawer-swatches')"></div>
           <div class="swatch" style="background:#8B5CF6" data-c="#8B5CF6" onclick="pickC(this,'drawer-swatches')"></div>
+          <div class="swatch" style="background:#F97316" data-c="#F97316" onclick="pickC(this,'drawer-swatches')"></div>
         </div>
       </div>
       <div class="d-row"><div><div class="d-row-lbl">Plan</div><div class="d-row-sub" id="d-plan-sub">Versión actual</div></div><span class="chip chip-free" id="d-plan-chip">DEMO</span></div>
+      <div class="d-row" id="d-act-row"><div><div class="d-row-lbl" id="d-lbl-code">Código de activación</div><div class="d-row-sub" id="d-code-sub">Te llega por correo al suscribirte</div></div>
+        <div class="d-code"><input class="d-inp" id="d-code" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="OPT-XXXX-XXXX" maxlength="16"/><button class="btn btn-secondary btn-sm" onclick="activatePro()" id="d-act-btn">Activar</button></div></div>
     </div>
     <div class="d-acts">
       <button class="btn btn-primary" onclick="saveSettings()" id="d-save">Guardar cambios</button>
       <button class="btn btn-secondary" onclick="closeDrawer()" id="d-cancel">Cancelar</button>
+      <button class="btn btn-secondary btn-sm" onclick="backupData()" id="d-backup">💾 Respaldar datos</button>
+      <label class="btn btn-secondary btn-sm" for="d-restore" id="d-restore-lbl" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}">♻️ Restaurar respaldo</label>
+      <input type="file" id="d-restore" accept="application/json,.json" hidden onchange="restoreData(this)"/>
       <button class="btn btn-danger btn-sm" onclick="resetApp()" id="d-reset" style="font-size:12px">🗑 Borrar todos los datos</button>
     </div>
     <div class="d-foot" id="d-foot">Óptima Reservas v3.1<br/>© 2026 Óptima Reservas</div>
@@ -811,13 +825,14 @@ main{max-width:860px;margin:0 auto;padding:28px 16px 100px;position:relative;z-i
 </div>
 
 <!-- ══════════ SUCCESS MODAL ══════════ -->
-<div id="modal" onclick="if(event.target===this)closeModal()">
+<div id="modal" role="dialog" aria-modal="true" aria-labelledby="m-title" onclick="if(event.target===this)closeModal()">
   <div class="modal-box">
     <span class="modal-e">🥂</span>
     <div class="modal-t" id="m-title">¡Confirmado!</div>
     <div class="modal-d" id="m-desc">Tu reservación fue registrada. Se abrirá WhatsApp para coordinar con el equipo.</div>
     <div class="modal-acts">
-      <button class="btn btn-primary" onclick="closeModal()" id="m-btn" style="padding:12px 32px">OK</button>
+      <button class="btn btn-primary" onclick="modalWA()" id="m-wa" style="padding:12px 22px">💬 Enviar confirmación</button>
+      <button class="btn btn-secondary" onclick="closeModal()" id="m-btn" style="padding:12px 22px">Ahora no</button>
     </div>
   </div>
 </div>
@@ -835,6 +850,15 @@ main{max-width:860px;margin:0 auto;padding:28px 16px 100px;position:relative;z-i
 })();
 function escH(v){ return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
 function escR(r){ var o={}; for(var k in r){ o[k]= typeof r[k]==='string'? escH(r[k]) : r[k]; } return o; }
+/* Teléfonos: solo dígitos; 809/829/849 de 10 dígitos llevan el 1 de RD delante */
+function waNum(raw){ var d=String(raw==null?'':raw).replace(/\D/g,''); if(d.indexOf('00')===0) d=d.slice(2); if(d.length===10&&/^(809|829|849)/.test(d)) d='1'+d; return d; }
+/* api.whatsapp.com conserva los emojis (wa.me los cambia por "?") */
+function waLink(num,text){ var n=waNum(num); return 'https://api.whatsapp.com/send?'+(n?'phone='+n+'&':'')+'text='+encodeURIComponent(text||''); }
+function openWA(url){ var w=null; try{ w=window.open(url,'_blank'); }catch(e){} if(w){ try{ w.opener=null; }catch(e){} } else { location.href=url; } }
+function pad2(n){ return String(n).padStart(2,'0'); }
+function localISO(d){ return d.getFullYear()+'-'+pad2(d.getMonth()+1)+'-'+pad2(d.getDate()); }
+function isoToDate(iso){ var p=String(iso).split('-').map(Number); return new Date(p[0],p[1]-1,p[2]); }
+function downloadBlob(text,type,name){ var b=new Blob([text],{type:type}); var u=URL.createObjectURL(b); var a=document.createElement('a'); a.href=u; a.download=name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(function(){ URL.revokeObjectURL(u); },2000); }
 'use strict';
 
 /* ════ TRANSLATIONS ════ */
@@ -861,15 +885,15 @@ es:{
   lbl_table:'Tipo de Mesa',lbl_date:'Fecha',lbl_guest:'Datos del Cliente',
   lf_first:'Nombre *',lf_last:'Apellido *',lf_tel:'WhatsApp / Teléfono *',lf_email:'Correo (opcional)',
   lf_guests:'N° de Personas *',lf_occasion:'Ocasión Especial',lf_notes:'Peticiones Especiales',lf_source:'¿Cómo nos conociste?',
-  btn_submit:'Confirmar Reservación',
+  btn_submit:'Guardar reservación',
   guests_ph:'Seleccionar…',occasion_ph:'Ninguna',source_ph:'Seleccionar…',
   guests:['1 persona','2 personas','3 personas','4 personas','5 personas','6 personas','7 personas','8 personas','9–10 personas','11–15 personas','16+ personas'],
-  occasions:['Ninguna','Cumpleaños 🎂','Aniversario 💑','Despedida de soltero/a 💍','Evento corporativo 💼','Graduación 🎓','Noche de amigos 🎉','Otra'],
+  occasions:['Cumpleaños 🎂','Aniversario 💑','Despedida de soltero/a 💍','Evento corporativo 💼','Graduación 🎓','Noche de amigos 🎉','Otra'],
   sources:['Instagram / Redes sociales','Recomendación de amigo/a','TikTok','WhatsApp / Flyer','Cliente frecuente','Otro'],
   stl_total:'Total',stl_conf:'Confirmadas',stl_pend:'Pendientes',stl_ppl:'Personas',
   fp_all:'Todas',fp_pend:'Pendientes',fp_conf:'Confirmadas',fp_canc:'Canceladas',
   btn_csv:'⬇ CSV',btn_print:'🖨 Imprimir',
-  m_title:'¡Reservación Confirmada!',m_desc:'Tu mesa fue registrada exitosamente. Se abrirá WhatsApp para coordinar con el equipo.',m_btn:'Perfecto',
+  m_title:'¡Reservación guardada!',m_desc:'Quedó como pendiente. Envíale la confirmación al cliente por WhatsApp con un toque.',m_btn:'Ahora no',m_wa:'💬 Enviar confirmación',
   STATUS:{confirmed:'CONFIRMADA',pending:'PENDIENTE',cancelled:'CANCELADA'},
   act_confirm:'✓ Confirmar',act_cancel:'✗ Cancelar',act_wa:'💬 WA',act_del:'Eliminar',
   empty_res:'Sin reservaciones',empty_res_sub:'Las nuevas reservaciones aparecerán aquí.',
@@ -879,6 +903,20 @@ es:{
   reset_confirm:'¿Borrar TODOS los datos? Esta acción no se puede deshacer.',
   toast_saved:'✓ Cambios guardados',toast_del:'🗑 Eliminado',toast_err:'Completa todos los campos requeridos',
   toast_table:'Selecciona un tipo de mesa',toast_date:'Selecciona una fecha',
+  toast_tel:'Revisa el número de WhatsApp del cliente',toast_cap:'Esa mesa es para hasta {n} personas',toast_type:'Selecciona el tipo de local',
+  toast_csv:'⬇ CSV descargado',toast_backup:'💾 Respaldo descargado',toast_restore:'♻️ {n} reservaciones restauradas',toast_restore_bad:'Ese archivo no es un respaldo válido',
+  toast_code_ok:'⭐ Plan activado. ¡Gracias por suscribirte!',toast_code_bad:'Código no válido',
+  toast_installed:'¡App instalada! 🎉',toast_install_steps:'Sigue los pasos de abajo para instalar 👆',
+  today:'HOY',no_results:'Sin resultados',h_nav:'navegar',h_run:'ejecutar',h_close:'cerrar',
+  tt_lang:'Cambiar idioma',tt_cmd:'Comandos (Ctrl+K)',tt_set:'Ajustes',ups_btn:'Suscribirme',
+  l_type:'Tipo de local *',sel_ph:'Seleccionar…',
+  venue_types:['Discoteca','Night Club','Lounge','Bar Nocturno','Rooftop','Restaurant-Bar','Otro'],
+  icon_names:['Champagne','Música','Luna','Corona','Diamante','Fuego','Estrella','Máscara','Trofeo','Brillo'],
+  ins_feats:['📲 App instalable','📊 Exporta a Excel','💬 WhatsApp con un toque','🌍 ES / EN'],ins_social:['Reservas','Tipos de mesa','Idiomas'],
+  d_lbl_code:'Código de activación',d_code_sub:'Te llega por correo al suscribirte',d_act_btn:'Activar',
+  d_backup:'💾 Respaldar datos',d_restore:'♻️ Restaurar respaldo',backup_file:'respaldo',
+  wa_hi:'Hola {n} 👋',wa_conf:'Tu reservación en *{v}* está confirmada:',wa_see:'¡Te esperamos! 🥂',
+  csv_hdr:['ID','Nombre','Apellido','WhatsApp','Correo','Mesa','Fecha','Personas','Ocasión','Notas','Fuente','Estado','Registrado'],
   lang_toggle:'EN',
   wa_header:'Nueva Reservación',wa_guest:'Cliente',wa_tel:'Tel',wa_date:'Fecha',wa_table:'Mesa',wa_people:'Personas',wa_notes:'Notas',wa_footer:'Vía Óptima Reservas App',
   table_tags:['DISPONIBLE','LIMITADO','EXCLUSIVO'],
@@ -888,7 +926,7 @@ es:{
   days:['DOM','LUN','MAR','MIÉ','JUE','VIE','SÁB'],
   months:['ENE','FEB','MAR','ABR','MAY','JUN','JUL','AGO','SEP','OCT','NOV','DIC'],
   export_file:'optima-reservas',
-  d_title:'⚙️ Ajustes',d_s1:'Negocio',d_s2:'Preferencias',d_lbl_n:'Nombre',d_wa_sub:'Confirmaciones automáticas',
+  d_title:'⚙️ Ajustes',d_s1:'Negocio',d_s2:'Preferencias',d_lbl_n:'Nombre',d_wa_sub:'Número del local',
   d_lbl_a:'Dirección',d_lbl_l:'Idioma',d_lbl_c:'Color del tema',d_plan_sub:'Versión actual',
   d_save:'Guardar cambios',d_cancel:'Cancelar',d_reset:'🗑 Borrar todos los datos',
   ups_t:'Óptima Reservas para tu local',ups_d:'US$39 al mes, con configuración y soporte.',
@@ -927,15 +965,15 @@ en:{
   lbl_table:'Table Type',lbl_date:'Date',lbl_guest:'Guest Information',
   lf_first:'First Name *',lf_last:'Last Name *',lf_tel:'WhatsApp / Phone *',lf_email:'Email (optional)',
   lf_guests:'Number of Guests *',lf_occasion:'Special Occasion',lf_notes:'Special Requests',lf_source:'How did you find us?',
-  btn_submit:'Confirm Reservation',
+  btn_submit:'Save reservation',
   guests_ph:'Select…',occasion_ph:'None',source_ph:'Select…',
   guests:['1 guest','2 guests','3 guests','4 guests','5 guests','6 guests','7 guests','8 guests','9–10 guests','11–15 guests','16+ guests'],
-  occasions:['None','Birthday 🎂','Anniversary 💑','Bachelor/ette Party 💍','Corporate Event 💼','Graduation 🎓','Night Out 🎉','Other'],
+  occasions:['Birthday 🎂','Anniversary 💑','Bachelor/ette Party 💍','Corporate Event 💼','Graduation 🎓','Night Out 🎉','Other'],
   sources:['Instagram / Social Media','Friend referral','TikTok','WhatsApp / Flyer','Returning guest','Other'],
   stl_total:'Total',stl_conf:'Confirmed',stl_pend:'Pending',stl_ppl:'Guests',
   fp_all:'All',fp_pend:'Pending',fp_conf:'Confirmed',fp_canc:'Cancelled',
   btn_csv:'⬇ CSV',btn_print:'🖨 Print',
-  m_title:'Reservation Confirmed!',m_desc:'Your table has been registered. WhatsApp will open to coordinate with the team.',m_btn:'Perfect',
+  m_title:'Reservation saved!',m_desc:'It is pending. Send the guest the confirmation on WhatsApp with one tap.',m_btn:'Not now',m_wa:'💬 Send confirmation',
   STATUS:{confirmed:'CONFIRMED',pending:'PENDING',cancelled:'CANCELLED'},
   act_confirm:'✓ Confirm',act_cancel:'✗ Cancel',act_wa:'💬 WA',act_del:'Delete',
   empty_res:'No reservations yet',empty_res_sub:'New reservations will appear here.',
@@ -945,6 +983,20 @@ en:{
   reset_confirm:'Delete ALL data? This cannot be undone.',
   toast_saved:'✓ Changes saved',toast_del:'🗑 Deleted',toast_err:'Please fill in all required fields',
   toast_table:'Please select a table type',toast_date:'Please select a date',
+  toast_tel:'Check the guest\'s WhatsApp number',toast_cap:'That table fits up to {n} guests',toast_type:'Select the venue type',
+  toast_csv:'⬇ CSV downloaded',toast_backup:'💾 Backup downloaded',toast_restore:'♻️ {n} reservations restored',toast_restore_bad:'That file is not a valid backup',
+  toast_code_ok:'⭐ Plan activated. Thanks for subscribing!',toast_code_bad:'Invalid code',
+  toast_installed:'App installed! 🎉',toast_install_steps:'Follow the steps below to install 👆',
+  today:'TODAY',no_results:'No results',h_nav:'navigate',h_run:'run',h_close:'close',
+  tt_lang:'Change language',tt_cmd:'Commands (Ctrl+K)',tt_set:'Settings',ups_btn:'Subscribe',
+  l_type:'Venue type *',sel_ph:'Select…',
+  venue_types:['Disco','Night Club','Lounge','Night Bar','Rooftop','Restaurant-Bar','Other'],
+  icon_names:['Champagne','Music','Moon','Crown','Diamond','Fire','Star','Mask','Trophy','Sparkle'],
+  ins_feats:['📲 Installable app','📊 Excel export','💬 One-tap WhatsApp','🌍 ES / EN'],ins_social:['Bookings','Table types','Languages'],
+  d_lbl_code:'Activation code',d_code_sub:'Emailed to you when you subscribe',d_act_btn:'Activate',
+  d_backup:'💾 Back up data',d_restore:'♻️ Restore backup',backup_file:'backup',
+  wa_hi:'Hi {n} 👋',wa_conf:'Your reservation at *{v}* is confirmed:',wa_see:'See you soon! 🥂',
+  csv_hdr:['ID','First name','Last name','WhatsApp','Email','Table','Date','Guests','Occasion','Notes','Source','Status','Created'],
   lang_toggle:'ES',
   wa_header:'New Reservation',wa_guest:'Guest',wa_tel:'Phone',wa_date:'Date',wa_table:'Table',wa_people:'Guests',wa_notes:'Notes',wa_footer:'Via Óptima Reservas App',
   table_tags:['AVAILABLE','LIMITED','EXCLUSIVE'],
@@ -954,7 +1006,7 @@ en:{
   days:['SUN','MON','TUE','WED','THU','FRI','SAT'],
   months:['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'],
   export_file:'optima-reservations',
-  d_title:'⚙️ Settings',d_s1:'Business',d_s2:'Preferences',d_lbl_n:'Name',d_wa_sub:'Automatic confirmations',
+  d_title:'⚙️ Settings',d_s1:'Business',d_s2:'Preferences',d_lbl_n:'Name',d_wa_sub:'Venue number',
   d_lbl_a:'Address',d_lbl_l:'Language',d_lbl_c:'Theme color',d_plan_sub:'Current version',
   d_save:'Save changes',d_cancel:'Cancel',d_reset:'🗑 Delete all data',
   ups_t:'Óptima Reservas for your venue',ups_d:'US$39/month with setup and support.',
@@ -979,6 +1031,9 @@ let S = {
   deferredPrompt: null, step: 0, cmdIdx: 0
 };
 
+/* ════ ACTIVACIÓN (huellas SHA-256 de los códigos; los códigos no están en el código) ════ */
+const PRO_HASHES = ["03adf4a0ade230842504e75af723e930819595a0919be9778760957f84ebdffe", "ad8fc0165b749e3e26e25f508b2769fd72bba9536f048ab0d2834a7abd584a0c", "af1b4f1ca2063af588032e3a99799ae5f2bd07891078de9669f2f6b543ce6e03", "79f05f5aa5b37313e29abab31500b654dac4233b3048746636003e3e34bdea07", "64d7f85db2636a93b8db5a62039ffec01f34de436bbd7f1fcb08cd390a773328", "0d9dce42e9a5a5733def4a93742f12dc07efd20a928088e785aed5ddcb933cc0", "25a55ea6261065944cc92ab48d03230dd478bb69dfe3e3fb3f1a16dc143820f7", "52f76b80e67483b6998a3218dc3cd32fda5795579849269995f8734a4f4f7ac5", "2df890be35a3cd81c8cbe03e553eab1e44e306cd7b76b70cb48183cdb0f2a8cf", "22bc6835b795031149e015c65e88b747be72245cd3b19182f3e9d9b5fd9f91a2", "f91a8b5c030742f8fb82b2bcd1972b86e833a558d0f5f5f1d71cec485017ecee", "e324465914bb6f3bbb61901e85f6748b6c2ca0817325a75371558df024e353c0", "d3d98b51f06e99fcc8b3feb8b10113c6199b7ec28a53aa63816822fff776b42e", "2677a26f0e26d70972d057a0e83a805827a243e2d0e86eb206aed1ea700ae54a", "4975812f0d7cde0f795a7705d66cc501ab04ae6907d7f51942ebbaa8617d0a48", "85fadb174a2c5dec4faa9cda843b42799e980ec258dfd3720581816d80a68508", "44275521b8e5e11f6b1851b627a16ca5fbd5797c9a38beb4b954e384588711eb", "c0361b94cf98977491abbd2cb56bf2e6a48666ed30f20940d96c912953541134", "5efbf84b799f42669d799c3f7d2211a49e68b358eef1d0c10639318806a5cf1b", "8f1120dc6338c1ce1cb690a2082d6a61658eff27fcad91ad19dbb68cae3659e2", "f9e4869c25a1e787042e2722d490013c8c3158b1eb4ccc3735ae9df144f3b99e", "81f409b51be6d23100628635023b203935aa0d8940b2768c5a5a8b682c3e0604", "7607fe0e6248f5166d13fd9e44af6ee7aad0807bd0242045b5228be54f7e4a99", "15a1326c345629cd67c2493d1ca1018e683822fcb763ea8f4284173c6de58c03", "5ad87208d24ba3e7411e34bce2e1ad51ce4f3758c96407cf957763b778fef653", "e55f94d25b7a65616119162901f3bc68df2c22e2b8386437808039e66d5fbca0", "0e999022110028136c24d1eeb3e9b76c362e9b638ad211dffb5a479739fdff84", "50ee0894ce6de35a550c43cae8b00c792206b629813fe86d836e8762b3c9fbbd", "01cdc760973320bb0b493fefc8fe47d0e3db58355e6550275ab36cf591643c83", "f55fd2d658566df46f96a932caec82e80e8f49e34faa82368d136e49da13998c", "9a0346aa579baf009171a8b8ad432dd2c89db9c97d6c15a66c9ad6d1a066f830", "100b67c3eb6cd52b986a2520fa990e26fd035256927add231326f808f3e540d2", "7f40c42bb762f8682fe3055d256ff164fdf4ec94d26134df42b14a90a535415b", "6b3b11acf7751d205f9a51067265397409712e42d1c79d9904790e1241fbc0fd", "efd4302cbdf331dc276ad12f5c7a2a5edf3a6bb68eb81351e6c4f21da0b4e482", "2381da2123ee476b5d841adc6d07f823072550dd9408d7ce1559ae77ab7d77e6", "cbb9cb8643bb0f84599a4a7878a0a6e3674d8bce762e7cf09eaed43d8555d8c2", "46c7a91ee12010da10061f8cf3d574366c2a34f8beccac20a81dcda0e976baf1", "1a24aff251ac9640fd0df276f2fded676b086994f0f81902cfdc2443cc6268bd", "b8c1354f0579a92d3a845f5d61855d5d73b95fae17a3be2579c32d3b469300c6"];
+
 /* ════ STORAGE ════ */
 async function loadStorage() {
   try { const r = await window.storage.get('ar_cfg'); if(r) S.cfg = JSON.parse(r.value); } catch(e){}
@@ -995,9 +1050,16 @@ async function saveRes() { try { await window.storage.set('ar_res', JSON.stringi
   S.plan = S.cfg?.plan || 'free';
   applyAccent(S.accent);
   buildInstallScreen();
+  a11y();
+  const standalone = (window.matchMedia && matchMedia('(display-mode: standalone)').matches) || navigator.standalone === true;
   if (S.cfg) {
     hide('scr-install'); showSetup(false);
     showAppDirectly();
+  } else if (standalone) {
+    skipInstall();
+  }
+  if ('serviceWorker' in navigator && (location.protocol === 'https:' || /^(localhost|127\.0\.0\.1)$/.test(location.hostname))) {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
   }
   // PWA install prompt
   window.addEventListener('beforeinstallprompt', e => {
@@ -1019,10 +1081,12 @@ function buildInstallScreen() {
   const isAndroid = /android/.test(ua);
   const steps = isIOS ? t.ios_steps : isAndroid ? t.android_steps : t.desktop_steps;
   set('ins-badge-txt', t.ins_badge);
+  set('ins-tagline', t.ins_tagline);
+  t.ins_feats.forEach((f,i) => set('ins-f'+i, f));
+  t.ins_social.forEach((f,i) => set('ins-s'+i, f));
   set('ins-main-txt', t.ins_main);
   set('ins-skip', t.ins_skip);
   set('ins-steps-lbl', t.ins_steps_lbl);
-  set('ins-footer', t.ins_footer.replace('\n','<br/>'));
   document.getElementById('ins-footer').innerHTML = t.ins_footer.replace('\n','<br/>');
   document.getElementById('ins-steps-body').innerHTML = steps.map((s,i) =>
     `<div class="ins-step"><div class="step-n">${i+1}</div><div class="step-t">${s.t}</div></div>`
@@ -1034,11 +1098,11 @@ async function handleInstall() {
     S.deferredPrompt.prompt();
     const { outcome } = await S.deferredPrompt.userChoice;
     S.deferredPrompt = null;
-    if (outcome === 'accepted') { toast('¡App instalada! 🎉', 'ok'); setTimeout(() => skipInstall(), 1000); }
+    if (outcome === 'accepted') { toast(T[S.lang].toast_installed, 'ok'); setTimeout(() => skipInstall(), 1000); }
   } else {
     // Haptic
     if (navigator.vibrate) navigator.vibrate([10,30,10]);
-    toast('Sigue los pasos de abajo para instalar 👆', 'info');
+    toast(T[S.lang].toast_install_steps, 'info');
   }
 }
 
@@ -1078,7 +1142,6 @@ function pickC(el, groupId) {
   document.querySelectorAll(`#${groupId} .swatch`).forEach(s => s.classList.remove('on'));
   el.classList.add('on');
   applyAccent(el.dataset.c);
-  if(S.cfg) S.cfg.color = el.dataset.c;
 }
 
 /* ════ WIZARD ════ */
@@ -1086,6 +1149,9 @@ function applyWizLang() {
   const t = T[S.lang];
   set('s0t', t.s0_t); set('s0d', t.s0_d);
   set('l-name', t.l_name); set('l-wa', t.l_wa); set('l-addr', t.l_addr); set('l-ig', t.l_ig);
+  set('l-type', t.l_type); buildSel('c-type', t.venue_types, t.sel_ph);
+  const ic = document.getElementById('c-icon');
+  if (ic) [...ic.options].forEach((o,i) => { o.textContent = o.value + ' ' + (t.icon_names[i] || ''); });
   set('s0btn', t.s0_btn);
   set('s1t', t.s1_t); set('s1d', t.s1_d);
   set('l-lang', t.l_lang); set('l-icon', t.l_icon); set('l-color', t.l_color);
@@ -1113,7 +1179,7 @@ function wiz(from, dir) {
   if(dir===1 && from===0) {
     if(!val('c-name').trim()){toast(t.l_name.replace(' *',''),'err');return;}
     if(!val('c-wa').trim()){toast(t.l_wa.replace(' *',''),'err');return;}
-    if(!val('c-type')){toast('Selecciona el tipo de local','err');return;}
+    if(!val('c-type')){toast(t.toast_type,'err');return;}
   }
   const to = from + dir;
   hide('sp'+from); show('sp'+to);
@@ -1136,7 +1202,7 @@ function selPlan(p) {
 function launchApp() {
   S.cfg = {
     name: val('c-name').trim(), type: val('c-type'),
-    wa: val('c-wa').replace(/\D/g,''), addr: val('c-addr').trim(),
+    wa: waNum(val('c-wa')), addr: val('c-addr').trim(),
     ig: val('c-ig').trim(), lang: val('c-lang'), icon: val('c-icon'),
     color: S.accent, plan: S.plan
   };
@@ -1180,10 +1246,16 @@ function applyLang() {
   set('fp-all', t.fp_all); set('fp-pend', t.fp_pend);
   set('fp-conf', t.fp_conf); set('fp-canc', t.fp_canc);
   // search
-  attr('srch-res', 'placeholder', t.srch_res);
-  attr('srch-cli', 'placeholder', t.srch_cli);
+  attr('srch-res', 'placeholder', t.srch_res); attr('srch-res', 'aria-label', t.srch_res);
+  attr('srch-cli', 'placeholder', t.srch_cli); attr('srch-cli', 'aria-label', t.srch_cli);
   // modal
-  set('m-title', t.m_title); set('m-desc', t.m_desc); set('m-btn', t.m_btn);
+  set('m-title', t.m_title); set('m-desc', t.m_desc); set('m-btn', t.m_btn); set('m-wa', t.m_wa);
+  set('d-lbl-code', t.d_lbl_code); set('d-code-sub', t.d_code_sub); set('d-act-btn', t.d_act_btn);
+  set('d-backup', t.d_backup); set('d-restore-lbl', t.d_restore);
+  set('h-nav', t.h_nav); set('h-run', t.h_run); set('h-close', t.h_close); set('ups-btn', t.ups_btn);
+  attr('lang-btn','title',t.tt_lang); attr('lang-btn','aria-label',t.tt_lang);
+  attr('cmd-btn','title',t.tt_cmd); attr('cmd-btn','aria-label',t.tt_cmd);
+  attr('set-btn','title',t.tt_set); attr('set-btn','aria-label',t.tt_set);
   // drawer
   set('d-title', t.d_title); set('d-s1', t.d_s1); set('d-s2', t.d_s2);
   set('d-lbl-n', t.d_lbl_n); set('d-wa-sub', t.d_wa_sub); set('d-lbl-a', t.d_lbl_a);
@@ -1197,7 +1269,7 @@ function applyLang() {
   if(dchip){ dchip.textContent = S.plan==='pro'?'PRO':'DEMO'; dchip.className='chip '+(S.plan==='pro'?'chip-pro':'chip-free'); }
   // export/print
   set('btn-csv', t.btn_csv); set('btn-print', t.btn_print);
-  attr('cmd-inp', 'placeholder', t.cmd_ph);
+  attr('cmd-inp', 'placeholder', t.cmd_ph); attr('cmd-inp', 'aria-label', t.cmd_ph);
 }
 
 function toggleLang() {
@@ -1210,8 +1282,13 @@ function toggleLang() {
 function renderApp() {
   applyAccent(S.cfg?.color || '#6366F1');
   buildTables(); buildDates(); renderManage(); renderClients(); updateBadge();
+  const pro = S.plan==='pro';
   const upsell = document.getElementById('upsell-pro');
-  if(upsell) upsell.style.display = S.plan==='free' ? 'flex' : 'none';
+  if(upsell) upsell.style.display = pro ? 'none' : 'flex';
+  const banner = document.getElementById('demo-banner');
+  if(banner) banner.style.display = pro ? 'none' : '';
+  const act = document.getElementById('d-act-row');
+  if(act) act.style.display = pro ? 'none' : '';
 }
 
 /* ════ TABLES ════ */
@@ -1221,7 +1298,7 @@ const TBL_PRICES = ['—', '—', '—'];
 function buildTables() {
   const t = T[S.lang];
   document.getElementById('table-grid').innerHTML = TBL_ICONS.map((ico,i) => `
-    <div class="tc" onclick="selTable(this,${i})" role="button" tabindex="0" aria-label="${t.table_names[i]}" onkeypress="if(event.key==='Enter')selTable(this,${i})">
+    <div class="tc${S.selTable&&S.selTable.index===i?' on':''}" onclick="selTable(this,${i})" role="button" tabindex="0" aria-label="${t.table_names[i]} · ${t.table_upto} ${t.table_caps[i]} ${t.table_ppl}" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selTable(this,${i})}">
       <span class="tc-check">✓</span>
       <div class="tc-top">
         <div class="tc-icon">${ico}</div>
@@ -1229,7 +1306,7 @@ function buildTables() {
       </div>
       <div class="tc-name">${t.table_names[i]}</div>
       <div class="tc-desc">${t.table_descs[i]}</div>
-      <div class="tc-price">${TBL_PRICES[i]}<div class="tc-note">${t.table_min}</div></div>
+      ${TBL_PRICES[i]&&TBL_PRICES[i]!=='—'?`<div class="tc-price">${TBL_PRICES[i]}<div class="tc-note">${t.table_min}</div></div>`:''}
       <div class="tc-cap">👥 ${t.table_upto} ${t.table_caps[i]} ${t.table_ppl}</div>
     </div>`).join('');
 }
@@ -1238,8 +1315,7 @@ function selTable(el, i) {
   document.querySelectorAll('.tc').forEach(c=>c.classList.remove('on'));
   el.classList.add('on');
   if(navigator.vibrate) navigator.vibrate(10);
-  const t = T[S.lang];
-  S.selTable = {index:i, name:t.table_names[i], icon:TBL_ICONS[i]};
+  S.selTable = {index:i};
 }
 
 /* ════ DATES ════ */
@@ -1247,11 +1323,12 @@ function buildDates() {
   const t = T[S.lang];
   const today = new Date();
   let html = '';
-  for(let i=1;i<=21;i++){
-    const d = new Date(today); d.setDate(today.getDate()+i);
+  for(let i=0;i<=21;i++){
+    const d = new Date(today.getFullYear(), today.getMonth(), today.getDate()+i);
+    const iso = localISO(d);
     const key = `${t.days[d.getDay()]} ${d.getDate()} ${t.months[d.getMonth()]}`;
-    html += `<div class="dp" onclick="selDate(this,'${key}')" tabindex="0" role="button" aria-label="${key}" onkeypress="if(event.key==='Enter')selDate(this,'${key}')">
-      <span class="dp-d">${t.days[d.getDay()]}</span>
+    html += `<div class="dp${S.selDate===iso?' on':''}" onclick="selDate(this,'${iso}')" tabindex="0" role="button" aria-label="${key}" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selDate(this,'${iso}')}">
+      <span class="dp-d">${i===0?t.today:t.days[d.getDay()]}</span>
       <span class="dp-n">${d.getDate()}</span>
       <span class="dp-m">${t.months[d.getMonth()]}</span>
     </div>`;
@@ -1267,22 +1344,40 @@ function selDate(el, key) {
 }
 
 /* ════ FORM ════ */
+const GUEST_N = [1,2,3,4,5,6,7,8,10,15,16];
+function guestsNum(r){ if(typeof r.guestsIdx==='number'&&r.guestsIdx>=0) return GUEST_N[r.guestsIdx]||0; const n=parseInt(r.guests); return isNaN(n)?0:n; }
+function dateLabel(r,t){ if(r.iso){ const d=isoToDate(r.iso); return `${t.days[d.getDay()]} ${d.getDate()} ${t.months[d.getMonth()]}`; } return r.date||''; }
+function tableLabel(r,t){ return (typeof r.tableIdx==='number' && t.table_names[r.tableIdx]) || r.table || ''; }
+function guestsLabel(r,t){ return (typeof r.guestsIdx==='number' && r.guestsIdx>=0 && t.guests[r.guestsIdx]) || r.guests || ''; }
+function occLabel(r,t){ if(typeof r.occasionIdx==='number') return r.occasionIdx>=0 ? (t.occasions[r.occasionIdx]||'') : ''; const o=String(r.occasion||'').trim(); return /^(ninguna|none)?$/i.test(o)?'':o; }
+function srcLabel(r,t){ if(typeof r.sourceIdx==='number') return r.sourceIdx>=0 ? (t.sources[r.sourceIdx]||'') : ''; return r.source||''; }
+
 function submitRes(e) {
   e.preventDefault();
   const t = T[S.lang];
   if(!S.selTable){ toast(t.toast_table,'err'); return; }
   if(!S.selDate){ toast(t.toast_date,'err'); return; }
   const first=val('f-first').trim(), last=val('f-last').trim();
-  const tel=val('f-tel').trim(), email=val('f-email').trim(), guests=val('f-guests');
-  if(!first||!last||!tel||!guests){ toast(t.toast_err,'err'); return; }
-
+  const tel=val('f-tel').trim(), email=val('f-email').trim();
+  const gi=document.getElementById('f-guests').selectedIndex-1;
+  if(!first||!last||!tel||gi<0){ toast(t.toast_err,'err'); return; }
+  if(waNum(tel).length<8){ toast(t.toast_tel,'err'); return; }
+  const ti=S.selTable.index, cap=t.table_caps[ti];
+  if(GUEST_N[gi]>cap){ toast(t.toast_cap.replace('{n}',cap),'err'); return; }
+  const oi=document.getElementById('f-occasion').selectedIndex-1;
+  const si=document.getElementById('f-source').selectedIndex-1;
   const r = {
-    id: Date.now(), first, last, tel, email, guests,
-    occasion: val('f-occasion'), notes: val('f-notes'), source: val('f-source'),
-    table: S.selTable.name, tableIcon: S.selTable.icon, tableIdx: S.selTable.index,
-    date: S.selDate, status: 'pending', at: new Date().toISOString()
+    id: Math.max(Date.now(), S.res.reduce((m,x)=>Math.max(m,+x.id||0),0)+1),
+    first, last, tel, email,
+    guests: t.guests[gi], guestsIdx: gi,
+    occasion: oi>=0?t.occasions[oi]:'', occasionIdx: oi,
+    notes: val('f-notes').trim(), source: si>=0?t.sources[si]:'', sourceIdx: si,
+    table: t.table_names[ti], tableIcon: TBL_ICONS[ti], tableIdx: ti,
+    iso: S.selDate, date: dateLabel({iso:S.selDate},t),
+    status: 'pending', at: new Date().toISOString()
   };
   S.res.unshift(r); saveRes();
+  S.lastId = r.id;
 
   // Reset
   document.getElementById('res-form').reset();
@@ -1291,28 +1386,33 @@ function submitRes(e) {
   S.selTable=null; S.selDate=null;
   updateBadge();
 
-  // Confetti + Modal
+  // Confetti + Modal (el WhatsApp se abre con un toque del botón: así funciona también en iPhone)
   launchConfetti();
   if(navigator.vibrate) navigator.vibrate([15,50,15]);
-  document.getElementById('modal').classList.add('on');
-
-  // WhatsApp
-  const wa = S.cfg?.wa||'';
-  if(wa){
-    const msg = encodeURIComponent(
-      `📋 *${t.wa_header} — ${S.cfg.name}*\n\n`+
-      `👤 *${t.wa_guest}:* ${first} ${last}\n`+
-      `📞 *${t.wa_tel}:* ${tel}\n`+
-      `📅 *${t.wa_date}:* ${r.date}\n`+
-      `${r.tableIcon} *${t.wa_table}:* ${r.table}\n`+
-      `👥 *${t.wa_people}:* ${guests}\n`+
-      (r.occasion&&r.occasion!==t.occasions[0]?`🎉 ${r.occasion}\n`:'')+
-      (r.notes?`💬 *${t.wa_notes}:* ${r.notes}\n`:'')+
-      `\n_${t.wa_footer}_`
-    );
-    setTimeout(()=>window.open(`https://wa.me/${wa}?text=${msg}`,'_blank'),1600);
-  }
+  openModal();
 }
+
+/* Mensaje de confirmación para el cliente */
+function confirmMsg(r){
+  const t=T[S.lang], c=S.cfg||{};
+  let m=`${t.wa_hi.replace('{n}',r.first)}\n${t.wa_conf.replace('{v}',c.name||'')}\n\n`+
+    `📅 *${t.wa_date}:* ${dateLabel(r,t)}\n`+
+    `${r.tableIcon||'🪑'} *${t.wa_table}:* ${tableLabel(r,t)}\n`+
+    `👥 *${t.wa_people}:* ${guestsLabel(r,t)}\n`;
+  const oc=occLabel(r,t); if(oc) m+=`🎉 ${oc}\n`;
+  if(r.notes) m+=`💬 *${t.wa_notes}:* ${r.notes}\n`;
+  if(c.addr) m+=`📍 ${c.addr}\n`;
+  m+=`\n${t.wa_see}`;
+  if(S.plan!=='pro') m+=`\n\n_${t.wa_footer}_`;
+  return m;
+}
+function sendConfirm(id){
+  const r=S.res.find(x=>x.id===id); if(!r) return;
+  if(r.status==='cancelled'){ openWA(waLink(r.tel,'')); return; }
+  openWA(waLink(r.tel, confirmMsg(r)));
+  if(r.status==='pending'){ r.status='confirmed'; saveRes(); renderManage(); updateBadge(); }
+}
+function modalWA(){ const id=S.lastId; closeModal(); if(id) sendConfirm(id); }
 
 /* ════ MANAGE ════ */
 function setFilter(f, el) {
@@ -1325,18 +1425,26 @@ function renderManage() {
   const t = T[S.lang];
   const q = (val('srch-res')||'').toLowerCase();
   const all = S.res;
-  // stats with animated counters
-  animateCounter('st-total', all.length);
+  const todayISO = localISO(new Date());
+  // stats (sin contar las canceladas)
+  const active = all.filter(r=>r.status!=='cancelled');
+  animateCounter('st-total', active.length);
   animateCounter('st-conf', all.filter(r=>r.status==='confirmed').length);
   animateCounter('st-pend', all.filter(r=>r.status==='pending').length);
-  const ppl = all.reduce((a,r)=>{const n=parseInt(r.guests);return a+(isNaN(n)?0:n);},0);
-  animateCounter('st-ppl', ppl || 0);
+  animateCounter('st-ppl', active.reduce((a,r)=>a+guestsNum(r),0));
 
   let list = all.filter(r => {
     const m = `${r.first} ${r.last} ${r.tel} ${r.email}`.toLowerCase().includes(q);
     if(!m) return false;
     if(S.filterStatus==='all') return true;
     return r.status===S.filterStatus;
+  });
+  // próximas primero (de la más cercana a la más lejana), las pasadas al final
+  list.sort((a,b)=>{
+    const ai=a.iso||'', bi=b.iso||'', af=ai>=todayISO, bf=bi>=todayISO;
+    if(af!==bf) return af?-1:1;
+    if(ai!==bi) return af ? (ai<bi?-1:1) : (ai>bi?-1:1);
+    return (+b.id||0)-(+a.id||0);
   });
 
   const el = document.getElementById('res-list');
@@ -1351,25 +1459,26 @@ function renderManage() {
     const st=t.STATUS[r.status];
     const d=new Date(r.at||Date.now());
     const ds=`${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()}`;
-    return `<div class="rc" role="listitem">
+    const past = r0.iso && r0.iso < todayISO;
+    return `<div class="rc${past?' past':''}" role="listitem">
       <div class="av">${init}</div>
       <div class="rc-body">
         <div class="rc-name">${r.first} ${r.last}<span class="status ${sc}">${st}</span></div>
         <div class="rc-meta">
-          <span class="mi">📅 ${r.date}</span>
-          <span class="mi">${r.tableIcon||'🪑'} ${r.table}</span>
-          <span class="mi">👥 ${r.guests}</span>
+          <span class="mi">📅 ${escH(dateLabel(r0,t))}</span>
+          <span class="mi">${r.tableIcon||'🪑'} ${escH(tableLabel(r0,t))}</span>
+          <span class="mi">👥 ${escH(guestsLabel(r0,t))}</span>
           <span class="mi">📞 ${r.tel}</span>
-          ${r.occasion&&r.occasion!==t.occasions[0]?`<span class="mi">🎉 ${r.occasion}</span>`:''}
+          ${occLabel(r0,t)?`<span class="mi">🎉 ${escH(occLabel(r0,t))}</span>`:''}
           <span class="mi" style="color:var(--t3);font-size:10px">↗ ${ds}</span>
         </div>
       </div>
       <div class="rc-r">
         <div class="rc-acts">
-          ${r.status!=='confirmed'?`<button class="btn btn-secondary btn-xs" onclick="updRes(${r.id},'confirmed')">${t.act_confirm}</button>`:''}
-          ${r.status!=='cancelled'?`<button class="btn btn-ghost btn-xs" onclick="updRes(${r.id},'cancelled')">${t.act_cancel}</button>`:''}
-          <a href="https://wa.me/${r.tel.replace(/\D/g,'')}" target="_blank" rel="noopener"><button class="btn btn-secondary btn-xs">${t.act_wa}</button></a>
-          <button class="btn btn-danger btn-xs" onclick="delRes(${r.id})">🗑</button>
+          ${r.status!=='confirmed'?`<button class="btn btn-secondary btn-xs" onclick="updRes(${+r0.id},'confirmed')">${t.act_confirm}</button>`:''}
+          ${r.status!=='cancelled'?`<button class="btn btn-ghost btn-xs" onclick="updRes(${+r0.id},'cancelled')">${t.act_cancel}</button>`:''}
+          <button class="btn btn-secondary btn-xs" onclick="sendConfirm(${+r0.id})" aria-label="WhatsApp">${t.act_wa}</button>
+          <button class="btn btn-danger btn-xs" onclick="delRes(${+r0.id})" aria-label="${t.act_del}" title="${t.act_del}">🗑</button>
         </div>
       </div>
     </div>`;
@@ -1391,7 +1500,7 @@ function renderClients() {
   const t = T[S.lang];
   const q = (val('srch-cli')||'').toLowerCase();
   const map = new Map();
-  S.res.forEach(r=>{ if(!map.has(r.tel)) map.set(r.tel,{r,n:0}); map.get(r.tel).n++; });
+  S.res.forEach(r=>{ const k=waNum(r.tel)||String(r.tel||''); if(!map.has(k)) map.set(k,{r,n:0}); map.get(k).n++; });
   let clients = [...map.values()].filter(({r})=>`${r.first} ${r.last} ${r.tel} ${r.email}`.toLowerCase().includes(q));
   const el = document.getElementById('cli-list');
   if(!clients.length){
@@ -1409,14 +1518,12 @@ function renderClients() {
         <div class="cc-meta">
           <span>📞 ${r.tel}</span>
           ${r.email?`<span>✉️ ${r.email}</span>`:''}
-          ${r.source?`<span>📣 ${r.source}</span>`:''}
+          ${srcLabel(r0,t)?`<span>📣 ${escH(srcLabel(r0,t))}</span>`:''}
         </div>
       </div>
       <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
         <span class="visits-tag">🔁 ${n} ${vl}</span>
-        <a href="https://wa.me/${r.tel.replace(/\D/g,'')}" target="_blank" rel="noopener">
-          <button class="btn btn-secondary btn-sm">${t.act_wa}</button>
-        </a>
+        <a class="btn btn-secondary btn-sm" style="text-decoration:none" href="${escH(waLink(r0.tel,''))}" target="_blank" rel="noopener" aria-label="WhatsApp">${t.act_wa}</a>
       </div>
     </div>`;
   }).join('');
@@ -1441,18 +1548,59 @@ function openDrawer() {
   document.getElementById('d-wa').value=S.cfg.wa||'';
   document.getElementById('d-addr').value=S.cfg.addr||'';
   document.getElementById('d-lang').value=S.cfg.lang||'es';
+  document.getElementById('d-code').value='';
   document.querySelectorAll('#drawer-swatches .swatch').forEach(s=>s.classList.toggle('on',s.dataset.c===S.accent));
+  S.accent0 = S.accent;
   document.getElementById('drawer').classList.add('on');
+  setTimeout(()=>{ const n=document.getElementById('d-name'); if(n) n.focus(); },50);
 }
-function closeDrawer(){ document.getElementById('drawer').classList.remove('on'); }
+function closeDrawer(){
+  const d=document.getElementById('drawer');
+  if(!d.classList.contains('on')) return;
+  d.classList.remove('on');
+  if(S.accent0){ applyAccent(S.accent0); S.accent0=null; }   // Cancelar: el color vuelve al de antes
+}
 function saveSettings(){
   S.cfg.name=document.getElementById('d-name').value.trim()||S.cfg.name;
-  S.cfg.wa=document.getElementById('d-wa').value.replace(/\D/g,'');
+  S.cfg.wa=waNum(document.getElementById('d-wa').value);
   S.cfg.addr=document.getElementById('d-addr').value.trim();
   S.cfg.lang=document.getElementById('d-lang').value;
-  S.cfg.color=S.accent; S.lang=S.cfg.lang;
-  saveCfg(); closeDrawer(); applyLang(); renderApp();
+  S.cfg.color=S.accent; S.lang=S.cfg.lang; S.accent0=null;
+  saveCfg(); closeDrawer(); applyLang(); buildTables(); buildDates(); renderApp();
   toast(T[S.lang].toast_saved,'ok');
+}
+async function sha256hex(str){ const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(str)); return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join(''); }
+async function activatePro(){
+  const t=T[S.lang];
+  const code=val('d-code').toUpperCase().replace(/[^A-Z0-9]/g,'');
+  if(!code||!S.cfg){ toast(t.toast_code_bad,'err'); return; }
+  let h=''; try{ h=await sha256hex('optima:'+code); }catch(e){ toast(t.toast_code_bad,'err'); return; }
+  if(!PRO_HASHES.includes(h)){ toast(t.toast_code_bad,'err'); return; }
+  S.plan='pro'; S.cfg.plan='pro'; S.cfg.lic=h.slice(0,16); saveCfg();
+  document.getElementById('d-code').value='';
+  applyLang(); renderApp(); toast(t.toast_code_ok,'ok');
+}
+function backupData(){
+  const t=T[S.lang];
+  const data={app:'optima-reservas',v:1,at:new Date().toISOString(),cfg:S.cfg,res:S.res};
+  downloadBlob(JSON.stringify(data),'application/json',`${t.export_file}-${t.backup_file}-${localISO(new Date())}.json`);
+  toast(t.toast_backup,'ok');
+}
+function restoreData(inp){
+  const t=T[S.lang]; const f=inp.files&&inp.files[0]; if(!f) return;
+  const rd=new FileReader();
+  rd.onload=()=>{
+    try{
+      const d=JSON.parse(rd.result); const list=Array.isArray(d)?d:(d&&d.res);
+      if(!Array.isArray(list)) throw new Error('bad');
+      const ids=new Set(S.res.map(r=>r.id)); let n=0;
+      list.forEach(r=>{ if(r&&typeof r.id==='number'&&isFinite(r.id)&&!ids.has(r.id)&&typeof r.first==='string'){ S.res.push(r); ids.add(r.id); n++; } });
+      S.res.sort((a,b)=>b.id-a.id); saveRes(); renderManage(); renderClients(); updateBadge();
+      toast(t.toast_restore.replace('{n}',n),'ok');
+    }catch(e){ toast(t.toast_restore_bad,'err'); }
+    inp.value='';
+  };
+  rd.readAsText(f);
 }
 function resetApp(){
   if(!confirm(T[S.lang].reset_confirm)) return;
@@ -1473,7 +1621,7 @@ function renderCmd(){
     <div class="cmd-item${i===0?' hi':''}" onclick="runCmd('${c.fn}')" data-fn="${c.fn}">
       <span class="cmd-item-ico">${c.ico}</span>
       <div><div class="cmd-item-lbl">${c.lbl}</div><div style="font-size:11px;color:var(--t3)">${c.sub}</div></div>
-    </div>`).join('') || `<div style="padding:24px;text-align:center;color:var(--t3);font-size:13px">Sin resultados</div>`;
+    </div>`).join('') || `<div style="padding:24px;text-align:center;color:var(--t3);font-size:13px">${t.no_results}</div>`;
 }
 function cmdKey(e){
   const items=[...document.querySelectorAll('.cmd-item')];
@@ -1494,23 +1642,27 @@ function runCmd(fn){
 }
 
 /* ════ EXPORT ════ */
+function csvCell(v){ let x=String(v==null?'':v); if(/^[=+\-@\t\r]/.test(x)) x="'"+x; return '"'+x.replace(/"/g,'""')+'"'; }
 function exportCSV(){
   const t=T[S.lang];
-  const hdr=['ID','Nombre','Apellido','Tel','Email','Mesa','Fecha','Personas','Ocasión','Estado','Registrado'];
-  const rows=S.res.map(r=>[r.id,r.first,r.last,r.tel,r.email,r.table,r.date,r.guests,r.occasion||'',r.status,r.at||''].map(v=>`"${String(v).replace(/"/g,'""')}"`).join(','));
-  const csv='\uFEFF'+[hdr.join(','),...rows].join('\n');
-  const a=document.createElement('a');
-  a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
-  a.download=`${t.export_file}-${new Date().toISOString().slice(0,10)}.csv`;
-  a.click(); toast(t.toast_saved,'ok');
+  const rows=S.res.map(r=>{
+    const at=r.at?new Date(r.at):null;
+    const reg=at&&!isNaN(at)?`${localISO(at)} ${pad2(at.getHours())}:${pad2(at.getMinutes())}`:'';
+    return [r.id,r.first,r.last,waNum(r.tel)||r.tel,r.email,tableLabel(r,t),r.iso||dateLabel(r,t),guestsLabel(r,t),occLabel(r,t),r.notes,srcLabel(r,t),t.STATUS[r.status]||r.status,reg].map(csvCell).join(',');
+  });
+  const csv='\uFEFF'+[t.csv_hdr.map(csvCell).join(','),...rows].join('\r\n');
+  downloadBlob(csv,'text/csv;charset=utf-8',`${t.export_file}-${localISO(new Date())}.csv`);
+  toast(t.toast_csv,'ok');
 }
 
 /* ════ MODAL ════ */
+function openModal(){ const m=document.getElementById('modal'); m.classList.add('on'); setTimeout(()=>{ const b=document.getElementById('m-wa'); if(b) b.focus(); },60); }
 function closeModal(){ document.getElementById('modal').classList.remove('on'); }
 
 /* ════ BADGE ════ */
 function updateBadge(){
-  const c=S.res.filter(r=>r.status==='pending').length;
+  const today=localISO(new Date());
+  const c=S.res.filter(r=>r.status==='pending'&&(!r.iso||r.iso>=today)).length;
   const b=document.getElementById('notif-badge');
   if(b){b.textContent=c;b.style.display=c>0?'inline-flex':'none';}
 }
@@ -1588,19 +1740,18 @@ function hide(id){const e=document.getElementById(id);if(e)e.style.display='none
 function buildSel(id,opts,ph){
   const el=document.getElementById(id);
   if(!el)return;
-  el.innerHTML=`<option value="">${ph}</option>`+opts.map(o=>`<option>${o}</option>`).join('');
+  const si=el.selectedIndex;
+  el.innerHTML=`<option value="">${escH(ph)}</option>`+opts.map(o=>`<option>${escH(o)}</option>`).join('');
+  if(si>0&&si<=opts.length) el.selectedIndex=si;   // al cambiar de idioma no se pierde lo escogido
 }
-
-// Register PWA manifest dynamically (solo si no hay uno fijo)
-if(!document.querySelector('link[rel="manifest"]')) try {
-  const mf={name:'Óptima Reservas',short_name:'Óptima',display:'standalone',
-    background_color:'#08080F',theme_color:'#6366F1',start_url:'.',
-    icons:[{src:"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='40' fill='%236366F1'/%3E%3Ctext x='96' y='130' font-size='100' text-anchor='middle'%3E🍾%3C/text%3E%3C/svg%3E",sizes:'192x192',type:'image/svg+xml'}]};
-  const blob=new Blob([JSON.stringify(mf)],{type:'application/manifest+json'});
-  const url=URL.createObjectURL(blob);
-  const link=document.createElement('link');link.rel='manifest';link.href=url;
-  document.head.appendChild(link);
-} catch(e){}
+function a11y(){
+  document.querySelectorAll('.fld').forEach(f=>{ const c=f.querySelector('input,select,textarea'), l=f.querySelector('label'); if(c&&l&&c.id) l.htmlFor=c.id; });
+  [['d-name','d-lbl-n'],['d-wa','d-lbl-w'],['d-addr','d-lbl-a'],['d-lang','d-lbl-l'],['d-code','d-lbl-code']].forEach(([i,l])=>attr(i,'aria-labelledby',l));
+  document.querySelectorAll('.swatch').forEach(sw=>{ sw.setAttribute('role','button'); sw.tabIndex=0; sw.setAttribute('aria-label',sw.dataset.c);
+    sw.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); sw.click(); } }); });
+  document.querySelectorAll('.plan-card').forEach(p=>{ p.setAttribute('role','button'); p.tabIndex=0;
+    p.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); p.click(); } }); });
+}
 
 // Command palette actions exposed globally
 window.newRes=()=>showTab('new');
