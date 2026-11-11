@@ -1,6 +1,6 @@
 {
-  "name": "Arthur Reservaciones",
-  "short_name": "Arthur",
+  "name": "Óptima Reservas",
+  "short_name": "Óptima",
   "description": "Reservaciones de mesas y VIP para discotecas, bares y restaurantes.",
   "lang": "es",
   "start_url": "./",
@@ -25,5 +25,10 @@
       "type": "image/png",
       "purpose": "maskable"
     }
+  ],
+  "id": "./",
+  "categories": [
+    "business",
+    "productivity"
   ]
 }

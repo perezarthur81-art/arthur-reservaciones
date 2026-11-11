@@ -3,13 +3,21 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Arthur Reservaciones · Reservaciones para discotecas, bares y restaurantes</title>
-<meta name="description" content="Organiza las reservaciones de mesas y VIP de tu discoteca, bar o restaurante en una sola pantalla y confírmalas por WhatsApp. US$39 al mes.">
+<title>Óptima Reservas · Sistema de reservaciones para discotecas, bares y restaurantes</title>
+<meta name="description" content="Sistema de reservaciones de mesas y VIP para discotecas, bares, lounges y restaurantes. Todo en una sola pantalla y con confirmación por WhatsApp. Demo gratis, US$39 al mes.">
 <meta name="theme-color" content="#0B0B14">
 <link rel="icon" type="image/png" href="favicon.png">
-<meta property="og:title" content="Arthur Reservaciones">
-<meta property="og:description" content="Reservaciones de mesas y VIP en una sola pantalla, con confirmación por WhatsApp.">
-<meta property="og:image" content="app/icon-512.png">
+<link rel="apple-touch-icon" href="app/apple-touch-icon.png">
+<link rel="canonical" href="https://perezarthur81-art.github.io/arthur-reservaciones/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Óptima Reservas">
+<meta property="og:title" content="Óptima Reservas · Reservaciones para discotecas, bares y restaurantes">
+<meta property="og:description" content="Reservaciones de mesas y VIP en una sola pantalla, con confirmación por WhatsApp. Prueba la demo gratis.">
+<meta property="og:image" content="https://perezarthur81-art.github.io/arthur-reservaciones/app/icon-512.png">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Óptima Reservas","applicationCategory":"BusinessApplication","operatingSystem":"Web, Android, iOS, Windows","description":"Sistema de reservaciones de mesas y VIP para discotecas, bares, lounges y restaurantes, con confirmación por WhatsApp.","inLanguage":["es","en"],"offers":{"@type":"Offer","price":"39","priceCurrency":"USD","category":"subscription"}}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -132,7 +140,7 @@ footer a{color:var(--muted)}
 
 <header class="nav">
   <div class="wrap">
-    <a class="brand" href="./"><img src="app/icon-192.png" alt="" width="30" height="30">Arthur Reservaciones</a>
+    <a class="brand" href="./"><img src="app/icon-192.png" alt="" width="30" height="30">Óptima Reservas</a>
     <nav aria-label="Principal">
       <a class="hide-sm" href="#como">Cómo funciona</a>
       <a class="hide-sm" href="#precio">Precio</a>
@@ -211,7 +219,7 @@ footer a{color:var(--muted)}
         <div>
           <p class="eyebrow">Precio</p>
           <p class="amount">US$39<small>al mes</small></p>
-          <p class="note">Un solo plan para tu local. Cancelas cuando quieras.</p>
+          <p class="note">Un solo plan para tu local. Cancelas cuando quieras, y si no te sirve, te devolvemos tu primer pago dentro de 14 días.</p>
         </div>
         <div>
           <ul class="incl">
@@ -237,6 +245,7 @@ footer a{color:var(--muted)}
         <details><summary>¿Puedo probarla antes de pagar?</summary><p>Sí. La demo es gratis y tiene todas las funciones. Configúrala con el nombre de tu local y registra reservaciones de prueba.</p></details>
         <details><summary>¿Cómo cancelo?</summary><p>Desde el enlace del portal de cliente que te llega por correo al suscribirte, o escribiéndonos. Tu acceso sigue hasta el final del mes que pagaste.</p></details>
         <details><summary>¿Cómo pago?</summary><p>Con tarjeta de crédito o débito. El pago lo procesa Polar, que te envía el recibo por correo.</p></details>
+        <details><summary>¿Puedo usarla en varios celulares o tablets a la vez?</summary><p>Cada dispositivo guarda sus propias reservaciones; por ahora no se sincronizan entre sí. Lo mejor es tener una tablet o computadora principal en el local y, si hace falta, imprimir o exportar la lista de la noche para la puerta.</p></details>
         <details><summary>¿Dónde quedan los datos de mis clientes?</summary><p>En el dispositivo donde usas la app. Nosotros no los recibimos. Puedes exportarlos a Excel en cualquier momento.</p></details>
       </div>
     </div>
@@ -245,17 +254,10 @@ footer a{color:var(--muted)}
 
 <footer>
   <div class="wrap">
-    <p>© 2026 Arthur Labs · Juan Carlos Pérez Arthur · Santo Domingo, República Dominicana<br>Soporte: <a href="mailto:perezarthur81@gmail.com">perezarthur81@gmail.com</a></p>
+    <p>© 2026 Óptima Reservas · Santo Domingo, República Dominicana<br>Soporte: <a href="mailto:__SOPORTE__">__SOPORTE__</a></p>
     <nav aria-label="Legal"><a href="terminos.html">Términos y reembolsos</a><a href="privacidad.html">Privacidad</a><a href="app/">Demo</a></nav>
   </div>
 </footer>
 
-<script>
-/* Enlace de pago de Polar: se pone aquí cuando esté creado. */
-(function(){
-  var CHECKOUT_URL = "https://buy.polar.sh/polar_cl_f7RL6Yb0mz7lCqw4tTKjBSBO8UuIsPTd0USGo35961d";
-  if (CHECKOUT_URL) { var b = document.getElementById('buy'); b.href = CHECKOUT_URL; }
-})();
-</script>
 </body>
 </html>
