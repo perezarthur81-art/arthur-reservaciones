@@ -1,7 +1,7 @@
 /* Óptima Reservas · trabaja sin internet.
    La página se pide primero a internet (así siempre llega la versión nueva) y,
    si no hay conexión, se abre la copia guardada. Íconos y fuentes salen de la copia. */
-const CACHE = 'optima-v3.1';
+const CACHE = 'optima-v3.2';
 const ASSETS = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png', './icon-512-maskable.png', './apple-touch-icon.png'];
 
 self.addEventListener('install', e => {
@@ -30,11 +30,15 @@ self.addEventListener('fetch', e => {
   const url = new URL(req.url);
 
   if (req.mode === 'navigate') {
-    e.respondWith(
-      fetch(req)
-        .then(res => { if (res.ok) saveCopy('./index.html', res); return res; })
-        .catch(() => caches.match('./index.html'))
-    );
+    // Internet primero, pero si la señal está lenta (más de 3 s) se abre la copia guardada
+    e.respondWith(new Promise(resolve => {
+      let done = false;
+      const finish = r => { if (!done && r) { done = true; resolve(r); } };
+      const net = fetch(req).then(res => { if (res.ok) saveCopy('./index.html', res); return res; });
+      const timer = setTimeout(() => { caches.match('./index.html').then(finish); }, 3000);
+      net.then(res => { clearTimeout(timer); finish(res); })
+         .catch(() => { clearTimeout(timer); caches.match('./index.html').then(c => finish(c || Response.error())); });
+    }));
     return;
   }
 

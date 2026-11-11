@@ -820,7 +820,7 @@ main{max-width:860px;margin:0 auto;padding:28px 16px 100px;position:relative;z-i
       <input type="file" id="d-restore" accept="application/json,.json" hidden onchange="restoreData(this)"/>
       <button class="btn btn-danger btn-sm" onclick="resetApp()" id="d-reset" style="font-size:12px">🗑 Borrar todos los datos</button>
     </div>
-    <div class="d-foot" id="d-foot">Óptima Reservas v3.1<br/>© 2026 Óptima Reservas</div>
+    <div class="d-foot" id="d-foot">Óptima Reservas v3.2<br/>© 2026 Óptima Reservas</div>
   </div>
 </div>
 
@@ -1038,6 +1038,21 @@ const PRO_HASHES = ["03adf4a0ade230842504e75af723e930819595a0919be9778760957f84e
 async function loadStorage() {
   try { const r = await window.storage.get('ar_cfg'); if(r) S.cfg = JSON.parse(r.value); } catch(e){}
   try { const r = await window.storage.get('ar_res'); if(r) S.res = JSON.parse(r.value); } catch(e){}
+  if(!Array.isArray(S.res)) S.res=[];
+  const before=JSON.stringify(S.res);
+  S.res = S.res.map(cleanRec).filter(Boolean).map(migrateIso);
+  if(JSON.stringify(S.res)!==before) saveRes();
+}
+function migrateIso(r){
+  if(r.iso||!r.date) return r;
+  const parts=String(r.date).toUpperCase().split(/\s+/);
+  const day=parseInt(parts.find(p=>/^\d{1,2}$/.test(p)));
+  let mon=-1; parts.forEach(p=>{ ['es','en'].forEach(l=>{ const i=T[l].months.indexOf(p); if(i>=0) mon=i; }); });
+  if(isNaN(day)||mon<0) return r;
+  const at=r.at?new Date(r.at):new Date(); const base=isNaN(at)?new Date():at;
+  let d=new Date(base.getFullYear(),mon,day);
+  if(d < new Date(base.getFullYear(),base.getMonth()-2,base.getDate())) d=new Date(base.getFullYear()+1,mon,day);
+  r.iso=localISO(d); return r;
 }
 async function saveCfg() { try { await window.storage.set('ar_cfg', JSON.stringify(S.cfg)); } catch(e){} }
 async function saveRes() { try { await window.storage.set('ar_res', JSON.stringify(S.res)); } catch(e){} }
@@ -1065,6 +1080,9 @@ async function saveRes() { try { await window.storage.set('ar_res', JSON.stringi
   window.addEventListener('beforeinstallprompt', e => {
     e.preventDefault(); S.deferredPrompt = e;
     document.getElementById('ins-main-btn').style.background = 'var(--green)';
+  });
+  document.addEventListener('visibilitychange', () => {
+    if(!document.hidden && S.cfg){ buildDates(); updateBadge(); if(S.currentTab==='manage') renderManage(); }
   });
   // Keyboard shortcuts
   document.addEventListener('keydown', e => {
@@ -1430,7 +1448,7 @@ function renderManage() {
   const active = all.filter(r=>r.status!=='cancelled');
   animateCounter('st-total', active.length);
   animateCounter('st-conf', all.filter(r=>r.status==='confirmed').length);
-  animateCounter('st-pend', all.filter(r=>r.status==='pending').length);
+  animateCounter('st-pend', all.filter(r=>r.status==='pending'&&(!r.iso||r.iso>=todayISO)).length);
   animateCounter('st-ppl', active.reduce((a,r)=>a+guestsNum(r),0));
 
   let list = all.filter(r => {
@@ -1454,7 +1472,7 @@ function renderManage() {
   }
   el.innerHTML = list.map(r0=>{
     const r=escR(r0);
-    const init=(r.first[0]||'?')+(r.last[0]||'?');
+    const init=(String(r.first||'')[0]||'?')+(String(r.last||'')[0]||'?');
     const sc=r.status==='confirmed'?'s-c':r.status==='cancelled'?'s-x':'s-p';
     const st=t.STATUS[r.status];
     const d=new Date(r.at||Date.now());
@@ -1509,7 +1527,7 @@ function renderClients() {
   }
   el.innerHTML = clients.map(({r:r0,n})=>{
     const r=escR(r0);
-    const init=(r.first[0]||'?')+(r.last[0]||'?');
+    const init=(String(r.first||'')[0]||'?')+(String(r.last||'')[0]||'?');
     const vl = n===1?t.visit:t.visits;
     return `<div class="cc">
       <div class="av">${init}</div>
@@ -1593,14 +1611,30 @@ function restoreData(inp){
     try{
       const d=JSON.parse(rd.result); const list=Array.isArray(d)?d:(d&&d.res);
       if(!Array.isArray(list)) throw new Error('bad');
-      const ids=new Set(S.res.map(r=>r.id)); let n=0;
-      list.forEach(r=>{ if(r&&typeof r.id==='number'&&isFinite(r.id)&&!ids.has(r.id)&&typeof r.first==='string'){ S.res.push(r); ids.add(r.id); n++; } });
-      S.res.sort((a,b)=>b.id-a.id); saveRes(); renderManage(); renderClients(); updateBadge();
+      const ids=new Set(S.res.map(r=>r.id)); const add=[];
+      list.forEach(r=>{ const c=cleanRec(r); if(c&&!ids.has(c.id)){ add.push(c); ids.add(c.id); } });
+      if(list.length&&!add.length&&!list.some(r=>r&&ids.has(r.id))) throw new Error('bad');
+      S.res=S.res.concat(add).sort((a,b)=>b.id-a.id); saveRes(); renderManage(); renderClients(); updateBadge();
+      const n=add.length;
       toast(t.toast_restore.replace('{n}',n),'ok');
     }catch(e){ toast(t.toast_restore_bad,'err'); }
     inp.value='';
   };
   rd.readAsText(f);
+}
+/* Deja pasar solo reservaciones con forma correcta (para respaldos y datos viejos) */
+function cleanRec(r){
+  if(!r||typeof r!=='object'||typeof r.id!=='number'||!isFinite(r.id)) return null;
+  if(typeof r.first!=='string'||!r.first.trim()||typeof r.tel!=='string'&&typeof r.tel!=='number') return null;
+  const o={}; const txt=['first','last','tel','email','guests','occasion','notes','source','table','tableIcon','date','at'];
+  txt.forEach(k=>{ o[k]= r[k]==null ? '' : String(r[k]); });
+  o.id=r.id;
+  ['tableIdx','guestsIdx','occasionIdx','sourceIdx'].forEach(k=>{ if(Number.isInteger(r[k])) o[k]=r[k]; });
+  if(typeof o.tableIdx==='number'&&(o.tableIdx<0||o.tableIdx>2)) delete o.tableIdx;
+  if(typeof o.guestsIdx==='number'&&(o.guestsIdx<0||o.guestsIdx>10)) delete o.guestsIdx;
+  o.status=['pending','confirmed','cancelled'].includes(r.status)?r.status:'pending';
+  if(typeof r.iso==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(r.iso)&&!isNaN(isoToDate(r.iso))) o.iso=r.iso;
+  return o;
 }
 function resetApp(){
   if(!confirm(T[S.lang].reset_confirm)) return;
@@ -1648,7 +1682,8 @@ function exportCSV(){
   const rows=S.res.map(r=>{
     const at=r.at?new Date(r.at):null;
     const reg=at&&!isNaN(at)?`${localISO(at)} ${pad2(at.getHours())}:${pad2(at.getMinutes())}`:'';
-    return [r.id,r.first,r.last,waNum(r.tel)||r.tel,r.email,tableLabel(r,t),r.iso||dateLabel(r,t),guestsLabel(r,t),occLabel(r,t),r.notes,srcLabel(r,t),t.STATUS[r.status]||r.status,reg].map(csvCell).join(',');
+    const d=waNum(r.tel); const tel=d.length===11&&d[0]==='1'?`1 ${d.slice(1,4)}-${d.slice(4,7)}-${d.slice(7)}`:(r.tel||'');
+    return ['#'+r.id,r.first,r.last,tel,r.email,tableLabel(r,t),r.iso||dateLabel(r,t),guestsLabel(r,t),occLabel(r,t),r.notes,srcLabel(r,t),t.STATUS[r.status]||r.status,reg].map(csvCell).join(',');
   });
   const csv='\uFEFF'+[t.csv_hdr.map(csvCell).join(','),...rows].join('\r\n');
   downloadBlob(csv,'text/csv;charset=utf-8',`${t.export_file}-${localISO(new Date())}.csv`);
