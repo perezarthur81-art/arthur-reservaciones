@@ -568,7 +568,7 @@ main{max-width:860px;margin:0 auto;padding:28px 16px 100px;position:relative;z-i
         <div class="ins-social-lbl" id="ins-s2">Idiomas</div>
       </div>
     </div>
-    <div class="ins-footer" id="ins-footer">Demo gratis · US$39 al mes para tu local<br/>Datos privados y almacenados en tu dispositivo</div>
+    <div class="ins-footer" id="ins-footer">Demo gratis · Licencia de por vida: US$97<br/>Datos privados y almacenados en tu dispositivo</div>
   </div>
 </div>
 
@@ -630,7 +630,7 @@ main{max-width:860px;margin:0 auto;padding:28px 16px 100px;position:relative;z-i
     <div class="step-panel" id="sp2" style="display:none">
       <div class="step-ico">⚡</div>
       <div class="step-title" id="s2t">Elige tu plan</div>
-      <div class="step-desc" id="s2d">Prueba la demo gratis. Suscríbete cuando quieras usarla en tu local.</div>
+      <div class="step-desc" id="s2d">Prueba la demo gratis. Compra tu licencia cuando quieras usarla en tu local.</div>
       <div class="plan-grid">
         <div class="plan-card on" id="pc-free" onclick="selPlan('free')">
           <span class="plan-ribbon ribbon-free">Demo</span>
@@ -642,8 +642,8 @@ main{max-width:860px;margin:0 auto;padding:28px 16px 100px;position:relative;z-i
         <div class="plan-card pro-card" id="pc-pro" onclick="selPlan('pro')">
           <span class="plan-ribbon ribbon-pro">Local</span>
           <div class="plan-name" style="color:var(--amber)" id="pn-pro">Pro</div>
-          <div class="plan-price" style="color:var(--amber)">$39</div>
-          <div class="plan-note" id="pp-pro">/ mes</div>
+          <div class="plan-price" style="color:var(--amber)">$97</div>
+          <div class="plan-note" id="pp-pro">/ pago único</div>
           <ul class="plan-list" id="pl-pro"></ul>
         </div>
       </div>
@@ -755,7 +755,7 @@ main{max-width:860px;margin:0 auto;padding:28px 16px 100px;position:relative;z-i
       <div class="upsell" id="upsell-pro" style="display:none">
         <div class="upsell-ico">⚡</div>
         <div><div class="upsell-t" id="ups-t">Óptima Pro</div><div class="upsell-d" id="ups-d">Exporta clientes, analíticas avanzadas y elimina la marca Óptima.</div></div>
-        <a class="btn btn-pro btn-sm" id="ups-btn" href="../#precio" target="_blank" rel="noopener" style="margin-left:auto;flex-shrink:0;text-decoration:none">Suscribirme</a>
+        <a class="btn btn-pro btn-sm" id="ups-btn" href="../#precio" target="_blank" rel="noopener" style="margin-left:auto;flex-shrink:0;text-decoration:none">Comprar licencia</a>
       </div>
       <div class="srch"><span class="srch-ico">🔍</span><input type="text" id="srch-cli" oninput="renderClients()" placeholder="Buscar clientes…"/></div>
       <div class="res-list" id="cli-list"></div>
@@ -809,7 +809,7 @@ main{max-width:860px;margin:0 auto;padding:28px 16px 100px;position:relative;z-i
         </div>
       </div>
       <div class="d-row"><div><div class="d-row-lbl">Plan</div><div class="d-row-sub" id="d-plan-sub">Versión actual</div></div><span class="chip chip-free" id="d-plan-chip">DEMO</span></div>
-      <div class="d-row" id="d-act-row"><div><div class="d-row-lbl" id="d-lbl-code">Código de activación</div><div class="d-row-sub" id="d-code-sub">Te llega por correo al suscribirte</div></div>
+      <div class="d-row" id="d-act-row"><div><div class="d-row-lbl" id="d-lbl-code">Código de activación</div><div class="d-row-sub" id="d-code-sub">Te llega por correo después de tu compra</div></div>
         <div class="d-code"><input class="d-inp" id="d-code" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="OPT-XXXX-XXXX" maxlength="16"/><button class="btn btn-secondary btn-sm" onclick="activatePro()" id="d-act-btn">Activar</button></div></div>
     </div>
     <div class="d-acts">
@@ -820,7 +820,7 @@ main{max-width:860px;margin:0 auto;padding:28px 16px 100px;position:relative;z-i
       <input type="file" id="d-restore" accept="application/json,.json" hidden onchange="restoreData(this)"/>
       <button class="btn btn-danger btn-sm" onclick="resetApp()" id="d-reset" style="font-size:12px">🗑 Borrar todos los datos</button>
     </div>
-    <div class="d-foot" id="d-foot">Óptima Reservas v3.2<br/>© 2026 Óptima Reservas</div>
+    <div class="d-foot" id="d-foot">Óptima Reservas v3.3<br/>© 2026 Óptima Reservas</div>
   </div>
 </div>
 
@@ -866,7 +866,7 @@ const T = {
 es:{
   ins_badge:'Disponible para instalar',ins_tagline:'Sistema profesional de reservaciones para negocios nocturnos de élite',
   ins_main:'Instalar la aplicación',ins_skip:'Continuar en el navegador',
-  ins_steps_lbl:'📱 Cómo instalar en tu dispositivo',ins_footer:'Demo gratis · US$39 al mes para tu local\nDatos privados y almacenados en tu dispositivo',
+  ins_steps_lbl:'📱 Cómo instalar en tu dispositivo',ins_footer:'Demo gratis · Licencia de por vida: US$97\nDatos privados y almacenados en tu dispositivo',
   ios_steps:[{t:'Abre en <strong>Safari</strong> (no Chrome)'},{t:'Toca el botón de <strong>Compartir</strong> (cuadro con flecha ↑)'},{t:'Selecciona <strong>"Añadir a pantalla de inicio"</strong>'},{t:'Toca <strong>Añadir</strong> — listo 🎉'}],
   android_steps:[{t:'Abre en <strong>Chrome</strong>'},{t:'Toca los <strong>3 puntos</strong> (⋮) en la esquina superior'},{t:'Selecciona <strong>"Agregar a pantalla de inicio"</strong>'},{t:'Toca <strong>Agregar</strong> — listo 🎉'}],
   desktop_steps:[{t:'Abre en <strong>Chrome</strong> o <strong>Edge</strong>'},{t:'Busca el ícono <strong>⊕</strong> en la barra de dirección'},{t:'Haz clic en <strong>"Instalar Óptima Reservas"</strong>'},{t:'Disfruta la app instalada 🎉'}],
@@ -875,13 +875,13 @@ es:{
   s0_btn:'Siguiente →',s1_back:'← Atrás',s1_btn:'Siguiente →',s2_back:'← Atrás',s2_btn:'Comenzar →',
   s1_t:'Personaliza tu app',s1_d:'Elige el idioma, color de marca y el ícono de tu negocio.',
   l_lang:'Idioma',l_icon:'Ícono',l_color:'Color del tema',
-  s2_t:'Tu plan',s2_d:'Prueba la demo gratis. Suscríbete cuando quieras usarla en tu local.',
-  pn_free:'Demo',pp_free:'/ prueba',pn_pro:'Suscripción',pp_pro:'/ mes',
+  s2_t:'Tu plan',s2_d:'Prueba la demo gratis. Compra tu licencia cuando quieras usarla en tu local.',
+  pn_free:'Demo',pp_free:'/ prueba',pn_pro:'Licencia',pp_pro:'/ pago único',
   free_feats:['Todas las funciones','3 tipos de mesa','Bilingüe ES / EN','Confirmación por WhatsApp','Base de clientes','Exportar a Excel'],
-  free_locked:['Configuración por nosotros','Soporte por correo'],
-  pro_feats:['Todo lo de la demo','Configuración de tu local','Soporte por correo','Mejoras nuevas incluidas','Cancelas cuando quieras'],
+  free_locked:['Guía paso a paso','Soporte por correo'],
+  pro_feats:['Todo lo de la demo','Guía paso a paso','Soporte por correo','Actualizaciones incluidas','Sin mensualidades'],
   brand_sub:'RESERVACIONES',tn_new:'Nueva',tn_manage:'Reservas',tn_clients:'Clientes',
-  b_t:'Modo demo',b_d:'Todas las funciones activas · Suscríbete para configurarla en tu local',
+  b_t:'Modo demo',b_d:'Todas las funciones activas · Compra tu licencia para quitar el aviso de demo',
   lbl_table:'Tipo de Mesa',lbl_date:'Fecha',lbl_guest:'Datos del Cliente',
   lf_first:'Nombre *',lf_last:'Apellido *',lf_tel:'WhatsApp / Teléfono *',lf_email:'Correo (opcional)',
   lf_guests:'N° de Personas *',lf_occasion:'Ocasión Especial',lf_notes:'Peticiones Especiales',lf_source:'¿Cómo nos conociste?',
@@ -905,15 +905,15 @@ es:{
   toast_table:'Selecciona un tipo de mesa',toast_date:'Selecciona una fecha',
   toast_tel:'Revisa el número de WhatsApp del cliente',toast_cap:'Esa mesa es para hasta {n} personas',toast_type:'Selecciona el tipo de local',
   toast_csv:'⬇ CSV descargado',toast_backup:'💾 Respaldo descargado',toast_restore:'♻️ {n} reservaciones restauradas',toast_restore_bad:'Ese archivo no es un respaldo válido',
-  toast_code_ok:'⭐ Plan activado. ¡Gracias por suscribirte!',toast_code_bad:'Código no válido',
+  toast_code_ok:'⭐ Licencia activada. ¡Gracias por tu compra!',toast_code_bad:'Código no válido',
   toast_installed:'¡App instalada! 🎉',toast_install_steps:'Sigue los pasos de abajo para instalar 👆',
   today:'HOY',no_results:'Sin resultados',h_nav:'navegar',h_run:'ejecutar',h_close:'cerrar',
-  tt_lang:'Cambiar idioma',tt_cmd:'Comandos (Ctrl+K)',tt_set:'Ajustes',ups_btn:'Suscribirme',
+  tt_lang:'Cambiar idioma',tt_cmd:'Comandos (Ctrl+K)',tt_set:'Ajustes',ups_btn:'Comprar licencia',
   l_type:'Tipo de local *',sel_ph:'Seleccionar…',
   venue_types:['Discoteca','Night Club','Lounge','Bar Nocturno','Rooftop','Restaurant-Bar','Otro'],
   icon_names:['Champagne','Música','Luna','Corona','Diamante','Fuego','Estrella','Máscara','Trofeo','Brillo'],
   ins_feats:['📲 App instalable','📊 Exporta a Excel','💬 WhatsApp con un toque','🌍 ES / EN'],ins_social:['Reservas','Tipos de mesa','Idiomas'],
-  d_lbl_code:'Código de activación',d_code_sub:'Te llega por correo al suscribirte',d_act_btn:'Activar',
+  d_lbl_code:'Código de activación',d_code_sub:'Te llega por correo después de tu compra',d_act_btn:'Activar',
   d_backup:'💾 Respaldar datos',d_restore:'♻️ Restaurar respaldo',backup_file:'respaldo',
   wa_hi:'Hola {n} 👋',wa_conf:'Tu reservación en *{v}* está confirmada:',wa_see:'¡Te esperamos! 🥂',
   csv_hdr:['ID','Nombre','Apellido','WhatsApp','Correo','Mesa','Fecha','Personas','Ocasión','Notas','Fuente','Estado','Registrado'],
@@ -929,7 +929,7 @@ es:{
   d_title:'⚙️ Ajustes',d_s1:'Negocio',d_s2:'Preferencias',d_lbl_n:'Nombre',d_wa_sub:'Número del local',
   d_lbl_a:'Dirección',d_lbl_l:'Idioma',d_lbl_c:'Color del tema',d_plan_sub:'Versión actual',
   d_save:'Guardar cambios',d_cancel:'Cancelar',d_reset:'🗑 Borrar todos los datos',
-  ups_t:'Óptima Reservas para tu local',ups_d:'US$39 al mes, con configuración y soporte.',
+  ups_t:'Óptima Reservas para tu local',ups_d:'US$97 en un solo pago, sin mensualidades.',
   srch_res:'Buscar por nombre o teléfono…',srch_cli:'Buscar clientes…',
   cmd_ph:'Escribe un comando…',
   cmds:[
@@ -946,7 +946,7 @@ es:{
 en:{
   ins_badge:'Available to install',ins_tagline:'Professional reservation system for elite nightlife venues',
   ins_main:'Install the app',ins_skip:'Continue in browser',
-  ins_steps_lbl:'📱 How to install on your device',ins_footer:'Free demo · US$39/month for your venue\nYour data is private and stored on your device',
+  ins_steps_lbl:'📱 How to install on your device',ins_footer:'Free demo · Lifetime license: US$97\nYour data is private and stored on your device',
   ios_steps:[{t:'Open in <strong>Safari</strong> (not Chrome)'},{t:'Tap the <strong>Share</strong> button (box with arrow ↑)'},{t:'Select <strong>"Add to Home Screen"</strong>'},{t:'Tap <strong>Add</strong> — done 🎉'}],
   android_steps:[{t:'Open in <strong>Chrome</strong>'},{t:'Tap the <strong>3 dots</strong> (⋮) in the top corner'},{t:'Select <strong>"Add to Home Screen"</strong>'},{t:'Tap <strong>Add</strong> — done 🎉'}],
   desktop_steps:[{t:'Open in <strong>Chrome</strong> or <strong>Edge</strong>'},{t:'Look for the <strong>⊕</strong> icon in the address bar'},{t:'Click <strong>"Install Óptima Reservas"</strong>'},{t:'Enjoy the installed app 🎉'}],
@@ -955,13 +955,13 @@ en:{
   s0_btn:'Next →',s1_back:'← Back',s1_btn:'Next →',s2_back:'← Back',s2_btn:'Get Started →',
   s1_t:'Customize your app',s1_d:'Choose language, brand color and your venue\'s icon.',
   l_lang:'Language',l_icon:'Icon',l_color:'Theme color',
-  s2_t:'Your plan',s2_d:'Try the demo for free. Subscribe when you want it for your venue.',
-  pn_free:'Demo',pp_free:'/ trial',pn_pro:'Subscription',pp_pro:'/ month',
+  s2_t:'Your plan',s2_d:'Try the demo for free. Buy your license when you want it for your venue.',
+  pn_free:'Demo',pp_free:'/ trial',pn_pro:'License',pp_pro:'/ one-time',
   free_feats:['Every feature','3 table types','Bilingual ES / EN','WhatsApp confirmation','Client database','Excel export'],
-  free_locked:['Setup done for you','Email support'],
-  pro_feats:['Everything in the demo','Your venue set up for you','Email support','New improvements included','Cancel anytime'],
+  free_locked:['Step-by-step guide','Email support'],
+  pro_feats:['Everything in the demo','Step-by-step guide','Email support','Updates included','No monthly fees'],
   brand_sub:'RESERVATIONS',tn_new:'New',tn_manage:'Bookings',tn_clients:'Clients',
-  b_t:'Demo mode',b_d:'Every feature on · Subscribe to set it up for your venue',
+  b_t:'Demo mode',b_d:'Every feature on · Buy your license to remove the demo notice',
   lbl_table:'Table Type',lbl_date:'Date',lbl_guest:'Guest Information',
   lf_first:'First Name *',lf_last:'Last Name *',lf_tel:'WhatsApp / Phone *',lf_email:'Email (optional)',
   lf_guests:'Number of Guests *',lf_occasion:'Special Occasion',lf_notes:'Special Requests',lf_source:'How did you find us?',
@@ -985,15 +985,15 @@ en:{
   toast_table:'Please select a table type',toast_date:'Please select a date',
   toast_tel:'Check the guest\'s WhatsApp number',toast_cap:'That table fits up to {n} guests',toast_type:'Select the venue type',
   toast_csv:'⬇ CSV downloaded',toast_backup:'💾 Backup downloaded',toast_restore:'♻️ {n} reservations restored',toast_restore_bad:'That file is not a valid backup',
-  toast_code_ok:'⭐ Plan activated. Thanks for subscribing!',toast_code_bad:'Invalid code',
+  toast_code_ok:'⭐ License activated. Thanks for your purchase!',toast_code_bad:'Invalid code',
   toast_installed:'App installed! 🎉',toast_install_steps:'Follow the steps below to install 👆',
   today:'TODAY',no_results:'No results',h_nav:'navigate',h_run:'run',h_close:'close',
-  tt_lang:'Change language',tt_cmd:'Commands (Ctrl+K)',tt_set:'Settings',ups_btn:'Subscribe',
+  tt_lang:'Change language',tt_cmd:'Commands (Ctrl+K)',tt_set:'Settings',ups_btn:'Buy license',
   l_type:'Venue type *',sel_ph:'Select…',
   venue_types:['Disco','Night Club','Lounge','Night Bar','Rooftop','Restaurant-Bar','Other'],
   icon_names:['Champagne','Music','Moon','Crown','Diamond','Fire','Star','Mask','Trophy','Sparkle'],
   ins_feats:['📲 Installable app','📊 Excel export','💬 One-tap WhatsApp','🌍 ES / EN'],ins_social:['Bookings','Table types','Languages'],
-  d_lbl_code:'Activation code',d_code_sub:'Emailed to you when you subscribe',d_act_btn:'Activate',
+  d_lbl_code:'Activation code',d_code_sub:'Emailed to you after your purchase',d_act_btn:'Activate',
   d_backup:'💾 Back up data',d_restore:'♻️ Restore backup',backup_file:'backup',
   wa_hi:'Hi {n} 👋',wa_conf:'Your reservation at *{v}* is confirmed:',wa_see:'See you soon! 🥂',
   csv_hdr:['ID','First name','Last name','WhatsApp','Email','Table','Date','Guests','Occasion','Notes','Source','Status','Created'],
@@ -1009,7 +1009,7 @@ en:{
   d_title:'⚙️ Settings',d_s1:'Business',d_s2:'Preferences',d_lbl_n:'Name',d_wa_sub:'Venue number',
   d_lbl_a:'Address',d_lbl_l:'Language',d_lbl_c:'Theme color',d_plan_sub:'Current version',
   d_save:'Save changes',d_cancel:'Cancel',d_reset:'🗑 Delete all data',
-  ups_t:'Óptima Reservas for your venue',ups_d:'US$39/month with setup and support.',
+  ups_t:'Óptima Reservas for your venue',ups_d:'US$97 one-time, no monthly fees.',
   srch_res:'Search by name or phone…',srch_cli:'Search clients…',
   cmd_ph:'Type a command…',
   cmds:[

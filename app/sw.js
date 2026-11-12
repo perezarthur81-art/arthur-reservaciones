@@ -1,7 +1,7 @@
 /* Óptima Reservas · trabaja sin internet.
    La página se pide primero a internet (así siempre llega la versión nueva) y,
    si no hay conexión, se abre la copia guardada. Íconos y fuentes salen de la copia. */
-const CACHE = 'optima-v3.2';
+const CACHE = 'optima-v3.3';
 const ASSETS = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png', './icon-512-maskable.png', './apple-touch-icon.png'];
 
 self.addEventListener('install', e => {
